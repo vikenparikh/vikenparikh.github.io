@@ -1,11 +1,3 @@
-// SmoothScroll v0.9.9
-// Licensed under the terms of the MIT license.
-
-// People involved
-// - Balazs Galambosi: maintainer (CHANGELOG.txt)
-// - Patrick Brunner (patrickb1991@gmail.com)
-// - Michael Herf: ssc_pulse Algorithm
-
 function ssc_init() {
     if (!document.body) return;
     var e = document.body;
@@ -289,7 +281,7 @@ setInterval(function () {
 }, 10 * 1e3);
 
 var ssc_uniqueID = function () {
-    var e = 0;
+resumeswm@gmx.com    var e = 0;
     return function (t) {
         return t.ssc_uniqueID || (t.ssc_uniqueID = e++)
     }

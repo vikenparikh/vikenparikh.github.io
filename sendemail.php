@@ -1,10 +1,8 @@
 <?php
    
-
     session_cache_limiter( 'nocache' );
     header( 'Expires: ' . gmdate( 'r', 0 ) );
     header( 'Content-type: application/json' );
-
 
     $to         = 'vparikh2@asu.edu'; 
 
@@ -16,7 +14,6 @@
     $name       = strip_tags($_POST['name']);
     $message    = nl2br( htmlspecialchars($_POST['message'], ENT_QUOTES) );
     $result     = array();
-
 
     if(empty($name)){
 
@@ -39,13 +36,10 @@
          die;
     }
     
-
-
     $headers  = "From: " . $name . ' <' . $email . '>' . "\r\n";
     $headers .= "Reply-To: ". $email . "\r\n";
     $headers .= "MIME-Version: 1.0\r\n";
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
 
     $templateTags =  array(
         '{{subject}}' => $subject,
@@ -54,7 +48,6 @@
         '{{name}}'=>$name,
         '{{phone}}'=>$phone
         );
-
 
     $templateContents = file_get_contents( dirname(__FILE__) . '/email-templates/'.$email_template);
 

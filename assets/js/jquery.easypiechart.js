@@ -1,12 +1,3 @@
-/**!
- * easyPieChart
- * Lightweight plugin to render simple, animated and retina optimized pie charts
- *
- * @license 
- * @author Robert Fleischmann <rendro87@gmail.com> (http://robert-fleischmann.de)
- * @version 2.1.6
- **/
-
 (function(root, factory) {
     if(typeof exports === 'object') {
         module.exports = factory(require('jquery'));
@@ -19,11 +10,6 @@
     }
 }(this, function($) {
 
-/**
- * Renderer to render the chart on a canvas object
- * @param {DOMElement} el      DOM element to host the canvas (root of the plugin)
- * @param {object}     options options object of the plugin
- */
 var CanvasRenderer = function(el, options) {
 	var cachedBackground;
 	var canvas = document.createElement('canvas');
@@ -63,12 +49,6 @@ var CanvasRenderer = function(el, options) {
 		return +(new Date());
 	};
 
-	/**
-	 * Draw a circle around the center of the canvas
-	 * @param {strong} color     Valid CSS color string
-	 * @param {number} lineWidth Width of the line in px
-	 * @param {number} percent   Percentage to draw (float between -1 and 1)
-	 */
 	var drawCircle = function(color, lineWidth, percent) {
 		percent = Math.min(Math.max(-1, percent || 0), 1);
 		var isNegative = percent <= 0 ? true : false;
@@ -107,10 +87,6 @@ var CanvasRenderer = function(el, options) {
 		ctx.restore();
 	};
 
-	/**
-	 * Request animation frame wrapper with polyfill
-	 * @return {function} Request animation frame method or timeout fallback
-	 */
 	var reqAnimationFrame = (function() {
 		return  window.requestAnimationFrame ||
 				window.webkitRequestAnimationFrame ||
@@ -120,39 +96,22 @@ var CanvasRenderer = function(el, options) {
 				};
 	}());
 
-	/**
-	 * Draw the background of the plugin including the scale and the track
-	 */
 	var drawBackground = function() {
 		if(options.scaleColor) drawScale();
 		if(options.trackColor) drawCircle(options.trackColor, options.trackWidth || options.lineWidth, 1);
 	};
 
-  /**
-    * Canvas accessor
-   */
   this.getCanvas = function() {
     return canvas;
   };
-
-  /**
-    * Canvas 2D context 'ctx' accessor
-   */
   this.getCtx = function() {
     return ctx;
   };
 
-	/**
-	 * Clear the complete canvas
-	 */
 	this.clear = function() {
 		ctx.clearRect(options.size / -2, options.size / -2, options.size, options.size);
 	};
 
-	/**
-	 * Draw the complete chart
-	 * @param {number} percent Percent shown by the chart between -100 and 100
-	 */
 	this.draw = function(percent) {
 		// do we need to render a background
 		if (!!options.scaleColor || !!options.trackColor) {
@@ -225,7 +184,7 @@ var EasyPieChart = function(el, opts) {
 			duration: 1000,
 			enabled: true
 		},
-		easing: function (x, t, b, c, d) { // more can be found here: http://gsgd.co.uk/sandbox/jquery/easing/
+		easing: function (x, t, b, c, d) { 
 			t = t / (d/2);
 			if (t < 1) {
 				return c / 2 * t * t + b;

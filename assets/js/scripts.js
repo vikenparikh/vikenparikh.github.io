@@ -1,25 +1,3 @@
-/*
-Theme Name: IAMX
-Author: Trendy Theme
-Author URL: trendytheme.net
-*/
-
-/*
-    = Preloader
-    = Animated scrolling / Scroll Up
-    = Full Screen Slider
-    = Sticky Menu
-    = Back To Top
-    = Countup
-    = Progress Bar
-    = More skill
-    = Shuffle
-    = Magnific Popup
-    = Vidio auto play
-    = Fit Vids
-    = Google Map
-
-*/
 
 jQuery(function ($) {
 
@@ -236,10 +214,8 @@ jQuery(function ($) {
     // -------------------------------------------------------------
     (function () {
     
-    /* Vimeo API: http://developer.vimeo.com/player/js-api */
     
         var iframe = document.getElementById('nofocusvideo');
-        // $f == Froogaloop
         var player = $f(iframe);
 
         $('.modal').on('hidden.bs.modal', function () {
@@ -393,8 +369,3 @@ jQuery(function ($) {
 
 
 });
-
-
-
-
-
