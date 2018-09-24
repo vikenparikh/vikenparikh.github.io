@@ -9,7 +9,7 @@ jQuery(function ($) {
 
     $(window).ready(function() {
         $('#pre-status').fadeOut();
-        $('#tt-preloader').delay(350).fadeOut('slow');
+        $('#tt-preloader').delay(50).fadeOut('slow');
     });
 
 

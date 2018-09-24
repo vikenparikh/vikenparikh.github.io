@@ -52,9 +52,9 @@
 	<section id="home" class="tt-fullHeight" data-stellar-vertical-offset="50" data-stellar-background-ratio="0.2">
 		<div class="intro">
 			<div class="intro-sub">I am Viken Parikh</div>
-			<h1> ML Engineer &amp; Software Developer </h1>
-			<p>I am a Master's of Computer Science student at Arizona State University <br>
-			Being involed with latest development langauages and technologies. <br> 
+			<h1>Software Developer <span></span></h1>
+			<p>I am a Master's of Computer Science student at Arizona State University &amp; Software Developer<br> 
+			Involving with latest development langauages and technologies is a great. <br> 
 			Feel free to contact me.</p>
 
       <div class="social-icons">
@@ -96,7 +96,7 @@
 						<li><a href="#resume">Resume</a></li>
 						<li><a href="#skills">Skills</a></li>
 						<li><a href="#works">Works</a></li>
-						<!--<li><a href="#blog">Blog</a></li>-->
+						<li><a href="#blog">Blog</a></li>
             <li><a href="#contact">Contact</a></li>
 					</ul>
 				</div>
@@ -120,7 +120,7 @@
               <ul>
                 <li><strong>Name:</strong> Viken Shaumitra Parikh</li>
                 <li><strong>Date of birth:</strong> 09 August 1996</li>
-                <li><strong>Address:</strong> 1275 East University Drive, Tempe 85281, Arizona, USA</li>
+                <li><strong>Address:</strong> 1275 East University Drive, Az, USA</li>
                 <li><strong>Phone:</strong> (001) 480 8429465</li>
                 <li><strong>Email:</strong> vparikh2@asu.edu</li>
 				<li><strong>Personal Email:</strong> vsparikh1996@gmail.com</li>
@@ -131,22 +131,29 @@
           <div class="col-md-8 col-md-pull-4">
             <div class="short-info wow fadeInUp">
               <h3>Objective</h3>
-              <p>I am a hard working invidual always interactive and involved while working with a team. Passionate about developing new projects and DIYs, I tend to keep mysely busy with bunch of hobbies and updated with the latest technological insights</p>
+              <p>An opportunity to work and upgrade oneself, as well as being involved in an organization that believes in gaining a competitive edge and giving back to the community. I'm presently expanding my solid experience in UI / UX design. I focus on using my interpersonal skills to build good user experience and create a strong interest in my employers. I hope to develop skills in motion design and my knowledge of the Web, and become an honest asset to the business. As an individual, I'm self-confident you’ll find me creative, funny and naturally passionate. I’m a forward thinker, which others may find inspiring when working as a team.</p>
             </div>
 
             <div class="short-info wow fadeInUp">
               <h3>What I Do ?</h3>
               <p>
-			  I have been working as Software Developer and Machine Learning Engineer in my past internships.
-			  I love to develop softwares and amazing new projects in Machine Learning. 
-			  Python and Java are my preffered Languages.
-			  </p>
+			  
+			  <!--I have been working as a web interface designer since. 
+			  I have a love of clean, elegant styling, and I have lots of experience in the production of CSS3 and HTML5 for modern websites. 
+			  I loving creating awesome as per my clients’ need. 
+			  I think user experience when I try to craft something for my clients. 
+			  Making a design awesome.
+			  -->
+				</p>
               <ul class="list-check">
                 <li>Software Developer</li>
-				<li>Machine Learning Engineer</li>
-                <li>Application Developer</li>
-				<li>Web Developer</li>
-				
+				<!--
+                <li>Interface Design</li>
+                <li>Product Design</li>
+                <li>Branding Design</li>
+                <li>Digital Painting</li>
+                <li>Video Editing</li>
+				-->
               </ul>
             </div>
 
@@ -167,7 +174,6 @@
 
 
     <!-- Video Section -->
-<!--
     <section id="video" class="video-section">
       <div class="tf-bg-overlay">
 
@@ -179,12 +185,13 @@
           </div>
 
         </div>
--->
+
         <!--/.container-->
-    <!--  </div>-->
+      </div>
       <!--/.overlay-->
-    <!--</section>-->
+    </section>
     <!-- /.Video Section -->
+
 
     <!-- Resume Section -->
     <section id="resume" class="resume-section section-padding">
@@ -231,7 +238,7 @@
                                         </div><!-- /timeline-heading -->
 
                                         <div class="timeline-body">
-                                            <p>I did General Science from this high school .</p>
+                                            <p>From this college of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend.</p>
                                         </div><!-- /timeline-body -->
                                     </div> <!-- /timeline-content -->
                                 </div> <!-- /timeline-panel -->
@@ -250,7 +257,7 @@
                                         </div><!-- /timeline-heading -->
 
                                         <div class="timeline-body">
-                                            <p>I was great with sports and extra curriculars including art, craft, soccer.</p>
+                                            <p>I was awesome at arts, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy.</p>
                                         </div><!-- /timeline-body -->
                                     </div> <!-- /timeline-content -->
                                 </div><!-- /timeline-panel -->
@@ -269,18 +276,18 @@
                         <ul class="timeline">
                             <li class="timeline-inverted">
                                 <div class="posted-date">
-                                  <span class="month">August 2018 – Present</span>
+                                  <span class="month">2011-2013</span>
                                 </div><!-- /posted-date -->
 
                                 <div class="timeline-panel wow fadeInUp">
                                     <div class="timeline-content">
                                         <div class="timeline-heading">
-                                            <h3>Graduate Services Assistant</h3>
-                                            <span>Ira A. Fulton Schools of Engineering, Arizona State University, Arizona</span>
+                                            <h3>Junior ui designer</h3>
+                                            <span>XYZ Design Home, One Street, Boston</span>
                                         </div><!-- /timeline-heading -->
 
                                         <div class="timeline-body">
-                                            <p>Working towards the development of Decision Making and Problem Solving (CPI 360) course and student evaluation.</p>
+                                            <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend.</p>
                                         </div><!-- /timeline-body -->
                                     </div> <!-- /timeline-content -->
                                 </div> <!-- /timeline-panel -->
@@ -288,84 +295,22 @@
 
                             <li>
                                 <div class="posted-date">
-                                  <span class="month">Aug 2017 – Nov 2017 </span>
+                                  <span class="month">2013-2015</span>
                                 </div><!-- /posted-date -->
 
                                 <div class="timeline-panel wow fadeInUp">
                                     <div class="timeline-content">
                                         <div class="timeline-heading">
-                                            <h3>Research and Development Intern</h3>
-                                            <span>Department of Electronics Engineering, KJSCE, Mumbai</span>
+                                            <h3>Lead UX Consultant</h3>
+                                            <span>Lucky8 Designing Firm, California</span>
                                         </div><!-- /timeline-heading -->
 
                                         <div class="timeline-body">
-                                            <p>Researched a novel algorithm for face recognition with results better than traditional methods on comparison (MATLAB). Synthesized an algorithm based on Bayesian Networks to predict salary class of an adult using Census Income dataset. </p>
+                                            <p>Completely provide access to seamless manufactured products before functionalized synergy. Progressively redefine competitive.</p>
                                         </div><!-- /timeline-body -->
                                     </div> <!-- /timeline-content -->
                                 </div><!-- /timeline-panel -->
                             </li>
-							
-							
-							
-							<li>
-                                <div class="posted-date">
-                                  <span class="month">June 2017 – July 2017</span>
-                                </div><!-- /posted-date -->
-
-                                <div class="timeline-panel wow fadeInUp">
-                                    <div class="timeline-content">
-                                        <div class="timeline-heading">
-                                            <h3>Cross-Platform App Developer Intern</h3>
-                                            <span>Way2Society, Mumbai</span>
-                                        </div><!-- /timeline-heading -->
-
-                                        <div class="timeline-body">
-                                            <p>Led a team of 12 and developed a portal that kept track of monthly activities and payments in a housing society. Developed a website (way2society.com) and an android application(Ionic3) with Java Servlets, MySQL hosted on AWS.  • Among the top 5 products in the category in the city with more than 22,000 active users.</p>
-                                        </div><!-- /timeline-body -->
-                                    </div> <!-- /timeline-content -->
-                                </div><!-- /timeline-panel -->
-                            </li>
-							
-							
-							<li>
-                                <div class="posted-date">
-                                  <span class="month">December 2016 – May 2017</span>
-                                </div><!-- /posted-date -->
-
-                                <div class="timeline-panel wow fadeInUp">
-                                    <div class="timeline-content">
-                                        <div class="timeline-heading">
-                                            <h3>Software Developer Intern</h3>
-                                            <span>Ridll, Mumbai</span>
-                                        </div><!-- /timeline-heading -->
-
-                                        <div class="timeline-body">
-                                            <p>Collaborated with 9 developers and engineered an application that successfully simulated autonomous drones in Gazebo. Developed a desktop application using electron framework (Typescript) to track the drone in real time using REST services.</p>
-                                        </div><!-- /timeline-body -->
-                                    </div> <!-- /timeline-content -->
-                                </div><!-- /timeline-panel -->
-                            </li>					
-							
-							<li>
-                                <div class="posted-date">
-                                  <span class="month">May 2016 – July 2016</span>
-                                </div><!-- /posted-date -->
-
-                                <div class="timeline-panel wow fadeInUp">
-                                    <div class="timeline-content">
-                                        <div class="timeline-heading">
-                                            <h3>Software Developer Intern</h3>
-                                            <span>General Supply Corporation, Mumbai</span>
-                                        </div><!-- /timeline-heading -->
-
-                                        <div class="timeline-body">
-                                            <p>Designed a database system to manage and handle daily inventory and keep a track of stock of various company products. Built a desktop application for Inventory and Stock Forecasting using ARIMA in Python, Flask, MySQL.</p>
-                                        </div><!-- /timeline-body -->
-                                    </div> <!-- /timeline-content -->
-                                </div><!-- /timeline-panel -->
-                            </li>	
-
-							
                         </ul>
                     </div>
                 </div>
@@ -382,7 +327,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="skill-progress">
-              <div class="skill-title"><h3>Python</h3></div> 
+              <div class="skill-title"><h3>UX Design</h3></div> 
               <div class="progress">
                 <div class="progress-bar six-sec-ease-in-out" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" ><span>95%</span>
                 </div>
@@ -390,14 +335,14 @@
             </div><!-- /.skill-progress -->
 
             <div class="skill-progress">
-              <div class="skill-title"><h3>Javascript</h3></div> 
+              <div class="skill-title"><h3>Visual Design</h3></div> 
               <div class="progress">
                 <div class="progress-bar six-sec-ease-in-out" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" ><span>80%</span>
                 </div>
               </div><!-- /.progress -->
             </div><!-- /.skill-progress -->
             <div class="skill-progress">
-              <div class="skill-title"><h3>MySQL</h3></div>  
+              <div class="skill-title"><h3>Business Design</h3></div>  
               <div class="progress">
                 <div class="progress-bar six-sec-ease-in-out" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" ><span>75%</span>
                 </div>
@@ -407,21 +352,21 @@
 
           <div class="col-md-6">
             <div class="skill-progress">
-              <div class="skill-title"><h3>Java</h3></div> 
+              <div class="skill-title"><h3>Branding Design</h3></div> 
               <div class="progress">
                 <div class="progress-bar six-sec-ease-in-out" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" ><span>95%</span>
                 </div>
               </div><!-- /.progress -->
             </div><!-- /.skill-progress -->
             <div class="skill-progress">
-              <div class="skill-title"><h3>HTML5/CSS3</h3></div> 
+              <div class="skill-title"><h3>Motion Graphic</h3></div> 
               <div class="progress">
                 <div class="progress-bar six-sec-ease-in-out" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" ><span>80%</span>
                 </div>
               </div><!-- /.progress -->
             </div><!-- /.skill-progress -->
             <div class="skill-progress">
-              <div class="skill-title"><h3>PHP</h3></div>  
+              <div class="skill-title"><h3>Flyers Designing</h3></div>  
               <div class="progress">
                 <div class="progress-bar six-sec-ease-in-out" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" ><span>75%</span>
                 </div>
@@ -439,7 +384,7 @@
               <div class="chart" data-percent="91" data-color="e74c3c">
                     <span class="percent"></span>
                     <div class="chart-text">
-                      <span> Node.js, Angular4 </span>
+                      <span>leadership</span>
                     </div>
                 </div>
             </div>
@@ -447,7 +392,7 @@
               <div class="chart" data-percent="23" data-color="2ecc71">
                     <span class="percent"></span>
                     <div class="chart-text">
-                      <span>Django / Flask</span>
+                      <span>Creativity</span>
                     </div>
                 </div>
             </div>
@@ -455,7 +400,7 @@
               <div class="chart" data-percent="68" data-color="3498db">
                     <span class="percent"></span>
                     <div class="chart-text">
-                      <span>Ionic3/ Apache Cordova/ Electron</span>
+                      <span>Management</span>
                     </div>
                 </div>
             </div>
@@ -463,7 +408,7 @@
               <div class="chart" data-percent="68" data-color="3498db">
                     <span class="percent"></span>
                     <div class="chart-text">
-                      <span>Android Studio</span>
+                      <span>Branding</span>
                     </div>
                 </div>
             </div>
@@ -471,7 +416,7 @@
               <div class="chart" data-percent="68" data-color="3498db">
                     <span class="percent"></span>
                     <div class="chart-text">
-                      <span>Unix Shell Scripting</span>
+                      <span>Marketing</span>
                     </div>
                 </div>
             </div>
@@ -479,7 +424,7 @@
               <div class="chart" data-percent="68" data-color="3498db">
                     <span class="percent"></span>
                     <div class="chart-text">
-                      <span> Theano, Tensorflow, Keras, H2O, Scikit-learn, MXNet, Torch</span>
+                      <span>Motivation</span>
                     </div>
                 </div>
             </div>
@@ -496,22 +441,16 @@
 
         <ul class="list-inline" id="filter">
             <li><a class="active" data-group="all">All</a></li>
-            <li><a data-group="design">Ml</a></li>
+            <li><a data-group="design">Machine Learning</a></li>
             <li><a data-group="web">Web Developemnt</a></li>
             <li><a data-group="interface">Database Development</a></li>
-            <li><a data-group="identety">App Developemnt</a></li>
+            <li><a data-group="identety">Application Developemnt</a></li>
             <li><a data-group="interface">Software Development</a></li>
-			<li><a data-group="papers">Technical Papers</a></li>
-			
-			
         </ul>
 
         <div class="row">
           <div id="grid">
-            
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "interface"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "interface"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -527,8 +466,8 @@
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
 
-            
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "web"]'>
+
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "web"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -543,9 +482,7 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-            
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "interface"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "interface"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -560,10 +497,7 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-            
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "design"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "design"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -578,10 +512,7 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-            
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "design"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "design"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -596,11 +527,7 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-            
-			
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "design"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "design"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -615,11 +542,7 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-            
-			
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "web"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "web"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -634,11 +557,7 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-            
-			
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "design"]'>
+            <div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "design"]'>
               <div class="portfolio-bg">
                 <div class="portfolio">
                   <div class="tt-overlay"></div>
@@ -653,83 +572,6 @@
                 </div><!-- /.portfolio -->
               </div><!-- /.portfolio-bg -->
             </div><!-- /.portfolio-item -->
-			
-			
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "interface"]'>
-              <div class="portfolio-bg">
-                <div class="portfolio">
-                  <div class="tt-overlay"></div>
-                  <div class="links">
-                    <a class="image-link" href="assets/images/works/portfolio-1.jpg"><i class="fa fa-search-plus"></i></a>
-                    <a href="#"><i class="fa fa-link"></i></a>                          
-                  </div><!-- /.links -->
-                  <img src="assets/images/works/portfolio-1.jpg" alt="image"> 
-                  <div class="portfolio-info">
-                    <h3>Portfolio Title</h3>
-                  </div><!-- /.portfolio-info -->
-                </div><!-- /.portfolio -->
-              </div><!-- /.portfolio-bg -->
-            </div><!-- /.portfolio-item -->
-			
-			
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "interface"]'>
-              <div class="portfolio-bg">
-                <div class="portfolio">
-                  <div class="tt-overlay"></div>
-                  <div class="links">
-                    <a class="image-link" href="assets/images/works/portfolio-1.jpg"><i class="fa fa-search-plus"></i></a>
-                    <a href="#"><i class="fa fa-link"></i></a>                          
-                  </div><!-- /.links -->
-                  <img src="assets/images/works/portfolio-1.jpg" alt="image"> 
-                  <div class="portfolio-info">
-                    <h3>Portfolio Title</h3>
-                  </div><!-- /.portfolio-info -->
-                </div><!-- /.portfolio -->
-              </div><!-- /.portfolio-bg -->
-            
-			
-			
-			
-			</div><!-- /.portfolio-item --><div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "identety", "interface"]'>
-              <div class="portfolio-bg">
-                <div class="portfolio">
-                  <div class="tt-overlay"></div>
-                  <div class="links">
-                    <a class="image-link" href="assets/images/works/portfolio-1.jpg"><i class="fa fa-search-plus"></i></a>
-                    <a href="#"><i class="fa fa-link"></i></a>                          
-                  </div><!-- /.links -->
-                  <img src="assets/images/works/portfolio-1.jpg" alt="image"> 
-                  <div class="portfolio-info">
-                    <h3>Portfolio Title</h3>
-                  </div><!-- /.portfolio-info -->
-                </div><!-- /.portfolio -->
-              </div><!-- /.portfolio-bg -->
-            </div><!-- /.portfolio-item -->
-			
-			
-			<div class="portfolio-item col-xs-12 col-sm-4 col-md-3" data-groups='["all", "papers"]'>
-              <div class="portfolio-bg">
-                <div class="portfolio">
-                  <div class="tt-overlay"></div>
-                  <div class="links">
-                    <a class="image-link" href="assets/images/works/portfolio-1.jpg"><i class="fa fa-search-plus"></i></a>
-                    <a href="#"><i class="fa fa-link"></i></a>                          
-                  </div><!-- /.links -->
-                  <img src="assets/images/works/portfolio-1.jpg" alt="image"> 
-                  <div class="portfolio-info">
-                    <h3>Portfolio Title</h3>
-                  </div><!-- /.portfolio-info -->
-                </div><!-- /.portfolio -->
-              </div><!-- /.portfolio-bg -->
-            </div><!-- /.portfolio-item -->
-			
-			
-			
-			
           </div><!-- /#grid -->
         </div><!-- /.row -->
       </div><!-- /.container -->
@@ -830,7 +672,7 @@
                 <address>
                   <strong>Address/Street</strong>
                   1275 East University Drive,<br>
-                  Tempe 85281, Arizona, USA<br>
+                  Tempe 85281, USA<br>
                 </address>
               </div>
 
@@ -889,7 +731,7 @@
   <script src="assets/js/jquery.easypiechart.js"></script>
   <script src="assets/js/jquery.shuffle.min.js"></script>
   <script src="assets/js/jquery.magnific-popup.min.js"></script>
-  <script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>
+  <script src="https://a.vimeocdn.com/js/froogaloop2.min.js"></script>
   <script src="assets/js/jquery.fitvids.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
   <script src="assets/js/scripts.js"></script>

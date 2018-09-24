@@ -281,7 +281,7 @@ setInterval(function () {
 }, 10 * 1e3);
 
 var ssc_uniqueID = function () {
-resumeswm@gmx.com    var e = 0;
+    var e = 0;
     return function (t) {
         return t.ssc_uniqueID || (t.ssc_uniqueID = e++)
     }
