@@ -1783,3 +1783,18 @@ Icon for all respective meta
     padding: 5px;
     box-shadow: 0 0px 0px 1px #eee;
 }
+
+.timeline-body{
+	margin-left: 1em;display: none; position: absolute; color: #fff; background: #000; padding: 5px;
+}
+
+.timeline-body > ul li::before{
+    font-weight: bold;
+    content: "\2022";
+    color: red;
+    width: 1em;
+}
+
+.timeline-content:hover .timeline-body{
+	display: block; text-align: left;
+}
