@@ -33,6 +33,15 @@ def _sync_resume(repo_root: Path, resume_target_rel: str, source_dir_rel: str) -
     shutil.copy2(latest_resume, target_resume)
 
 
+def _publish_root_index(repo_root: Path, docs_root: Path) -> None:
+    docs_index = docs_root / "index.md"
+    if not docs_index.exists():
+        return
+
+    root_index = repo_root / "index.md"
+    root_index.write_text(docs_index.read_text(encoding="utf-8"), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="unified-docs",
@@ -79,6 +88,7 @@ def main() -> None:
         public_repos = list_public_repos(cfg.github_username)
 
     build_docs_tree(readmes, docs_root, cfg=cfg, repos=public_repos)
+    _publish_root_index(repo_root, docs_root)
 
     if args.command == "build":
         build_site(repo_root)
