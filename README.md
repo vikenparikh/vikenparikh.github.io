@@ -5,7 +5,7 @@ Simple root-folder docs generator.
 ## Structure
 
 ```text
-All_Project_docs_website/
+vikenparikh.github.io/
   unified_docs/
     __init__.py
     cli.py
