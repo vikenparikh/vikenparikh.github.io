@@ -78,6 +78,17 @@ def _focus_areas(skills: list[str]) -> list[str]:
     return areas
 
 
+def _portfolio_stats(readmes: list[ReadmeDoc], categories: dict[str, list[ReadmeDoc]]) -> list[tuple[str, str]]:
+    project_count = len(readmes)
+    category_count = len(categories)
+    root_projects = len([doc for doc in readmes if not doc.rel_dir])
+    return [
+        ("Projects", str(project_count)),
+        ("Categories", str(category_count)),
+        ("Root Projects", str(root_projects)),
+    ]
+
+
 def _cleanup_previous_generated_docs(docs_root: Path) -> None:
     manifest = docs_root / MANIFEST_NAME
     if not manifest.exists():
@@ -145,6 +156,7 @@ def build_docs_tree(
         f"https://github.com/{cfg.github_username}" if cfg.github_username else None
     )
     focus_areas = _focus_areas(cfg.skills)
+    stats = _portfolio_stats(readmes, categorized)
 
     lines = [
         "<div class=\"portfolio-hero\">",
@@ -164,6 +176,20 @@ def build_docs_tree(
     ]
     if github_profile:
         lines.append(f"<a class=\"portfolio-pill\" href=\"{github_profile}\">GitHub Profile</a>")
+    lines.extend([
+        "</div>",
+        "",
+        "## Snapshot",
+        "",
+        "<div class=\"portfolio-grid portfolio-grid-3\">",
+    ])
+    for label, value in stats:
+        lines.extend([
+            "<div class=\"portfolio-card portfolio-card-stat\">",
+            f"<div class=\"portfolio-stat-value\">{value}</div>",
+            f"<div class=\"portfolio-stat-label\">{label}</div>",
+            "</div>",
+        ])
     lines.extend([
         "</div>",
         "",
@@ -208,6 +234,8 @@ def build_docs_tree(
 
             lines.append("<div class=\"portfolio-card\">")
             lines.append("")
+            lines.append(f"<span class=\"portfolio-card-kicker\">{category}</span>")
+            lines.append("")
             lines.append(f"#### [{title}]({link})")
             lines.append("")
             if project_image:
@@ -217,7 +245,7 @@ def build_docs_tree(
             lines.append("")
             if github_url:
                 lines.append(f"- GitHub: [{github_url}]({github_url})")
-            lines.append(f"- Full docs: [{link}]({link})")
+            lines.append(f"- Project docs: [{link}]({link})")
             lines.append("")
 
             preview = _preview_readme(readme_content)
@@ -265,6 +293,7 @@ def build_docs_tree(
         github_url = cfg.project_github.get(doc.rel_dir)
 
         page_parts: list[str] = [f"# {project_title}", "", project_summary, ""]
+        page_parts.extend(["[← Back to portfolio](../index.md)", ""])
         if project_image:
             page_parts.extend([f"![{project_title}]({project_image})", ""])
         if github_url:

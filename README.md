@@ -27,3 +27,10 @@ mkdocs serve
 ## Personalization
 
 Edit `unified_docs.json` for profile details, skills, project links/summaries/images, `scan_paths`, and resume auto-sync settings.
+
+## Architecture
+
+- `unified_docs/`: generator framework (collection, combining, site build)
+- `docs/`: generated Markdown + portfolio styling
+- `site/`: generated static output for deployment
+- `legacy_site/`: archived old static HTML/PHP implementation

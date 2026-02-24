@@ -1,4 +1,4 @@
-site_name: "My Engineering Portfolio"
+site_name: "Viken Parikh | Portfolio"
 site_url: "https://vikenparikh.github.io"
 docs_dir: docs
 site_dir: site
@@ -8,6 +8,8 @@ theme:
   features:
     - navigation.sections
     - navigation.instant
+    - navigation.top
+    - search.highlight
     - content.code.copy
 
 extra_css:
