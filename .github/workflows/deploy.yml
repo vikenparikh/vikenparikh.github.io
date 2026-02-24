@@ -1,11 +1,11 @@
-name: Deploy MkDocs site
+name: Build portfolio site
 
 on:
   push:
     branches: [ master, main ]
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,11 +26,3 @@ jobs:
         run: |
           unified-docs build --root .
           rm -f site/CNAME
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-          keep_files: false
-          force_orphan: true
