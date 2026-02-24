@@ -1,37 +1,8 @@
-# unified-docs-site
+# Portfolio Generator
 
-Simple root-folder docs generator.
+A small CLI that builds a full portfolio website from your repo READMEs.
 
-## Structure
-
-```text
-vikenparikh.github.io/
-  unified_docs/
-    __init__.py
-    cli.py
-    collector.py
-    combiner.py
-    github_repos.py
-    portfolio_enhancer.py
-    site_generator.py
-  README.md
-  requirements.txt
-  setup.cfg
-  mkdocs.yml
-  unified_docs.json
-  .github/
-    workflows/
-      deploy.yml
-```
-
-## What it does
-
-- Scans this repository root for `README*.md` files.
-- Creates `ALL_DOCS.md` at the root.
-- Creates mirrored pages in `docs/` (`docs/<project>/index.md`, with `docs/root/index.md` for root).
-- Builds static site output in `site/`.
-
-## Setup
+## One-time setup
 
 ```bash
 python3 -m venv .venv
@@ -40,21 +11,18 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Run
+## Build / rebuild
 
 ```bash
-unified-docs docs-only --root .
 unified-docs build --root .
 ```
 
-Fallback (without install):
+This regenerates:
+- `ALL_DOCS.md`
+- `docs/` (portfolio pages)
+- `site/` (static website)
 
-```bash
-python -m unified_docs.cli docs-only --root .
-python -m unified_docs.cli build --root .
-```
-
-## Preview
+## Local preview
 
 ```bash
 mkdocs serve
@@ -62,17 +30,10 @@ mkdocs serve
 
 Open `http://127.0.0.1:8000`.
 
-## Config
+## Customize
 
 Edit `unified_docs.json`:
-
-- `skip_projects`: folders to ignore (relative to `--root`).
-- `project_github`: map folder path to a GitHub URL; matching page gets a GitHub banner.
-- `github_username`: GitHub username to fetch repos from.
-- `include_public_repos`: when `true`, includes only public repos in the home page section.
-
-## Hosting (GitHub Pages)
-
-- The workflow at `.github/workflows/deploy.yml` builds docs with `unified-docs build --root .`.
-- It publishes the generated `site/` directory.
-- In GitHub, set Pages source to GitHub Actions.
+- `profile` for name/title/photo/resume
+- `skills`
+- `project_github`, `project_summaries`, `project_images`
+- `skip_projects`

@@ -2,12 +2,36 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import shutil
 
 from .collector import collect_readmes, load_config
 from .combiner import build_combined_markdown, build_docs_tree
 from .github_repos import list_public_repos
 from .portfolio_enhancer import enhance_docs_with_github
 from .site_generator import build_site
+
+
+def _sync_resume(repo_root: Path, resume_target_rel: str, source_dir_rel: str) -> None:
+    source_dir = (repo_root / source_dir_rel).resolve()
+    if not source_dir.exists() or not source_dir.is_dir():
+        return
+
+    candidates = sorted(
+        [path for path in source_dir.glob("*.pdf") if path.is_file()],
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    if not candidates:
+        return
+
+    latest_resume = candidates[0]
+    target_resume = (repo_root / resume_target_rel).resolve()
+    target_resume.parent.mkdir(parents=True, exist_ok=True)
+
+    if latest_resume == target_resume:
+        return
+
+    shutil.copy2(latest_resume, target_resume)
 
 
 def main() -> None:
@@ -37,6 +61,9 @@ def main() -> None:
     repo_root = Path(args.root).resolve()
 
     cfg = load_config(repo_root)
+    if cfg.auto_sync_resume:
+        _sync_resume(repo_root, cfg.resume_path, cfg.resume_source_dir)
+
     readmes = collect_readmes(repo_root, cfg)
 
     if not readmes:
@@ -52,7 +79,7 @@ def main() -> None:
     if cfg.include_public_repos and cfg.github_username:
         public_repos = list_public_repos(cfg.github_username)
 
-    build_docs_tree(readmes, docs_root, repos=public_repos)
+    build_docs_tree(readmes, docs_root, cfg=cfg, repos=public_repos)
     enhance_docs_with_github(readmes, cfg, docs_root)
 
     if args.command == "build":

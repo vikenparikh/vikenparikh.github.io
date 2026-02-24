@@ -2,5 +2,28 @@
   "skip_projects": [],
   "project_github": {},
   "github_username": "vikenparikh",
-  "include_public_repos": true
+  "include_public_repos": true,
+  "scan_paths": [
+    ".",
+    ".."
+  ],
+  "auto_sync_resume": true,
+  "resume_source_dir": "resume",
+  "profile": {
+    "name": "Viken Shaumitra Parikh",
+    "title": "Software Engineer | Backend, ML, and AI",
+    "tagline": "I build backend platforms and intelligent products with practical machine learning and applied AI.",
+    "photo": "assets/images/myphoto.jpg",
+    "resume": "assets/images/Resume/Resume.pdf"
+  },
+  "skills": [
+    "Python",
+    "Machine Learning",
+    "Deep Learning",
+    "Data Engineering",
+    "Backend Development",
+    "Cloud"
+  ],
+  "project_summaries": {},
+  "project_images": {}
 }

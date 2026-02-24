@@ -1,10 +1,17 @@
 site_name: "My Engineering Portfolio"
-site_url: ""
+site_url: "https://vikenparikh.github.io"
 docs_dir: docs
 site_dir: site
 
 theme:
   name: material
+  features:
+    - navigation.sections
+    - navigation.instant
+    - content.code.copy
+
+extra_css:
+  - assets/stylesheets/portfolio.css
 
 repo_url: ""
 repo_name: ""
