@@ -24,6 +24,17 @@
     "Backend Development",
     "Cloud"
   ],
+  "featured_repos": [
+    "edumind-ai",
+    "investiq-ai",
+    "llms-from-scratch",
+    "awesome-llm-apps",
+    "AI-in-a-Box",
+    "Machine-Learning-Implementation",
+    "AWS-AutoScaling-Object-Detection",
+    "hmmlearn",
+    "hands-on-large-language-models"
+  ],
   "project_summaries": {},
   "project_images": {}
 }

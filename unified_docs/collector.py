@@ -33,6 +33,7 @@ class UnifiedConfig:
     skills: list[str]
     project_summaries: Dict[str, str]
     project_images: Dict[str, str]
+    featured_repos: list[str]
 
 
 def _normalize_rel_dir(value: str) -> str:
@@ -56,6 +57,7 @@ def load_config(repo_root: Path) -> UnifiedConfig:
     skills: list[str] = []
     project_summaries: Dict[str, str] = {}
     project_images: Dict[str, str] = {}
+    featured_repos: list[str] = []
 
     if cfg_path.exists():
         try:
@@ -143,6 +145,14 @@ def load_config(repo_root: Path) -> UnifiedConfig:
                         for key, value in raw_project_images.items()
                         if isinstance(key, str) and isinstance(value, str) and value.strip()
                     }
+
+                raw_featured_repos = raw.get("featured_repos")
+                if isinstance(raw_featured_repos, list):
+                    featured_repos = [
+                        item.strip()
+                        for item in raw_featured_repos
+                        if isinstance(item, str) and item.strip()
+                    ]
         except Exception:
             pass
 
@@ -162,6 +172,7 @@ def load_config(repo_root: Path) -> UnifiedConfig:
         skills=skills,
         project_summaries=project_summaries,
         project_images=project_images,
+        featured_repos=featured_repos,
     )
 
 

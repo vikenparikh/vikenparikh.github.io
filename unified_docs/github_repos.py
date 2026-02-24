@@ -12,6 +12,11 @@ class PublicRepo:
     name: str
     html_url: str
     description: str
+    stars: int
+    forks: int
+    language: str
+    is_fork: bool
+    is_archived: bool
 
 
 def list_public_repos(username: str) -> list[PublicRepo]:
@@ -53,9 +58,25 @@ def list_public_repos(username: str) -> list[PublicRepo]:
             name = item.get("name")
             html_url = item.get("html_url")
             description = item.get("description") or ""
+            stars = item.get("stargazers_count") or 0
+            forks = item.get("forks_count") or 0
+            language = item.get("language") or ""
+            is_fork = bool(item.get("fork"))
+            is_archived = bool(item.get("archived"))
 
             if isinstance(name, str) and isinstance(html_url, str):
-                repos.append(PublicRepo(name=name, html_url=html_url, description=str(description)))
+                repos.append(
+                    PublicRepo(
+                        name=name,
+                        html_url=html_url,
+                        description=str(description),
+                        stars=int(stars),
+                        forks=int(forks),
+                        language=str(language),
+                        is_fork=is_fork,
+                        is_archived=is_archived,
+                    )
+                )
 
         if len(payload) < per_page:
             break
