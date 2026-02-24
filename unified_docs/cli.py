@@ -7,7 +7,6 @@ import shutil
 from .collector import collect_readmes, load_config
 from .combiner import build_combined_markdown, build_docs_tree
 from .github_repos import list_public_repos
-from .portfolio_enhancer import enhance_docs_with_github
 from .site_generator import build_site
 
 
@@ -80,7 +79,6 @@ def main() -> None:
         public_repos = list_public_repos(cfg.github_username)
 
     build_docs_tree(readmes, docs_root, cfg=cfg, repos=public_repos)
-    enhance_docs_with_github(readmes, cfg, docs_root)
 
     if args.command == "build":
         build_site(repo_root)

@@ -35,6 +35,10 @@ class UnifiedConfig:
     project_images: Dict[str, str]
 
 
+def _normalize_rel_dir(value: str) -> str:
+    return value.replace("\\", "/").strip("/")
+
+
 def load_config(repo_root: Path) -> UnifiedConfig:
     cfg_path = repo_root / CONFIG_FILE
     skip_dirs: Set[Path] = set()
@@ -64,7 +68,7 @@ def load_config(repo_root: Path) -> UnifiedConfig:
                 github_map = raw.get("project_github", {})
                 if isinstance(github_map, dict):
                     project_github = {
-                        str(key): str(value)
+                        _normalize_rel_dir(str(key)): str(value)
                         for key, value in github_map.items()
                         if isinstance(key, str) and isinstance(value, str)
                     }
@@ -127,7 +131,7 @@ def load_config(repo_root: Path) -> UnifiedConfig:
                 raw_project_summaries = raw.get("project_summaries")
                 if isinstance(raw_project_summaries, dict):
                     project_summaries = {
-                        str(key): str(value)
+                        _normalize_rel_dir(str(key)): str(value)
                         for key, value in raw_project_summaries.items()
                         if isinstance(key, str) and isinstance(value, str) and value.strip()
                     }
@@ -135,7 +139,7 @@ def load_config(repo_root: Path) -> UnifiedConfig:
                 raw_project_images = raw.get("project_images")
                 if isinstance(raw_project_images, dict):
                     project_images = {
-                        str(key): str(value)
+                        _normalize_rel_dir(str(key)): str(value)
                         for key, value in raw_project_images.items()
                         if isinstance(key, str) and isinstance(value, str) and value.strip()
                     }
@@ -214,7 +218,7 @@ def collect_readmes(repo_root: Path, cfg: UnifiedConfig) -> List[ReadmeDoc]:
                 continue
 
             for filename in files:
-                if not filename.startswith("README") or not filename.endswith(".md"):
+                if not filename.upper().startswith("README") or not filename.lower().endswith(".md"):
                     continue
 
                 readme_path = (root_path / filename).resolve()
@@ -230,6 +234,8 @@ def collect_readmes(repo_root: Path, cfg: UnifiedConfig) -> List[ReadmeDoc]:
                     rel_dir = str(readme_path.parent.relative_to(scan_root))
                     if rel_dir == ".":
                         rel_dir = ""
+
+                rel_dir = _normalize_rel_dir(rel_dir)
 
                 docs.append(ReadmeDoc(path=readme_path, rel_dir=rel_dir))
 

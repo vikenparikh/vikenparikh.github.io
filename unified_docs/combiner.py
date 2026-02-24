@@ -35,21 +35,25 @@ def _display_name(doc: ReadmeDoc) -> str:
 
 
 def _summarize_readme(content: str) -> str:
-    lines = [line.strip() for line in content.splitlines() if line.strip()]
+    stripped = re.sub(r"```[\s\S]*?```", "", content)
+    lines = [line.strip() for line in stripped.splitlines() if line.strip()]
     cleaned: list[str] = []
     for line in lines:
         if line.startswith("#"):
             continue
         if line.startswith("!["):
             continue
+        if line.startswith("```"):
+            continue
         line = re.sub(r"`([^`]+)`", r"\1", line)
         line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
         line = re.sub(r"^[>*\-\d.\s]+", "", line)
         if line:
             cleaned.append(line)
-        if len(cleaned) >= 2:
+        if len(cleaned) >= 3:
             break
-    return " ".join(cleaned)[:320] if cleaned else "No summary available."
+    summary = " ".join(cleaned)
+    return summary[:280] if summary else "No summary available."
 
 
 def _preview_readme(content: str, max_lines: int = 24) -> str:
@@ -189,11 +193,11 @@ def build_docs_tree(
         lines.append("</div>")
         lines.append("")
 
-    lines.extend(["## Projects", "", "<div class=\"portfolio-grid portfolio-grid-2\">"])
+    lines.extend(["## Projects", ""])
 
     for category in sorted(categorized.keys()):
         lines.append(f"### {category}")
-        lines.append("")
+        lines.extend(["", "<div class=\"portfolio-grid portfolio-grid-2\">", ""])
         for doc in sorted(categorized[category], key=lambda item: item.rel_dir):
             readme_content = doc.path.read_text(encoding="utf-8")
             title = _display_name(doc)
@@ -231,13 +235,19 @@ def build_docs_tree(
                 ])
             lines.append("</div>")
             lines.append("")
-        lines.append("")
-
-    lines.extend(["</div>", ""])
+        lines.extend(["</div>", ""])
 
     if repos:
-        lines.extend(["## Public GitHub Repositories", ""])
-        for repo in repos:
+        filtered_repos = [repo for repo in repos if repo.name.lower() != "vikenparikh.github.io"]
+        displayed_repos = filtered_repos[:24]
+
+        lines.extend([
+            "## Public GitHub Repositories",
+            "",
+            f"Showing {len(displayed_repos)} of {len(filtered_repos)} repositories.",
+            "",
+        ])
+        for repo in displayed_repos:
             description = f" - {repo.description}" if repo.description else ""
             lines.append(f"- [{repo.name}]({repo.html_url}){description}")
         lines.append("")

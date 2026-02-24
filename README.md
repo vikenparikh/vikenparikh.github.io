@@ -1,8 +1,9 @@
-# Portfolio Generator
+# Viken Parikh — Personal Website
 
-A small CLI that builds a full portfolio website from your repo READMEs.
+This repo powers my personal website at https://vikenparikh.github.io.  
+It auto-generates a portfolio site from project READMEs using `unified_docs` + MkDocs.
 
-## One-time setup
+## Setup
 
 ```bash
 python3 -m venv .venv
@@ -11,29 +12,18 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Build / rebuild
+## Build
 
 ```bash
 unified-docs build --root .
 ```
 
-This regenerates:
-- `ALL_DOCS.md`
-- `docs/` (portfolio pages)
-- `site/` (static website)
-
-## Local preview
+## Preview
 
 ```bash
 mkdocs serve
 ```
 
-Open `http://127.0.0.1:8000`.
+## Personalization
 
-## Customize
-
-Edit `unified_docs.json`:
-- `profile` for name/title/photo/resume
-- `skills`
-- `project_github`, `project_summaries`, `project_images`
-- `skip_projects`
+Edit `unified_docs.json` for profile details, skills, project links/summaries/images, `scan_paths`, and resume auto-sync settings.
