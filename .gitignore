@@ -1,0 +1,6 @@
+.venv/
+site/
+docs/
+ALL_DOCS.md
+__pycache__/
+*.egg-info/

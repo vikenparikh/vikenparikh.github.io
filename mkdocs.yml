@@ -1,0 +1,21 @@
+site_name: "My Engineering Portfolio"
+site_url: ""
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+
+repo_url: ""
+repo_name: ""
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - footnotes
+  - tables
+
+exclude_docs: |
+  .unified_docs_manifest.json
