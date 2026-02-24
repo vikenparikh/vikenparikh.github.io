@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import html
 from pathlib import Path
 from typing import List
 from .collector import ReadmeDoc, UnifiedConfig
@@ -152,6 +153,217 @@ PORTFOLIO_CSS = """.portfolio-hero {
 
     .portfolio-avatar {
         margin: 0 auto;
+    }
+}
+"""
+
+PORTFOLIO_SITE_CSS = """body {
+    margin: 0;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+a {
+    color: #0f172a;
+}
+
+.container {
+    width: min(1120px, 92%);
+    margin: 0 auto;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid #e2e8f0;
+    backdrop-filter: blur(8px);
+}
+
+.nav-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+}
+
+.brand {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+}
+
+.hero {
+    padding: 5rem 0 3rem;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    font-size: 0.78rem;
+}
+
+.hero h1 {
+    margin: 0.2rem 0;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+}
+
+.hero-copy {
+    color: #334155;
+    font-size: 1.07rem;
+}
+
+.hero-card {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.hero-card img {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 16px;
+}
+
+.section {
+    padding: 1.2rem 0 2.2rem;
+}
+
+.section h2 {
+    margin-bottom: 0.55rem;
+}
+
+.section-sub {
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    border: 1px solid #0f172a;
+    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+.btn-primary {
+    background: #0f172a;
+    color: #ffffff;
+}
+
+.btn-ghost {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.9rem;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.9rem;
+}
+
+.card {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 1rem;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.stat-value {
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    color: #64748b;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.tag {
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    border-radius: 999px;
+    padding: 0.22rem 0.7rem;
+    font-size: 0.82rem;
+}
+
+.project-card h3 {
+    margin: 0.1rem 0;
+}
+
+.project-card p {
+    color: #475569;
+    font-size: 0.94rem;
+}
+
+.meta {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.meta-pill {
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 0.14rem 0.55rem;
+    color: #64748b;
+    font-size: 0.76rem;
+}
+
+.footer {
+    padding: 2rem 0;
+    color: #64748b;
+    text-align: center;
+}
+
+@media (max-width: 880px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+        display: none;
     }
 }
 """
@@ -316,6 +528,211 @@ def _featured_repositories(repos: list[PublicRepo], cfg: UnifiedConfig, limit: i
     filtered.sort(key=lambda repo: (-_score(repo), -repo.stars, repo.name.lower()))
     merged = curated + [repo for repo in filtered if repo.name.lower() not in {item.name.lower() for item in curated}]
     return merged[:limit]
+
+
+def _slugify(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
+
+
+def _guess_repo_url(doc: ReadmeDoc, repos: list[PublicRepo], cfg: UnifiedConfig) -> str:
+    explicit = cfg.project_github.get(doc.rel_dir)
+    if explicit:
+        return explicit
+
+    if not repos:
+        return ""
+
+    candidates = {
+        _slugify(doc.rel_dir.split("/")[-1]) if doc.rel_dir else "": doc.rel_dir,
+        _slugify(doc.path.parent.name): doc.rel_dir,
+    }
+    candidate_keys = {key for key in candidates.keys() if key}
+
+    for repo in repos:
+        if _slugify(repo.name) in candidate_keys:
+            return repo.html_url
+
+    return ""
+
+
+def build_root_homepage(
+    repo_root: Path,
+    cfg: UnifiedConfig,
+    readmes: list[ReadmeDoc],
+    repos: list[PublicRepo] | None = None,
+) -> None:
+    repos = repos or []
+    stats = {
+        "Projects": str(len(readmes)),
+        "Featured": str(min(len(cfg.featured_repos) or len(repos), 9)),
+        "Skills": str(len(cfg.skills)),
+    }
+
+    featured_repos = _featured_repositories(repos, cfg, limit=9) if repos else []
+
+    local_projects = []
+    for doc in readmes:
+        if not doc.rel_dir or doc.rel_dir.lower() in {"legacy_site"}:
+            continue
+        content = doc.path.read_text(encoding="utf-8")
+        local_projects.append(
+            {
+                "title": _display_name(doc),
+                "summary": cfg.project_summaries.get(doc.rel_dir) or _summarize_readme(content),
+                "repo": _guess_repo_url(doc, repos, cfg),
+                "doc": _relative_doc_link(doc),
+            }
+        )
+
+    if not local_projects and featured_repos:
+        local_projects = [
+            {
+                "title": repo.name,
+                "summary": repo.description or "Project from public GitHub repositories.",
+                "repo": repo.html_url,
+                "doc": "",
+            }
+            for repo in featured_repos[:6]
+        ]
+
+    cards_html = []
+    for project in local_projects[:9]:
+        repo_link = (
+            f'<a class="btn btn-ghost" href="{html.escape(project["repo"])}">GitHub</a>'
+            if project["repo"]
+            else ""
+        )
+        doc_link = (
+            f'<a class="btn btn-ghost" href="docs/{html.escape(project["doc"])}">Project Docs</a>'
+            if project["doc"]
+            else ""
+        )
+        cards_html.append(
+            "\n".join(
+                [
+                    '<article class="card project-card">',
+                    f"<h3>{html.escape(project['title'])}</h3>",
+                    f"<p>{html.escape(project['summary'])}</p>",
+                    '<div class="cta-row">',
+                    repo_link,
+                    doc_link,
+                    "</div>",
+                    "</article>",
+                ]
+            )
+        )
+
+    featured_html = []
+    for repo in featured_repos:
+        featured_html.append(
+            "\n".join(
+                [
+                    '<article class="card project-card">',
+                    f"<h3><a href=\"{html.escape(repo.html_url)}\">{html.escape(repo.name)}</a></h3>",
+                    f"<p>{html.escape(repo.description or 'Public repository from GitHub profile.')}</p>",
+                    '<div class="meta">',
+                    f"<span class=\"meta-pill\">★ {repo.stars}</span>",
+                    f"<span class=\"meta-pill\">⑂ {repo.forks}</span>",
+                    f"<span class=\"meta-pill\">{html.escape(repo.language or 'Code')}</span>",
+                    "</div>",
+                    "</article>",
+                ]
+            )
+        )
+
+    skills_html = "\n".join([f'<span class="tag">{html.escape(skill)}</span>' for skill in cfg.skills])
+    stat_html = "\n".join(
+        [
+            f'<div class="card"><div class="stat-value">{value}</div><div class="stat-label">{label}</div></div>'
+            for label, value in stats.items()
+        ]
+    )
+
+    contact_row = []
+    if cfg.contact_email:
+        contact_row.append(f'<a class="btn btn-primary" href="mailto:{html.escape(cfg.contact_email)}">Email</a>')
+    if cfg.linkedin_url:
+        contact_row.append(f'<a class="btn btn-ghost" href="{html.escape(cfg.linkedin_url)}">LinkedIn</a>')
+    if cfg.github_username:
+        contact_row.append(f'<a class="btn btn-ghost" href="https://github.com/{html.escape(cfg.github_username)}">GitHub</a>')
+    contact_html = "\n".join(contact_row)
+
+    homepage = f"""<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"UTF-8\" />
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+  <title>{html.escape(cfg.profile_name)} | Portfolio</title>
+  <meta name=\"description\" content=\"{html.escape(cfg.profile_tagline)}\" />
+  <link rel=\"stylesheet\" href=\"assets/css/portfolio-site.css\" />
+</head>
+<body>
+  <header class=\"site-header\">
+    <div class=\"container nav-wrap\">
+      <a class=\"brand\" href=\"#home\">{html.escape(cfg.profile_name)}</a>
+      <nav class=\"nav-links\">
+        <a href=\"#about\">About</a>
+        <a href=\"#skills\">Skills</a>
+        <a href=\"#projects\">Projects</a>
+        <a href=\"#contact\">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id=\"home\" class=\"container\">
+    <section class=\"hero\">
+      <div>
+        <div class=\"eyebrow\">{html.escape(cfg.profile_title)}</div>
+        <h1>{html.escape(cfg.profile_name)}</h1>
+        <p class=\"hero-copy\">{html.escape(cfg.profile_tagline)}</p>
+        {f'<p class="section-sub">{html.escape(cfg.location)}</p>' if cfg.location else ''}
+        <div class=\"cta-row\">
+          <a class=\"btn btn-primary\" href=\"{html.escape(cfg.resume_path)}\">View Resume</a>
+          {f'<a class="btn btn-ghost" href="https://github.com/{html.escape(cfg.github_username)}">GitHub Profile</a>' if cfg.github_username else ''}
+        </div>
+      </div>
+      <div class=\"hero-card\"><img src=\"{html.escape(cfg.profile_photo)}\" alt=\"{html.escape(cfg.profile_name)}\" /></div>
+    </section>
+
+    <section id=\"about\" class=\"section\">
+      <h2>Recruiter Snapshot</h2>
+      <p class=\"section-sub\">Production-focused backend and AI engineer with practical delivery outcomes.</p>
+      <div class=\"grid-3\">{stat_html}</div>
+    </section>
+
+    <section id=\"skills\" class=\"section\">
+      <h2>Core Skills</h2>
+      <div class=\"tags\">{skills_html}</div>
+    </section>
+
+    <section id=\"projects\" class=\"section\">
+      <h2>Project Portfolio</h2>
+      <p class=\"section-sub\">Auto-collected root-level projects with summaries and links.</p>
+      <div class=\"grid-3\">{''.join(cards_html)}</div>
+    </section>
+
+    <section class=\"section\">
+      <h2>Featured Public Repositories</h2>
+      <div class=\"grid-3\">{''.join(featured_html)}</div>
+    </section>
+
+    <section id=\"contact\" class=\"section\">
+      <h2>Reach Out</h2>
+      <p class=\"section-sub\">Open to backend, machine learning, and AI engineering opportunities.</p>
+      <div class=\"cta-row\">{contact_html}</div>
+    </section>
+  </main>
+
+  <footer class=\"footer\">© 2026 {html.escape(cfg.profile_name)}</footer>
+</body>
+</html>
+"""
+
+    css_path = repo_root / "assets" / "css" / "portfolio-site.css"
+    css_path.parent.mkdir(parents=True, exist_ok=True)
+    css_path.write_text(PORTFOLIO_SITE_CSS, encoding="utf-8")
+
+    (repo_root / "index.html").write_text(homepage, encoding="utf-8")
 
 
 def _portfolio_home_link(doc: ReadmeDoc) -> str:

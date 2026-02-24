@@ -7,7 +7,7 @@ import json
 import os
 
 CONFIG_FILE = "unified_docs.json"
-DEFAULT_SKIP_DIRS = {".venv", ".git", "site", "docs", "__pycache__"}
+DEFAULT_SKIP_DIRS = {".venv", ".git", "site", "docs", "__pycache__", ".template_refs", "legacy_site"}
 
 
 @dataclass
@@ -34,6 +34,9 @@ class UnifiedConfig:
     project_summaries: Dict[str, str]
     project_images: Dict[str, str]
     featured_repos: list[str]
+    contact_email: str
+    linkedin_url: str
+    location: str
 
 
 def _normalize_rel_dir(value: str) -> str:
@@ -58,6 +61,9 @@ def load_config(repo_root: Path) -> UnifiedConfig:
     project_summaries: Dict[str, str] = {}
     project_images: Dict[str, str] = {}
     featured_repos: list[str] = []
+    contact_email = ""
+    linkedin_url = ""
+    location = ""
 
     if cfg_path.exists():
         try:
@@ -153,6 +159,18 @@ def load_config(repo_root: Path) -> UnifiedConfig:
                         for item in raw_featured_repos
                         if isinstance(item, str) and item.strip()
                     ]
+
+                raw_contact = raw.get("contact")
+                if isinstance(raw_contact, dict):
+                    raw_contact_email = raw_contact.get("email")
+                    raw_linkedin = raw_contact.get("linkedin")
+                    raw_location = raw_contact.get("location")
+                    if isinstance(raw_contact_email, str) and raw_contact_email.strip():
+                        contact_email = raw_contact_email.strip()
+                    if isinstance(raw_linkedin, str) and raw_linkedin.strip():
+                        linkedin_url = raw_linkedin.strip()
+                    if isinstance(raw_location, str) and raw_location.strip():
+                        location = raw_location.strip()
         except Exception:
             pass
 
@@ -173,6 +191,9 @@ def load_config(repo_root: Path) -> UnifiedConfig:
         project_summaries=project_summaries,
         project_images=project_images,
         featured_repos=featured_repos,
+        contact_email=contact_email,
+        linkedin_url=linkedin_url,
+        location=location,
     )
 
 
@@ -218,6 +239,7 @@ def collect_readmes(repo_root: Path, cfg: UnifiedConfig) -> List[ReadmeDoc]:
                 dirname
                 for dirname in dirs
                 if dirname not in DEFAULT_SKIP_DIRS
+                and not dirname.startswith(".")
                 and not _is_under_any((root_path / dirname).resolve(), cfg.skip_dirs)
                 and not (
                     scan_root != repo_root

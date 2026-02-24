@@ -5,7 +5,7 @@ from pathlib import Path
 import shutil
 
 from .collector import collect_readmes, load_config
-from .combiner import build_combined_markdown, build_docs_tree
+from .combiner import build_combined_markdown, build_docs_tree, build_root_homepage
 from .github_repos import list_public_repos
 from .site_generator import build_site
 
@@ -31,15 +31,6 @@ def _sync_resume(repo_root: Path, resume_target_rel: str, source_dir_rel: str) -
         return
 
     shutil.copy2(latest_resume, target_resume)
-
-
-def _publish_root_index(repo_root: Path, docs_root: Path) -> None:
-    docs_index = docs_root / "index.md"
-    if not docs_index.exists():
-        return
-
-    root_index = repo_root / "index.md"
-    root_index.write_text(docs_index.read_text(encoding="utf-8"), encoding="utf-8")
 
 
 def main() -> None:
@@ -88,7 +79,7 @@ def main() -> None:
         public_repos = list_public_repos(cfg.github_username)
 
     build_docs_tree(readmes, docs_root, cfg=cfg, repos=public_repos)
-    _publish_root_index(repo_root, docs_root)
+    build_root_homepage(repo_root, cfg=cfg, readmes=readmes, repos=public_repos)
 
     if args.command == "build":
         build_site(repo_root)
