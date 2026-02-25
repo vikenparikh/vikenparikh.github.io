@@ -1,0 +1,59 @@
+---
+import { siteConfig } from "../config";
+
+const hasSkills = siteConfig.skills && siteConfig.skills.length > 0;
+
+const skillGroups = [
+  {
+    title: "Core Engineering",
+    items: siteConfig.skills,
+  },
+  {
+    title: "Work Areas",
+    items: siteConfig.workAreas,
+  },
+  {
+    title: "AI Focus",
+    items: siteConfig.aiSpecialties,
+  },
+].filter((group) => group.items && group.items.length > 0);
+---
+
+{
+  hasSkills && (
+    <section id="skills" class="p-8 sm:p-12 md:p-16 lg:p-24">
+      <div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          <div class="lg:col-span-4">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
+              Skills
+            </h2>
+            <div
+              class="w-[75px] h-[5px] mt-2 rounded-full"
+              style={`background-color: ${siteConfig.accentColor}`}
+            />
+          </div>
+
+          <div class="lg:col-span-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {skillGroups.map((group) => (
+                <div class="bg-white rounded-xl border border-gray-200 p-5 sm:p-6 hover:shadow-md transition-shadow duration-300">
+                  <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-4">
+                    {group.title}
+                  </h3>
+                  <div class="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <span class="px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

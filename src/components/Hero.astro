@@ -157,7 +157,7 @@ import { siteConfig } from "../config";
       }
       {
         siteConfig.resumeUrl && (
-          <div class="mt-8 animate-fade-in animation-delay-600">
+          <div class="mt-8 flex flex-wrap gap-3 animate-fade-in animation-delay-600">
             <a
               href={siteConfig.resumeUrl}
               target="_blank"
@@ -166,6 +166,22 @@ import { siteConfig } from "../config";
             >
               View Resume
             </a>
+            <a
+              href="#projects"
+              class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-colors duration-300 hover:bg-gray-100"
+            >
+              View Projects
+            </a>
+            {
+              siteConfig.social?.email && (
+                <a
+                  href={`mailto:${siteConfig.social.email}`}
+                  class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-colors duration-300 hover:bg-gray-100"
+                >
+                  Contact Me
+                </a>
+              )
+            }
           </div>
         )
       }
