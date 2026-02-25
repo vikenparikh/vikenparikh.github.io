@@ -6,6 +6,7 @@
     "sync:projects": "python3 scripts/portfolio_builder.py --root .",
     "dev": "astro dev",
     "build": "npm run sync:projects && astro build",
+    "check": "astro check",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -13,5 +14,9 @@
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.3",
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.9.3"
   }
 }

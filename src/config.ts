@@ -1,6 +1,52 @@
 import { generatedProjects } from "./generated/projects";
 
-const fallbackProjects = [
+type Project = {
+  name: string;
+  description: string;
+  link?: string;
+  skills?: string[];
+};
+
+type ExperienceItem = {
+  title: string;
+  company: string;
+  dateRange: string;
+  bullets: string[];
+};
+
+type EducationItem = {
+  degree: string;
+  school: string;
+  dateRange: string;
+  achievements: string[];
+};
+
+type SiteConfig = {
+  name: string;
+  title: string;
+  description: string;
+  location: string;
+  profileImage: string;
+  resumeUrl: string;
+  accentColor: string;
+  social: {
+    email: string;
+    linkedin: string;
+    github: string;
+    twitter?: string;
+  };
+  aboutMe: string;
+  workAreas: string[];
+  aiSpecialties: string[];
+  skills: string[];
+  projects: Project[];
+  topProjects: Project[];
+  otherProjects: Project[];
+  experience: ExperienceItem[];
+  education: EducationItem[];
+};
+
+const fallbackProjects: Project[] = [
   {
     name: "edumind-ai",
     description:
@@ -44,22 +90,28 @@ const fallbackProjects = [
   },
 ];
 
-export const siteConfig = {
+const projectList: Project[] =
+  generatedProjects.length > 0
+    ? (generatedProjects as unknown as Project[])
+    : fallbackProjects;
+
+export const siteConfig: SiteConfig = {
   name: "Viken Shaumitra Parikh",
   title: "Software Engineer | Backend, ML, and AI",
   description:
     "I build backend platforms and intelligent products with practical machine learning and applied AI.",
-  location: "Tempe, Arizona, USA",
+  location: "Vancouver, Canada",
   profileImage: "/images/myphoto.jpg",
   resumeUrl: "/resume/resume.pdf",
   accentColor: "#2563eb",
   social: {
-    email: "vikenparikh@gmail.com",
+    email: "vsparikh1996@gmail.com",
     linkedin: "https://linkedin.com/in/vikenparikh96/",
     github: "https://github.com/vikenparikh",
+    twitter: "",
   },
   aboutMe:
-    "I am a software engineer based in Tempe, Arizona, focused on backend systems, machine learning, and applied AI. I build practical, production-ready products that combine reliable engineering with intelligent capabilities.",
+    "I am a software engineer based in Vancouver, Canada, focused on backend systems, machine learning, and applied AI. I build practical, production-ready products that combine reliable engineering with intelligent capabilities.",
   workAreas: ["Backend", "Frontend", "AI", "DevOps", "Full Stack"],
   aiSpecialties: ["Computer Vision", "LLMs", "RAG", "NLP", "MLOps"],
   skills: [
@@ -70,7 +122,9 @@ export const siteConfig = {
     "Backend Development",
     "Cloud",
   ],
-  projects: generatedProjects.length > 0 ? [...generatedProjects] : fallbackProjects,
+  projects: projectList,
+  topProjects: projectList.slice(0, 6),
+  otherProjects: projectList.slice(6),
   experience: [],
   education: [],
 };

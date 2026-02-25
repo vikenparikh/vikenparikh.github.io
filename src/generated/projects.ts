@@ -1,4 +1,4 @@
-export const generatedAt = "2026-02-25T00:26:20.092685+00:00";
+export const generatedAt = "2026-02-25T00:51:05.450343+00:00";
 
 export const generatedProjects = [
   {
@@ -152,12 +152,12 @@ export const generatedProjects = [
     ]
   },
   {
-    "name": "vikenparikh.github.io",
-    "description": "Personal Website",
-    "link": "https://github.com/vikenparikh/vikenparikh.github.io",
+    "name": "neuralverse-ai",
+    "description": "Unified AI development platform with multi-agent systems and knowledge graphs",
+    "link": "https://github.com/vikenparikh/neuralverse-ai",
     "skills": [
-      "Backend",
-      "AI"
+      "AI",
+      "Deep Learning"
     ]
   }
 ] as const;

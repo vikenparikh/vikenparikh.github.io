@@ -25,6 +25,10 @@ class BuilderConfig:
     github_fallback_limit: int
 
 
+def normalize_name(value: str) -> str:
+    return value.strip().lower()
+
+
 def load_config(root: Path, config_path: Path) -> BuilderConfig:
     if config_path.exists():
         raw = json.loads(config_path.read_text(encoding="utf-8"))
@@ -33,12 +37,12 @@ def load_config(root: Path, config_path: Path) -> BuilderConfig:
 
     return BuilderConfig(
         scan_paths=raw.get("scan_paths", [".."]),
-        skip_projects=set(raw.get("skip_projects", [])),
-            exclude_projects={str(name).strip().lower() for name in raw.get("exclude_projects", [])},
+        skip_projects={normalize_name(str(name)) for name in raw.get("skip_projects", [])},
+        exclude_projects={normalize_name(str(name)) for name in raw.get("exclude_projects", [])},
         github_username=raw.get("github_username", "").strip(),
         project_github=raw.get("project_github", {}),
         max_projects=int(raw.get("max_projects", 24)),
-        preferred_projects=[str(name).strip().lower() for name in raw.get("preferred_projects", [])],
+        preferred_projects=[normalize_name(str(name)) for name in raw.get("preferred_projects", [])],
         github_fallback_limit=int(raw.get("github_fallback_limit", 30)),
     )
 
@@ -55,22 +59,42 @@ def summarize_readme(content: str) -> str:
     text = re.sub(r"```[\s\S]*?```", "", content)
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     cleaned: list[str] = []
+
+    def clean_line(line: str) -> str:
+        line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
+        line = re.sub(r"`([^`]+)`", r"\1", line)
+        line = re.sub(r"https?://\S+", "", line)
+        line = re.sub(r"^[>*\-\d.\s]+", "", line).strip()
+        line = re.sub(r"\s+", " ", line)
+        return line
+
     for line in lines:
         if line.startswith("#") or line.startswith("!["):
             continue
-        line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
-        line = re.sub(r"`([^`]+)`", r"\1", line)
-        line = re.sub(r"^[>*\-\d.\s]+", "", line).strip()
+        line = clean_line(line)
+        if len(line) < 30:
+            continue
         if line:
             cleaned.append(line)
-        if len(cleaned) >= 2:
+        if len(cleaned) >= 3:
             break
 
     if not cleaned:
         return "Project repository with implementation details and documentation."
 
     summary = " ".join(cleaned)
-    return summary[:220]
+    sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", summary) if part.strip()]
+    if sentences:
+        summary = sentences[0]
+
+    if len(summary) <= 220:
+        return summary
+
+    trimmed = summary[:220].rstrip()
+    cut = trimmed.rfind(" ")
+    if cut > 100:
+        trimmed = trimmed[:cut]
+    return f"{trimmed}…"
 
 
 def infer_skills(project_name: str, readme_text: str) -> list[str]:
@@ -103,8 +127,15 @@ def infer_skills(project_name: str, readme_text: str) -> list[str]:
 
 
 def resolve_repo_link(project_name: str, cfg: BuilderConfig) -> str:
-    if project_name in cfg.project_github:
-        return cfg.project_github[project_name]
+    direct = cfg.project_github.get(project_name)
+    if direct:
+        return direct
+
+    lowered = normalize_name(project_name)
+    for key, value in cfg.project_github.items():
+        if normalize_name(str(key)) == lowered:
+            return str(value)
+
     if cfg.github_username:
         return f"https://github.com/{cfg.github_username}/{project_name}"
     return ""
@@ -274,7 +305,7 @@ def collect_owned_github_projects(cfg: BuilderConfig) -> list[dict[str, object]]
 
 def collect_projects(root: Path, cfg: BuilderConfig) -> list[dict[str, object]]:
     projects: list[dict[str, object]] = []
-    this_repo_name = root.name
+    this_repo_name = normalize_name(root.name)
     ownership_cache: dict[str, bool] = {}
 
     for scan_path in cfg.scan_paths:
@@ -287,12 +318,13 @@ def collect_projects(root: Path, cfg: BuilderConfig) -> list[dict[str, object]]:
                 continue
             if child.name.startswith("."):
                 continue
-            if child.name in cfg.skip_projects:
+            child_name = normalize_name(child.name)
+            if child_name in cfg.skip_projects:
                 continue
-            if child.name == this_repo_name:
+            if child_name == this_repo_name:
                 continue
-                if child.name.lower() in cfg.exclude_projects:
-                    continue
+            if child_name in cfg.exclude_projects:
+                continue
 
             readme = find_readme(child)
             if not readme:
