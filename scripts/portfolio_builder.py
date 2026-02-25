@@ -26,7 +26,9 @@ class BuilderConfig:
 
 
 def normalize_name(value: str) -> str:
-    return value.strip().lower()
+    normalized = re.sub(r"[^a-z0-9]+", "-", value.strip().lower())
+    normalized = re.sub(r"-+", "-", normalized).strip("-")
+    return normalized
 
 
 def load_config(root: Path, config_path: Path) -> BuilderConfig:
@@ -151,6 +153,20 @@ def canonical_github_link(link: str) -> str:
     return f"{host}{path}"
 
 
+def canonical_name_key(name: str) -> str:
+    normalized = normalize_name(name)
+    normalized = re.sub(r"(?:-|_)?backup(?:-|_)?\d.*$", "", normalized)
+    normalized = re.sub(r"(?:-|_)?\d{8,}$", "", normalized)
+    normalized = re.sub(r"(?:-|_)?(copy|old)$", "", normalized)
+    normalized = re.sub(r"-+", "-", normalized).strip("-")
+    return normalized
+
+
+def is_backup_like_name(name: str) -> bool:
+    normalized = normalize_name(name)
+    return bool(re.search(r"(?:^|-)(backup|copy|old)(?:-|$)", normalized))
+
+
 def parse_github_repo(link: str) -> tuple[str, str] | None:
     parsed = urlparse(link.strip())
     host = parsed.netloc.lower().replace("www.", "")
@@ -197,12 +213,22 @@ def deduplicate_projects(projects: list[dict[str, object]], max_projects: int) -
 
     for project in projects:
         link = str(project.get("link", "")).strip()
-        name = str(project.get("name", "")).strip().lower()
-        key = canonical_github_link(link) or f"name:{name}"
+        name = str(project.get("name", "")).strip()
+        canonical_name = canonical_name_key(name)
+        key = f"name:{canonical_name}" if canonical_name else (canonical_github_link(link) or "name:")
 
         current = unique_by_key.get(key)
         if not current:
             unique_by_key[key] = project
+            continue
+
+        current_is_backup = is_backup_like_name(str(current.get("name", "")))
+        incoming_is_backup = is_backup_like_name(str(project.get("name", "")))
+
+        if current_is_backup and not incoming_is_backup:
+            unique_by_key[key] = project
+            continue
+        if incoming_is_backup and not current_is_backup:
             continue
 
         current_desc_len = len(str(current.get("description", "")))
@@ -219,7 +245,7 @@ def deduplicate_projects(projects: list[dict[str, object]], max_projects: int) -
 
 
 def project_quality_score(project: dict[str, object], preferred_projects: list[str]) -> int:
-    name = str(project.get("name", "")).lower()
+    name = normalize_name(str(project.get("name", "")))
     description = str(project.get("description", ""))
     skills = project.get("skills", []) if isinstance(project.get("skills"), list) else []
     link = str(project.get("link", "")).strip()
@@ -303,6 +329,60 @@ def collect_owned_github_projects(cfg: BuilderConfig) -> list[dict[str, object]]
     return projects
 
 
+def collect_preferred_github_projects(
+    cfg: BuilderConfig,
+    existing_projects: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    if not cfg.github_username or not cfg.preferred_projects:
+        return []
+
+    existing_names = {normalize_name(str(project.get("name", ""))) for project in existing_projects}
+    projects: list[dict[str, object]] = []
+
+    for preferred in cfg.preferred_projects:
+        repo_name = preferred.strip()
+        if not repo_name:
+            continue
+        if normalize_name(repo_name) in existing_names:
+            continue
+
+        api_url = f"https://api.github.com/repos/{cfg.github_username}/{repo_name}"
+        request = Request(api_url, headers={"Accept": "application/vnd.github+json", "User-Agent": "portfolio-builder"})
+
+        try:
+            with urlopen(request, timeout=10) as response:
+                repo = json.loads(response.read().decode("utf-8"))
+        except Exception:
+            continue
+
+        if not isinstance(repo, dict):
+            continue
+        if bool(repo.get("fork", False)):
+            continue
+
+        name = str(repo.get("name", "")).strip()
+        if not name:
+            continue
+        if normalize_name(name) in cfg.exclude_projects:
+            continue
+
+        description = str(repo.get("description") or "").strip()
+        summary = description[:220] if description else "Original repository developed and maintained by me."
+        link = str(repo.get("html_url") or f"https://github.com/{cfg.github_username}/{name}")
+        inferred = infer_skills(name, f"{description} {repo.get('topics', [])}")
+
+        projects.append(
+            {
+                "name": name,
+                "description": summary,
+                "link": link,
+                "skills": inferred,
+            }
+        )
+
+    return projects
+
+
 def collect_projects(root: Path, cfg: BuilderConfig) -> list[dict[str, object]]:
     projects: list[dict[str, object]] = []
     this_repo_name = normalize_name(root.name)
@@ -346,6 +426,8 @@ def collect_projects(root: Path, cfg: BuilderConfig) -> list[dict[str, object]]:
                     "skills": skills,
                 }
             )
+
+    projects.extend(collect_preferred_github_projects(cfg, projects))
 
     if len(projects) < max(4, cfg.max_projects // 2):
         projects.extend(collect_owned_github_projects(cfg))
