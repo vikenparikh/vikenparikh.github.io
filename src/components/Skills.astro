@@ -1,9 +1,7 @@
 ---
 import { siteConfig } from "../config";
 
-const hasSkills = siteConfig.skills && siteConfig.skills.length > 0;
-
-const skillGroups = [
+const fallbackSkillGroups = [
   {
     title: "Core Engineering",
     items: siteConfig.skills,
@@ -17,6 +15,13 @@ const skillGroups = [
     items: siteConfig.aiSpecialties,
   },
 ].filter((group) => group.items && group.items.length > 0);
+
+const skillGroups =
+  siteConfig.skillAreas && siteConfig.skillAreas.length > 0
+    ? siteConfig.skillAreas.filter((group) => group.items && group.items.length > 0)
+    : fallbackSkillGroups;
+
+const hasSkills = skillGroups.length > 0;
 ---
 
 {

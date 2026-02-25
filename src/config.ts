@@ -21,6 +21,11 @@ type EducationItem = {
   achievements: string[];
 };
 
+type SkillArea = {
+  title: string;
+  items: string[];
+};
+
 type SiteConfig = {
   name: string;
   title: string;
@@ -39,6 +44,7 @@ type SiteConfig = {
   workAreas: string[];
   aiSpecialties: string[];
   skills: string[];
+  skillAreas: SkillArea[];
   projects: Project[];
   topProjects: Project[];
   otherProjects: Project[];
@@ -122,9 +128,71 @@ export const siteConfig: SiteConfig = {
     "Backend Development",
     "Cloud",
   ],
+  skillAreas: [
+    {
+      title: "Programming & Backend",
+      items: [
+        "Python",
+        "Backend Development",
+        "API Design",
+        "System Design",
+      ],
+    },
+    {
+      title: "AI / ML / Data",
+      items: [
+        "Machine Learning",
+        "Deep Learning",
+        "NLP",
+        "LLMs",
+        "RAG",
+        "Computer Vision",
+        "Data Engineering",
+      ],
+    },
+    {
+      title: "Cloud & DevOps",
+      items: [
+        "Cloud",
+        "DevOps",
+        "CI/CD",
+        "MLOps",
+      ],
+    },
+  ],
   projects: projectList,
   topProjects: projectList.slice(0, 6),
   otherProjects: projectList.slice(6),
-  experience: [],
-  education: [],
+  experience: [
+    {
+      title: "Software Engineer, AI/ML Builder",
+      company: "Independent & Product-Focused Development",
+      dateRange: "Recent",
+      bullets: [
+        "Built backend-first intelligent products with practical machine learning and applied AI workflows.",
+        "Designed and shipped portfolio projects across computer vision, LLM, and retrieval-based systems.",
+        "Focused on production-oriented engineering with clear documentation, maintainability, and deployment readiness.",
+      ],
+    },
+    {
+      title: "Open Source & Technical Portfolio Development",
+      company: "GitHub Projects",
+      dateRange: "Ongoing",
+      bullets: [
+        "Maintains multiple end-to-end repositories spanning backend systems, AI applications, and cloud-native implementations.",
+        "Continuously improves project quality through curated architecture, clear README documentation, and skill-focused categorization.",
+      ],
+    },
+  ],
+  education: [
+    {
+      degree: "Computer Science and Software Engineering Background",
+      school: "Academic details available in resume",
+      dateRange: "See Resume",
+      achievements: [
+        "Strong foundation in algorithms, systems, backend engineering, and machine learning.",
+        "Applied academic learning into production-style software and AI/ML projects.",
+      ],
+    },
+  ],
 };
