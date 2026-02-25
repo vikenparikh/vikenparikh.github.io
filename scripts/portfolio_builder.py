@@ -11,6 +11,16 @@ from urllib.request import Request, urlopen
 
 
 README_CANDIDATES = ["README.md", "readme.md", "Readme.md"]
+NOISE_SECTION_PREFIXES = {
+    "installation",
+    "usage",
+    "setup",
+    "license",
+    "contributing",
+    "table of contents",
+    "quick start",
+    "getting started",
+}
 
 
 @dataclass
@@ -61,24 +71,41 @@ def summarize_readme(content: str) -> str:
     text = re.sub(r"```[\s\S]*?```", "", content)
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     cleaned: list[str] = []
+    noise_re = re.compile(r"^(installation|usage|setup|license|contributing|table of contents|quick start|get started|getting started)\b", re.I)
 
     def clean_line(line: str) -> str:
         line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
         line = re.sub(r"`([^`]+)`", r"\1", line)
+        line = re.sub(r"\*\*([^*]+)\*\*", r"\1", line)
+        line = re.sub(r"__([^_]+)__", r"\1", line)
         line = re.sub(r"https?://\S+", "", line)
+        line = re.sub(r"\[[^\]]*\]\([^)]*\)", "", line)
+        line = re.sub(r"^#+\s*", "", line)
         line = re.sub(r"^[>*\-\d.\s]+", "", line).strip()
         line = re.sub(r"\s+", " ", line)
         return line
+
+    def is_noisy_sentence(sentence: str) -> bool:
+        value = sentence.strip().lower()
+        if not value:
+            return True
+        if any(value.startswith(prefix) for prefix in NOISE_SECTION_PREFIXES):
+            return True
+        if value.startswith("!") or value.startswith("http"):
+            return True
+        if len(value) < 30:
+            return True
+        return False
 
     for line in lines:
         if line.startswith("#") or line.startswith("!["):
             continue
         line = clean_line(line)
-        if len(line) < 30:
+        if is_noisy_sentence(line) or noise_re.match(line):
             continue
         if line:
             cleaned.append(line)
-        if len(cleaned) >= 3:
+        if len(cleaned) >= 5:
             break
 
     if not cleaned:
@@ -86,6 +113,7 @@ def summarize_readme(content: str) -> str:
 
     summary = " ".join(cleaned)
     sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", summary) if part.strip()]
+    sentences = [s for s in sentences if not is_noisy_sentence(s) and not noise_re.match(s)]
     if sentences:
         summary = sentences[0]
 
@@ -100,7 +128,16 @@ def summarize_readme(content: str) -> str:
 
 
 def infer_skills(project_name: str, readme_text: str) -> list[str]:
-    corpus = f"{project_name} {readme_text}".lower()
+    corpus = re.sub(r"\s+", " ", f"{project_name} {readme_text}".lower())
+
+    def has_keyword(keyword: str) -> bool:
+        token = keyword.lower().strip()
+        if not token:
+            return False
+        if any(separator in token for separator in (" ", ".", "/", "+", "-")):
+            return token in corpus
+        return re.search(rf"(?<![a-z0-9]){re.escape(token)}(?![a-z0-9])", corpus) is not None
+
     rules = [
         ("Full Stack", ["full stack", "end-to-end", "frontend", "backend"]),
         ("Backend", ["backend", "api", "microservice", "fastapi", "flask", "django", "server"]),
@@ -119,7 +156,7 @@ def infer_skills(project_name: str, readme_text: str) -> list[str]:
     ]
     skills: list[str] = []
     for skill, keywords in rules:
-        if any(keyword in corpus for keyword in keywords):
+        if any(has_keyword(keyword) for keyword in keywords):
             skills.append(skill)
 
     if not skills:
@@ -306,13 +343,16 @@ def collect_owned_github_projects(cfg: BuilderConfig) -> list[dict[str, object]]
         name = str(repo.get("name", "")).strip()
         if not name:
             continue
-        if name.lower() in cfg.exclude_projects:
+        if normalize_name(name) in cfg.exclude_projects:
             continue
 
         description = str(repo.get("description") or "").strip()
         summary = description[:220] if description else "Original repository developed and maintained by me."
         link = str(repo.get("html_url") or f"https://github.com/{cfg.github_username}/{name}")
-        inferred = infer_skills(name, f"{description} {repo.get('topics', [])}")
+        topics = repo.get("topics", [])
+        topics_text = " ".join(topic for topic in topics if isinstance(topic, str)) if isinstance(topics, list) else ""
+        language = str(repo.get("language") or "")
+        inferred = infer_skills(name, f"{description} {topics_text} {language}")
 
         projects.append(
             {
@@ -369,7 +409,10 @@ def collect_preferred_github_projects(
         description = str(repo.get("description") or "").strip()
         summary = description[:220] if description else "Original repository developed and maintained by me."
         link = str(repo.get("html_url") or f"https://github.com/{cfg.github_username}/{name}")
-        inferred = infer_skills(name, f"{description} {repo.get('topics', [])}")
+        topics = repo.get("topics", [])
+        topics_text = " ".join(topic for topic in topics if isinstance(topic, str)) if isinstance(topics, list) else ""
+        language = str(repo.get("language") or "")
+        inferred = infer_skills(name, f"{description} {topics_text} {language}")
 
         projects.append(
             {

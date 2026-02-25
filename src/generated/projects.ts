@@ -1,10 +1,61 @@
-export const generatedAt = "2026-02-25T01:42:25.512299+00:00";
+export const generatedAt = "2026-02-25T02:03:25.986573+00:00";
 
 export const generatedProjects = [
   {
-    "name": "Multi Agententic System",
-    "description": "A revolutionary, production-grade hierarchical AI system with template-driven specialist agents.** This Multi-Agent AI Ecosystem implements a **hierarchical CEO-LLM architecture** with specialized mini-model employees.",
-    "link": "https://github.com/vikenparikh/Multi Agententic System",
+    "name": "AWS-AutoScaling-Object-Detection",
+    "description": "The aim of the Project was about developing a cloud platform using Amazon web services that can take requests from url of a video from the user and return the list of objects detected in the video along with the name of ",
+    "link": "https://github.com/vikenparikh/AWS-AutoScaling-Object-Detection",
+    "skills": [
+      "AWS",
+      "Java"
+    ]
+  },
+  {
+    "name": "investiq-ai",
+    "description": "AI-driven financial intelligence platform with portfolio optimization and risk analysis",
+    "link": "https://github.com/vikenparikh/investiq-ai",
+    "skills": [
+      "AI",
+      "Python"
+    ]
+  },
+  {
+    "name": "edumind-ai",
+    "description": "AI-powered educational intelligence platform with adaptive learning and analytics",
+    "link": "https://github.com/vikenparikh/edumind-ai",
+    "skills": [
+      "AI",
+      "Python"
+    ]
+  },
+  {
+    "name": "Machine-Learning-Implementation",
+    "description": "Machine Learning Algortihms Implemenations",
+    "link": "https://github.com/vikenparikh/Machine-Learning-Implementation",
+    "skills": [
+      "Machine Learning"
+    ]
+  },
+  {
+    "name": "Mutext",
+    "description": "Music and text generation",
+    "link": "https://github.com/vikenparikh/Mutext",
+    "skills": [
+      "Python"
+    ]
+  },
+  {
+    "name": "PhoCaptionator",
+    "description": "Photo Captioning Application",
+    "link": "https://github.com/vikenparikh/PhoCaptionator",
+    "skills": [
+      "Python"
+    ]
+  },
+  {
+    "name": "Study Guides",
+    "description": "A complete, production-ready learning system with 73 comprehensive master guides covering Computer Science, AI/ML, System Design, Finance, and more - organized like a professional textbook with beautiful HTML navigation.",
+    "link": "https://github.com/vikenparikh/Study Guides",
     "skills": [
       "Full Stack",
       "Backend",
@@ -12,19 +63,6 @@ export const generatedProjects = [
       "DevOps",
       "AI",
       "LLMs"
-    ]
-  },
-  {
-    "name": "Ai marketplace of agents",
-    "description": "A comprehensive, production-ready AI agent marketplace platform that enables developers to publish AI agents and users to discover, purchase, and deploy them with enterprise-grade security and scalability.** \ud83d\ude80\u2026",
-    "link": "https://github.com/vikenparikh/Ai marketplace of agents",
-    "skills": [
-      "Full Stack",
-      "Backend",
-      "Frontend",
-      "DevOps",
-      "AI",
-      "RAG"
     ]
   },
   {
@@ -42,7 +80,7 @@ export const generatedProjects = [
   },
   {
     "name": "Protfolio Projects Old",
-    "description": "Built by Viken Parikh** - Showcasing comprehensive AI/ML expertise through three enterprise-grade platforms with validated backtesting This portfolio demonstrates mastery of modern AI technologies through three\u2026",
+    "description": "Built by Viken Parikh - Showcasing comprehensive AI/ML expertise through three enterprise-grade platforms with validated backtesting This portfolio demonstrates mastery of modern AI technologies through three\u2026",
     "link": "https://github.com/vikenparikh/Protfolio Projects Old",
     "skills": [
       "Full Stack",
@@ -50,13 +88,13 @@ export const generatedProjects = [
       "Frontend",
       "DevOps",
       "AI",
-      "LLMs"
+      "RAG"
     ]
   },
   {
-    "name": "Study Guides",
-    "description": "A complete, production-ready learning system with **73 comprehensive master guides** covering Computer Science, AI/ML, System Design, Finance, and more - organized like a professional textbook with beautiful HTML\u2026",
-    "link": "https://github.com/vikenparikh/Study Guides",
+    "name": "Multi Agententic System",
+    "description": "A revolutionary, production-grade hierarchical AI system with template-driven specialist agents.",
+    "link": "https://github.com/vikenparikh/Multi Agententic System",
     "skills": [
       "Full Stack",
       "Backend",
@@ -67,16 +105,42 @@ export const generatedProjects = [
     ]
   },
   {
+    "name": "Ai marketplace of agents",
+    "description": "A comprehensive, production-ready AI agent marketplace platform that enables developers to publish AI agents and users to discover, purchase, and deploy them with enterprise-grade security and scalability.",
+    "link": "https://github.com/vikenparikh/Ai marketplace of agents",
+    "skills": [
+      "Full Stack",
+      "Backend",
+      "Frontend",
+      "DevOps",
+      "AI",
+      "Python"
+    ]
+  },
+  {
+    "name": "vts",
+    "description": "The VTS (Virtual Trading System) is a comprehensive, production-ready AI-powered trading and investment advisory platform.",
+    "link": "https://github.com/vikenparikh/vts",
+    "skills": [
+      "Full Stack",
+      "Backend",
+      "AI",
+      "RAG",
+      "Python",
+      "Machine Learning"
+    ]
+  },
+  {
     "name": "baccaratSystem",
-    "description": "core/ with game.py, strategy.py, ml.py, api.py, simulate.py tests/ with consolidated test suite (6 test files) artifacts/ with logs/, coverage/, models/, reports/",
+    "description": "core/ with game.py, strategy.py, ml.py, api.py, simulate.py tests/ with consolidated test suite (6 test files) artifacts/ with logs/, coverage/, models/, reports/ scripts/ with simulate.py for session simulations\u2026",
     "link": "https://github.com/vikenparikh/baccaratSystem",
     "skills": [
       "Backend",
       "Frontend",
       "DevOps",
       "AI",
-      "LLMs",
-      "RAG"
+      "Python",
+      "Machine Learning"
     ]
   },
   {
@@ -88,59 +152,31 @@ export const generatedProjects = [
       "Frontend",
       "DevOps",
       "AI",
-      "LLMs",
-      "RAG"
-    ]
-  },
-  {
-    "name": "vts",
-    "description": "The VTS (Virtual Trading System) is a comprehensive, production-ready AI-powered trading and investment advisory platform.",
-    "link": "https://github.com/vikenparikh/vts",
-    "skills": [
-      "Full Stack",
-      "Backend",
-      "Frontend",
-      "AI",
-      "LLMs",
-      "RAG"
+      "Python",
+      "Machine Learning"
     ]
   },
   {
     "name": "freqtrade",
-    "description": "Production-ready cryptocurrency trading platform powered by Machine Learning and Adaptive Strategies** The **FreqAI Adaptive Trading System** is a comprehensive, production-grade cryptocurrency trading platform that\u2026",
+    "description": "Production-ready cryptocurrency trading platform powered by Machine Learning and Adaptive Strategies The FreqAI Adaptive Trading System is a comprehensive, production-grade cryptocurrency trading platform that\u2026",
     "link": "https://github.com/vikenparikh/freqtrade",
     "skills": [
       "Backend",
-      "Frontend",
       "DevOps",
-      "AI",
-      "RAG",
-      "Python"
-    ]
-  },
-  {
-    "name": "Perplexica",
-    "description": "Perplexica is a **privacy-focused AI answering engine** that runs entirely on your own hardware.",
-    "link": "https://github.com/vikenparikh/Perplexica",
-    "skills": [
-      "Full Stack",
-      "Backend",
-      "Frontend",
-      "DevOps",
-      "AI",
-      "LLMs"
+      "Python",
+      "Machine Learning",
+      "Computer Vision"
     ]
   },
   {
     "name": "stock_data_fetcher",
-    "description": "![Features: 487+](FEATURES_LIST.md) A comprehensive stock data analysis and feature engineering system that fetches data from multiple APIs and calculates **487+ features** (417 free + 70 premium) for quantitative\u2026",
+    "description": "A comprehensive stock data analysis and feature engineering system that fetches data from multiple APIs and calculates 487+ features (417 free + 70 premium) for quantitative analysis, algorithmic trading, and\u2026",
     "link": "https://github.com/vikenparikh/stock_data_fetcher",
     "skills": [
       "Full Stack",
       "Backend",
       "Frontend",
       "AI",
-      "RAG",
       "Python"
     ]
   },
@@ -150,21 +186,7 @@ export const generatedProjects = [
     "link": "https://github.com/vikenparikh/symbol_options_advisor",
     "skills": [
       "Backend",
-      "Frontend",
       "DevOps",
-      "AI",
-      "Python",
-      "Machine Learning"
-    ]
-  },
-  {
-    "name": "blackjackPredictor",
-    "description": "Guaranteed Positive ROI: +13.78% Average | 80% Win Rate** A complete, production-ready blackjack system integrating Hi-Lo counting, Perfect Basic Strategy, Zero-to-Maximum betting, and optimal bankroll management to\u2026",
-    "link": "https://github.com/vikenparikh/blackjackPredictor",
-    "skills": [
-      "Frontend",
-      "AI",
-      "RAG",
       "Python",
       "Machine Learning"
     ]
@@ -174,42 +196,9 @@ export const generatedProjects = [
     "description": "This is a simple RAG (Retrieval Augmented Generation) system with intentional issues for testing the BackgroundAI Developer system.",
     "link": "https://github.com/vikenparikh/testProject",
     "skills": [
-      "Frontend",
-      "AI",
       "RAG",
       "Python",
       "Machine Learning"
-    ]
-  },
-  {
-    "name": "dyad",
-    "description": "Dyad is a local, open-source AI app builder.",
-    "link": "https://github.com/vikenparikh/dyad",
-    "skills": [
-      "Backend",
-      "Frontend",
-      "AI",
-      "Computer Vision"
-    ]
-  },
-  {
-    "name": "SampleProjects",
-    "description": "This workspace contains minimal starter projects for several languages/frameworks: TypeScript + Knockout (static) Open a project's README for usage.",
-    "link": "https://github.com/vikenparikh/SampleProjects",
-    "skills": [
-      "Frontend",
-      "AI",
-      "Python",
-      "Java"
-    ]
-  },
-  {
-    "name": "Playground",
-    "description": "Project repository with implementation details and documentation.",
-    "link": "https://github.com/vikenparikh/Playground",
-    "skills": [
-      "Backend",
-      "AI"
     ]
   }
 ] as const;

@@ -6,6 +6,25 @@ This repository contains my portfolio website at https://vikenparikh.github.io, 
 
 ![Website screenshot](public/images/website-screenshot.png)
 
+## Quickstart
+
+Run one command to automatically refresh projects from configured scan paths and build the site:
+
+```bash
+npm run build
+```
+
+This command runs:
+
+- `npm run sync:projects` → regenerates `src/generated/projects.ts`
+- `astro build` → produces production output in `dist/`
+
+Optional validation:
+
+```bash
+npm run check
+```
+
 ## Tech Stack
 
 - Astro
