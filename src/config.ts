@@ -104,7 +104,7 @@ const projectList: Project[] =
     : fallbackProjects;
 
 export const siteConfig: SiteConfig = {
-  name: "Viken Shaumitra Parikh",
+  name: "Viken Parikh",
   title: "Software Engineer | Distributed Systems, Security, AI/ML, and Payments",
   description:
     "Software Engineer with 5+ years at Microsoft and PayPal designing and operating high-scale distributed systems, intelligent security tools, and data-driven payment infrastructure with strong ML/AI expertise.",
