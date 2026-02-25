@@ -182,16 +182,6 @@ import { siteConfig } from "../config";
             >
               View Projects
             </a>
-            {
-              siteConfig.social?.email && (
-                <a
-                  href={`mailto:${siteConfig.social.email}`}
-                  class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-colors duration-300 hover:bg-gray-100"
-                >
-                  Contact Me
-                </a>
-              )
-            }
           </div>
         )
       }
@@ -207,7 +197,6 @@ import { siteConfig } from "../config";
         </div>
       )
     }
-    </div>
   </div>
   <div
     class="relative md:absolute bottom-0 left-0 right-0 px-8 sm:px-12 md:px-24 pb-8 sm:pb-12 md:pb-24 pt-2 md:pt-0 flex flex-wrap items-center gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-3 text-gray-700 animate-fade-in animation-delay-600"

@@ -3,3 +3,7 @@
 body {
   font-family: 'IBM Plex Mono', monospace;
 }
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
