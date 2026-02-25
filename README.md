@@ -2,6 +2,10 @@
 
 This repository contains my portfolio website at https://vikenparikh.github.io, built with Astro and based on the DevPortfolio template structure.
 
+## Website Preview
+
+![Website screenshot](public/images/website-screenshot.png)
+
 ## Tech Stack
 
 - Astro
