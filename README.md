@@ -1,36 +1,32 @@
 # Viken Parikh — Personal Website
 
-This repo powers my personal website at https://vikenparikh.github.io.  
-It auto-generates a portfolio site from project READMEs using `unified_docs` + MkDocs.
+This repository contains my portfolio website at https://vikenparikh.github.io, built with Astro and based on the DevPortfolio template structure.
 
-## Setup
+## Tech Stack
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-pip install -e .
-```
+- Astro
+- Tailwind CSS v4
+- TypeScript-based site configuration
 
-## Build
+## Local Development
 
 ```bash
-unified-docs build --root .
+npm install
+npm run dev
 ```
 
-## Preview
+## Production Build
 
 ```bash
-mkdocs serve
+npm run build
 ```
+
+The production output is generated in `dist/`.
 
 ## Personalization
 
-Edit `unified_docs.json` for profile details, skills, project links/summaries/images, `scan_paths`, and resume auto-sync settings.
+Update profile content, skills, projects, and social links in `src/config.ts`.
 
-## Architecture
+## Deployment
 
-- `unified_docs/`: generator framework (collection, combining, site build)
-- `docs/`: generated Markdown + portfolio styling
-- `site/`: generated static output for deployment
-- `legacy_site/`: archived old static HTML/PHP implementation
+GitHub Actions deploys the Astro `dist/` output to GitHub Pages via `.github/workflows/deploy.yml`.
