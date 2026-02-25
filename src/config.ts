@@ -31,6 +31,7 @@ type SiteConfig = {
   title: string;
   description: string;
   location: string;
+  phone?: string;
   profileImage: string;
   resumeUrl: string;
   accentColor: string;
@@ -45,6 +46,7 @@ type SiteConfig = {
   aiSpecialties: string[];
   skills: string[];
   skillAreas: SkillArea[];
+  highlights?: string[];
   projects: Project[];
   topProjects: Project[];
   otherProjects: Project[];
@@ -103,10 +105,11 @@ const projectList: Project[] =
 
 export const siteConfig: SiteConfig = {
   name: "Viken Shaumitra Parikh",
-  title: "Software Engineer | Backend, ML, and AI",
+  title: "Software Engineer | Distributed Systems, Security, AI/ML, and Payments",
   description:
-    "I build backend platforms and intelligent products with practical machine learning and applied AI.",
-  location: "Vancouver, Canada",
+    "Software Engineer with 5+ years at Microsoft and PayPal designing and operating high-scale distributed systems, intelligent security tools, and data-driven payment infrastructure with strong ML/AI expertise.",
+  location: "Vancouver, BC",
+  phone: "480-842-9465",
   profileImage: "/images/myphoto.jpg",
   resumeUrl: "/resume/resume.pdf",
   accentColor: "#2563eb",
@@ -117,81 +120,168 @@ export const siteConfig: SiteConfig = {
     twitter: "",
   },
   aboutMe:
-    "I am a software engineer based in Vancouver, Canada, focused on backend systems, machine learning, and applied AI. I build practical, production-ready products that combine reliable engineering with intelligent capabilities.",
-  workAreas: ["Backend", "Frontend", "AI", "DevOps", "Full Stack"],
-  aiSpecialties: ["Computer Vision", "LLMs", "RAG", "NLP", "MLOps"],
+    "Software Engineer with 5+ years at Microsoft and PayPal designing and operating high-scale distributed systems, intelligent security tools, and data-driven payment infrastructure with strong ML/AI expertise. Delivered production systems serving 25K+ developers and processing $2B+ daily volume, owning architecture, implementation, and experimentation to drive reliability and growth.",
+  workAreas: [
+    "Backend Engineering",
+    "Distributed Systems",
+    "Cloud Security",
+    "Payments Infrastructure",
+    "AI/ML Systems",
+  ],
+  aiSpecialties: [
+    "Feature Engineering",
+    "A/B Testing",
+    "LLM Agents",
+    "RAG",
+    "NLP",
+    "Reinforcement Learning",
+  ],
   skills: [
     "Python",
+    "Java",
+    "C#",
+    "SQL",
+    "JavaScript/TypeScript",
     "Machine Learning",
-    "Deep Learning",
-    "Data Engineering",
-    "Backend Development",
+    "LLMs",
+    "Distributed Systems",
     "Cloud",
+    "Microservices",
   ],
   skillAreas: [
     {
-      title: "Programming & Backend",
+      title: "Languages & Backend",
       items: [
         "Python",
-        "Backend Development",
-        "API Design",
-        "System Design",
+        "Java",
+        "C#",
+        "Ruby",
+        "SQL",
+        "JavaScript/TypeScript",
+        "Scala",
+        "R",
+        "MATLAB",
+        "Spring Boot",
+        ".NET Core",
+        "Flask",
+        "Django",
+        "Rails",
+        "REST/gRPC",
+        "Microservices",
+        "Git",
       ],
     },
     {
-      title: "AI / ML / Data",
+      title: "Cloud & Data",
       items: [
-        "Machine Learning",
-        "Deep Learning",
-        "NLP",
-        "LLMs",
-        "RAG",
-        "Computer Vision",
-        "Data Engineering",
-      ],
-    },
-    {
-      title: "Cloud & DevOps",
-      items: [
-        "Cloud",
-        "DevOps",
+        "Azure",
+        "AWS",
+        "GCP",
+        "Docker",
+        "Kubernetes",
+        "Terraform",
         "CI/CD",
-        "MLOps",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB",
+        "Couchbase",
+        "Cassandra",
+        "Redis",
+        "Kafka",
+        "Hadoop",
+        "Apache Spark",
       ],
     },
+    {
+      title: "ML, NLP & LLMs",
+      items: [
+        "TensorFlow",
+        "PyTorch",
+        "Keras",
+        "scikit-learn",
+        "XGBoost",
+        "Pandas",
+        "NumPy",
+        "MLflow",
+        "Databricks",
+        "Feature Engineering",
+        "A/B Testing",
+        "NLTK",
+        "spaCy",
+        "Hugging Face (BERT, GPT, T5)",
+        "Prompt Engineering",
+        "RAG",
+        "LLM Agents",
+        "Reinforcement Learning",
+      ],
+    },
+    {
+      title: "Visualization & Analytics",
+      items: [
+        "Tableau",
+        "D3.js",
+        "Matplotlib",
+      ],
+    },
+  ],
+  highlights: [
+    "5+ years at Microsoft and PayPal",
+    "25K+ developers served",
+    "$2B+ daily payment volume",
+    "50K+ repositories scanned",
+    "99.99% uptime at scale",
+    "~2–3% auth success improvement",
+    "~50% onboarding time reduction",
   ],
   projects: projectList,
   topProjects: projectList.slice(0, 6),
   otherProjects: projectList.slice(6),
   experience: [
     {
-      title: "Software Engineer, AI/ML Builder",
-      company: "Independent & Product-Focused Development",
-      dateRange: "Recent",
+      title: "Software Engineer 2",
+      company: "Microsoft, Seattle & Vancouver",
+      dateRange: "June 2022 – Sep 2025",
       bullets: [
-        "Built backend-first intelligent products with practical machine learning and applied AI workflows.",
-        "Designed and shipped portfolio projects across computer vision, LLM, and retrieval-based systems.",
-        "Focused on production-oriented engineering with clear documentation, maintainability, and deployment readiness.",
+        "Built ML-driven security analysis tooling for Defender for DevOps, scanning 50K+ Azure DevOps/GitHub repositories to detect code, secret, dependency, and IaC vulnerabilities using intelligent pattern matching, reducing detection time by ~40% and increasing remediation throughput by ~60%.",
+        "Designed and shipped predictive security dashboards using React and Knockout with ML-backed insights, delivering unified code-to-cloud visibility and driving ~30% higher feature adoption among 25K+ developers.",
+        "Developed feature engineering pipelines and A/B testing frameworks for Azure Cloud Security, leveraging data-driven recommendations to streamline onboarding and cut setup time by ~50%.",
       ],
     },
     {
-      title: "Open Source & Technical Portfolio Development",
-      company: "GitHub Projects",
-      dateRange: "Ongoing",
+      title: "Software Engineer 2",
+      company: "PayPal, San Jose",
+      dateRange: "June 2020 – May 2022",
       bullets: [
-        "Maintains multiple end-to-end repositories spanning backend systems, AI applications, and cloud-native implementations.",
-        "Continuously improves project quality through curated architecture, clear README documentation, and skill-focused categorization.",
+        "Architected and implemented an intelligent payment authorization system using feature engineering, controlled experiments, and ML-guided policies to optimize routing and retry logic, improving transaction efficiency and increasing auth success by ~2–3% on high-volume global card traffic.",
+        "Built high-throughput tokenization SDKs and APIs using Java (Spring Boot), Couchbase, Docker, and Kafka, supporting 50K+ QPS and ~$2B daily volume with 99.99% uptime while integrating ML-based fraud detection and experimentation.",
+        "Engineered a secure tokenization platform with intelligent lifecycle management, improving reliability and flexibility for stored payment instruments across multiple PayPal flows while maintaining PCI-compliant patterns.",
+        "Mentored 4 junior engineers on microservices, observability, and experimentation-driven development, establishing best practices for production systems and data-driven architecture.",
+      ],
+    },
+    {
+      title: "Software Engineer",
+      company: "Decision Theater Network, Arizona",
+      dateRange: "Dec 2018 – May 2020",
+      bullets: [
+        "Developed an ML-assisted visualization and simulation platform (Python, JavaScript) for 50+ research projects, reducing analysis cycles by ~45% and enabling faster insight generation.",
       ],
     },
   ],
   education: [
     {
-      degree: "Computer Science and Software Engineering Background",
-      school: "Academic details available in resume",
-      dateRange: "See Resume",
+      degree: "Master of Computer Science (Data Science and AI)",
+      school: "Arizona State University, Tempe, AZ",
+      dateRange: "Aug 2018 – May 2020",
       achievements: [
-        "Strong foundation in algorithms, systems, backend engineering, and machine learning.",
-        "Applied academic learning into production-style software and AI/ML projects.",
+        "Coursework: Statistical Machine Learning, Artificial Intelligence, Multi-Robot Systems, Semantic Web Mining, Cloud Computing.",
+      ],
+    },
+    {
+      degree: "Bachelor of Technology, Computer Engineering",
+      school: "Mumbai University, India",
+      dateRange: "Aug 2014 – May 2018",
+      achievements: [
+        "Coursework: Machine Learning, Neural Networks, Fuzzy Logic, AI, Data Mining, Computer Simulation Modelling.",
       ],
     },
   ],

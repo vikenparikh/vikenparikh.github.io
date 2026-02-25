@@ -23,6 +23,21 @@ import { siteConfig } from "../config";
           {siteConfig.aboutMe}
         </p>
 
+        {siteConfig.highlights && siteConfig.highlights.length > 0 && (
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+              Career Highlights
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {siteConfig.highlights.map((highlight) => (
+                <div class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm sm:text-base font-medium text-gray-700">
+                  {highlight}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {siteConfig.workAreas && siteConfig.workAreas.length > 0 && (
           <div>
             <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
