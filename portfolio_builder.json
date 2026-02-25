@@ -1,0 +1,28 @@
+{
+  "scan_paths": [
+    ".."
+  ],
+  "skip_projects": [
+    "vikenparikh.github.io",
+    "node_modules"
+  ],
+  "exclude_projects": [
+    "testrepo"
+  ],
+  "github_username": "vikenparikh",
+  "project_github": {},
+  "max_projects": 18,
+  "github_fallback_limit": 36,
+  "preferred_projects": [
+    "edumind-ai",
+    "investiq-ai",
+    "machine-learning-implementation",
+    "aws-autoscaling-object-detection",
+    "phocaptionator",
+    "mutext",
+    "llms-from-scratch",
+    "awesome-llm-apps",
+    "ai-in-a-box",
+    "hands-on-large-language-models"
+  ]
+}

@@ -23,6 +23,36 @@ import { siteConfig } from "../config";
           {siteConfig.aboutMe}
         </p>
 
+        {siteConfig.workAreas && siteConfig.workAreas.length > 0 && (
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+              Areas of Work
+            </h3>
+            <div class="flex flex-wrap gap-2.5">
+              {siteConfig.workAreas.map((area) => (
+                <span class="px-3 py-1.5 bg-gray-900 text-white rounded-full text-xs sm:text-sm font-semibold">
+                  {area}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {siteConfig.aiSpecialties && siteConfig.aiSpecialties.length > 0 && (
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+              AI Specialties
+            </h3>
+            <div class="flex flex-wrap gap-2.5">
+              {siteConfig.aiSpecialties.map((area) => (
+                <span class="px-3 py-1.5 bg-blue-50 text-blue-800 border border-blue-200 rounded-full text-xs sm:text-sm font-semibold">
+                  {area}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div class="pt-4">
           <div class="flex flex-wrap gap-3">
             {
