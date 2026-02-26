@@ -1,4 +1,4 @@
-export const generatedAt = "2026-02-25T02:03:25.986573+00:00";
+export const generatedAt = "2026-02-26T16:46:11.265168+00:00";
 
 export const generatedProjects = [
   {
@@ -118,6 +118,19 @@ export const generatedProjects = [
     ]
   },
   {
+    "name": "WealthTax Agent",
+    "description": "This is a prototype built for the Wealthsimple builder challenge.",
+    "link": "https://github.com/vikenparikh/WealthTax Agent",
+    "skills": [
+      "Full Stack",
+      "Backend",
+      "Frontend",
+      "AI",
+      "LLMs",
+      "RAG"
+    ]
+  },
+  {
     "name": "vts",
     "description": "The VTS (Virtual Trading System) is a comprehensive, production-ready AI-powered trading and investment advisory platform.",
     "link": "https://github.com/vikenparikh/vts",
@@ -187,16 +200,6 @@ export const generatedProjects = [
     "skills": [
       "Backend",
       "DevOps",
-      "Python",
-      "Machine Learning"
-    ]
-  },
-  {
-    "name": "testProject",
-    "description": "This is a simple RAG (Retrieval Augmented Generation) system with intentional issues for testing the BackgroundAI Developer system.",
-    "link": "https://github.com/vikenparikh/testProject",
-    "skills": [
-      "RAG",
       "Python",
       "Machine Learning"
     ]

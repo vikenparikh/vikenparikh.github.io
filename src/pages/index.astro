@@ -6,6 +6,7 @@ import Projects from "../components/Projects.astro";
 import Skills from "../components/Skills.astro";
 import Experience from "../components/Experience.astro";
 import Education from "../components/Education.astro";
+import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 import { siteConfig } from "../config";
 import "../styles/global.css";
@@ -18,13 +19,16 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={siteConfig.description} />
+    <link rel="canonical" href="https://vikenparikh.dev" /> <!-- CHANGED: Custom domain -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={`${siteConfig.name} | ${siteConfig.title}`} />
-    <meta property="og:description" content={siteConfig.description} />
-    <meta property="og:url" content="https://vikenparikh.github.io/" />
+    <meta property="og:title" content="Viken Parikh | Software Engineer" /> <!-- CHANGED: LinkedIn preview title -->
+    <meta property="og:description" content="Software Engineer specializing in Distributed Systems, AI/ML, Security, and Payments." /> <!-- CHANGED: LinkedIn preview description -->
+    <meta property="og:url" content="https://vikenparikh.github.io" /> <!-- CHANGED: LinkedIn preview URL -->
+    <meta property="og:image" content="/images/website-screenshot_full.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${siteConfig.name} | ${siteConfig.title}`} />
     <meta name="twitter:description" content={siteConfig.description} />
+    <meta name="twitter:image" content="/images/website-screenshot_full.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,6 +36,9 @@ import "../styles/global.css";
       rel="stylesheet"
     />
     <title>{siteConfig.name} - {siteConfig.title}</title>
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0ac7b0409b0d45cbb4f721749f9de47c"}'></script>
+    <!-- End Cloudflare Web Analytics -->
   </head>
   <body>
     <a
@@ -48,6 +55,7 @@ import "../styles/global.css";
       <Experience />
       <Education />
       <Projects />
+      <Contact />
     </main>
     <Footer />
   </body>

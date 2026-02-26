@@ -48,11 +48,12 @@ const hasSkills = skillGroups.length > 0;
                   </h3>
                   <div class="flex flex-wrap gap-2">
                     {group.items.map((item) => (
-                      <span class="px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                      <span class="px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm font-medium shadow-sm mb-2" style="min-width: 80px; text-align: center;">
                         {item}
                       </span>
                     ))}
                   </div>
+                  {/* CHANGED: Skills pills now have spacing, padding, and wrap on mobile */}
                 </div>
               ))}
             </div>

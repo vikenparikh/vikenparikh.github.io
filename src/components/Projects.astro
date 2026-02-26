@@ -1,13 +1,22 @@
 ---
 import { siteConfig } from "../config";
 import ProjectCard from "./ProjectCard.astro";
-const topProjects = siteConfig.topProjects && siteConfig.topProjects.length > 0
-  ? siteConfig.topProjects
-  : siteConfig.projects;
-const otherProjects = siteConfig.otherProjects && siteConfig.otherProjects.length > 0
-  ? siteConfig.otherProjects
-  : [];
-const hasProjects = topProjects && topProjects.length > 0;
+// Identify featured AI projects by name
+const featuredProjectNames = ["edumind-ai", "neuralverse-ai", "medmind-ai"];
+const academicProjectNames = [
+  "Analysis-of-Algorithms-Codes",
+  "Data-Structures-Codes",
+  "Artificial-Intelligence-Codes",
+  "Machine-Learning-Implementation",
+  "Shampoo-Sales-forecasting"
+];
+
+const featuredProjects = siteConfig.projects.filter(p => featuredProjectNames.includes(p.name));
+const academicProjects = siteConfig.projects.filter(p => academicProjectNames.includes(p.name));
+const regularProjects = siteConfig.projects.filter(
+  p => !featuredProjectNames.includes(p.name) && !academicProjectNames.includes(p.name)
+);
+const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 ---
 
 {
@@ -27,21 +36,55 @@ const hasProjects = topProjects && topProjects.length > 0;
 
           <div class="lg:col-span-8">
             <div class="space-y-8">
-              <h3 class="text-sm font-semibold tracking-wide uppercase text-gray-500">Top Projects</h3>
-              {topProjects.map((project, index) => (
-                <ProjectCard project={project} index={index} accentColor={siteConfig.accentColor} />
-              ))}
+              {/* Featured Projects */}
+              {featuredProjects.length > 0 && (
+                <>
+                  <h3 class="text-base font-semibold tracking-wide uppercase text-blue-700">Featured AI Projects</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {featuredProjects.map((project, index) => (
+                      <ProjectCard project={project} index={index} accentColor={siteConfig.accentColor} />
+                    ))}
+                  </div>
+                </>
+              )}
 
-              {otherProjects.length > 0 && (
+              {/* Regular Projects */}
+              {regularProjects.length > 0 && (
                 <>
                   <h3 class="text-sm font-semibold tracking-wide uppercase text-gray-500 pt-4">Other Projects</h3>
-                  {otherProjects.map((project, index) => (
+                  {regularProjects.map((project, index) => (
                     <ProjectCard
                       project={project}
-                      index={index + topProjects.length}
+                      index={index + featuredProjects.length}
                       accentColor={siteConfig.accentColor}
                     />
                   ))}
+                </>
+              )}
+
+              {/* Academic Projects Collapsible */}
+              {academicProjects.length > 0 && (
+                <>
+                  <button
+                    type="button"
+                    class="mt-6 mb-2 px-4 py-2 rounded bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 focus:outline-none"
+                    onClick={() => {
+                      const el = document.getElementById('academic-projects');
+                      if (el) el.classList.toggle('hidden');
+                    }}
+                  >
+                    Show Academic Projects
+                  </button>
+                  <div id="academic-projects" class="hidden">
+                    <h3 class="text-sm font-semibold tracking-wide uppercase text-gray-500 pt-4">Academic Work</h3>
+                    {academicProjects.map((project, index) => (
+                      <ProjectCard
+                        project={project}
+                        index={index + featuredProjects.length + regularProjects.length}
+                        accentColor={siteConfig.accentColor}
+                      />
+                    ))}
+                  </div>
                 </>
               )}
             </div>

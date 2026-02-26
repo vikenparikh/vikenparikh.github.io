@@ -31,7 +31,7 @@ type SiteConfig = {
   title: string;
   description: string;
   location: string;
-  phone?: string;
+  // phone?: string; // CHANGED: Removed phone number for privacy
   profileImage: string;
   resumeUrl: string;
   accentColor: string;
@@ -109,8 +109,8 @@ export const siteConfig: SiteConfig = {
   description:
     "Software Engineer with 5+ years at Microsoft and PayPal designing and operating high-scale distributed systems, intelligent security tools, and data-driven payment infrastructure with strong ML/AI expertise.",
   location: "Vancouver, BC",
-  phone: "480-842-9465",
-  profileImage: "/images/myphoto.jpg",
+  // phone: "480-842-9465", // CHANGED: Removed phone number for privacy
+  profileImage: "/images/IMG_7042.jpeg",
   resumeUrl: "/resume/resume.pdf",
   accentColor: "#2563eb",
   social: {
@@ -127,14 +127,23 @@ export const siteConfig: SiteConfig = {
     "Cloud Security",
     "Payments Infrastructure",
     "AI/ML Systems",
+    "API Design & Development",
+    "DevOps & Automation",
+    "Data Engineering",
+    "Product Prototyping",
+    "Technical Leadership"
   ],
   aiSpecialties: [
     "Feature Engineering",
     "A/B Testing",
     "LLM Agents",
-    "RAG",
-    "NLP",
+    "RAG (Retrieval-Augmented Generation)",
+    "NLP (Natural Language Processing)",
     "Reinforcement Learning",
+    "Prompt Engineering",
+    "Model Evaluation & Tuning",
+    "Agentic Workflows",
+    "AI Product Strategy"
   ],
   skills: [
     "Python",
@@ -150,7 +159,7 @@ export const siteConfig: SiteConfig = {
   ],
   skillAreas: [
     {
-      title: "Languages & Backend",
+      title: "Languages",
       items: [
         "Python",
         "Java",
@@ -158,88 +167,87 @@ export const siteConfig: SiteConfig = {
         "Ruby",
         "SQL",
         "JavaScript/TypeScript",
-        "Scala",
-        "R",
-        "MATLAB",
-        "Spring Boot",
-        ".NET Core",
-        "Flask",
+        "Go",
+        "Bash",
+      ],
+    },
+    {
+      title: "Frameworks & Libraries",
+      items: [
+        "React",
+        "Node.js",
         "Django",
-        "Rails",
-        "REST/gRPC",
-        "Microservices",
-        "Git",
-      ],
-    },
-    {
-      title: "Cloud & Data",
-      items: [
-        "Azure",
-        "AWS",
-        "GCP",
-        "Docker",
-        "Kubernetes",
-        "Terraform",
-        "CI/CD",
-        "PostgreSQL",
-        "MySQL",
-        "MongoDB",
-        "Couchbase",
-        "Cassandra",
-        "Redis",
-        "Kafka",
-        "Hadoop",
-        "Apache Spark",
-      ],
-    },
-    {
-      title: "ML, NLP & LLMs",
-      items: [
-        "TensorFlow",
-        "PyTorch",
-        "Keras",
-        "scikit-learn",
-        "XGBoost",
-        "Pandas",
-        "NumPy",
-        "MLflow",
-        "Databricks",
-        "Feature Engineering",
-        "A/B Testing",
-        "NLTK",
-        "spaCy",
+        "Spring Boot",
         "Hugging Face (BERT, GPT, T5)",
-        "Prompt Engineering",
+        "LangChain",
+      ],
+    },
+    {
+      title: "Cloud & Infrastructure",
+      items: [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Kubernetes",
+        "Docker",
+        "Terraform",
+      ],
+    },
+    {
+      title: "AI/ML",
+      items: [
         "RAG",
         "LLM Agents",
         "Reinforcement Learning",
+        "NLP",
+        "Computer Vision",
       ],
     },
     {
-      title: "Visualization & Analytics",
+      title: "Databases",
       items: [
-        "Tableau",
-        "D3.js",
-        "Matplotlib",
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+        "MongoDB",
+        "Cassandra",
       ],
     },
-  ],
+    {
+      title: "Tools",
+      items: [
+        "Git",
+        "CI/CD",
+        "Kafka",
+        "Spark",
+        "Elasticsearch",
+      ],
+    },
+  ], // CHANGED: Refactored skill groups for pill rendering and grouping
   highlights: [
-    "5+ years at Microsoft and PayPal",
-    "25K+ developers served",
-    "$2B+ daily payment volume",
-    "50K+ repositories scanned",
-    "99.99% uptime at scale",
-    "~2–3% auth success improvement",
-    "~50% onboarding time reduction",
-    "Travigate: 92% user satisfaction",
-    "IEEE publication with 100+ citations",
-    "YOLO pipeline: 10K+ images/day at ~95% accuracy",
+    "5+ years of experience at Microsoft and PayPal, leading and contributing to high-impact engineering teams.",
+    "Served 25,000+ developers through platform and API initiatives.",
+    "Enabled $2B+ in daily payment volume with robust, scalable systems.",
+    "Scanned 50,000+ repositories for security and compliance.",
+    "Maintained 99.99% uptime at scale for mission-critical services.",
+    "Achieved ~2–3% authorization success improvement on global card traffic.",
+    "Reduced onboarding time by ~50% through process and tooling improvements.",
+    "Drove 92% user satisfaction for Travigate platform.",
+    "Published IEEE research cited 100+ times.",
+    "Deployed YOLO pipeline processing 10,000+ images/day at ~95% accuracy.",
   ],
   projects: projectList,
   topProjects: projectList.slice(0, 6),
   otherProjects: projectList.slice(6),
   experience: [
+    {
+      title: "Independent AI/ML Developer & Founder", // CHANGED: Updated title per requirements
+      company: "Self-Directed Projects & Research",
+      dateRange: "Oct 2025 – Present",
+      bullets: [
+        "Building and shipping personal AI products — edumind-ai, neuralverse-ai, and medmind-ai — exploring LLM agents, RAG pipelines, retrieval-augmented generation, and agentic systems. Focused on full-stack AI product development from research to deployment." // CHANGED: Updated description per requirements
+      ],
+    },
     {
       title: "Software Engineer 2",
       company: "Microsoft, Seattle & Vancouver",
@@ -255,10 +263,10 @@ export const siteConfig: SiteConfig = {
       company: "PayPal, San Jose",
       dateRange: "June 2020 – May 2022",
       bullets: [
-        "Architected and implemented an intelligent payment authorization system using feature engineering, controlled experiments, and ML-guided policies to optimize routing and retry logic, improving transaction efficiency and increasing auth success by ~2–3% on high-volume global card traffic.",
-        "Built high-throughput tokenization SDKs and APIs using Java (Spring Boot), Couchbase, Docker, and Kafka, supporting 50K+ QPS and ~$2B daily volume with 99.99% uptime while integrating ML-based fraud detection and experimentation.",
-        "Engineered a secure tokenization platform with intelligent lifecycle management, improving reliability and flexibility for stored payment instruments across multiple PayPal flows while maintaining PCI-compliant patterns.",
-        "Mentored 4 junior engineers on microservices, observability, and experimentation-driven development, establishing best practices for production systems and data-driven architecture.",
+        "Architected and implemented an intelligent payment authorization system using feature engineering, controlled experiments, and ML-guided policies to optimize routing and retry logic, improving transaction efficiency and increasing authorization success by ~2–3% on high-volume global card traffic.",
+        "Built high-throughput tokenization SDKs and APIs using Java (Spring Boot), Couchbase, Docker, and Kafka, supporting 50,000+ QPS and ~$2B daily volume with 99.99% uptime while integrating ML-based fraud detection and experimentation.",
+        "Engineered a secure tokenization platform with intelligent lifecycle management, improving reliability and flexibility for stored payment instruments across multiple PayPal flows while maintaining PCI-compliant practices.",
+        "Mentored four junior engineers on microservices, observability, and experimentation-driven development, establishing best practices for production systems and data-driven architecture.",
       ],
     },
     {
@@ -266,7 +274,7 @@ export const siteConfig: SiteConfig = {
       company: "Decision Theater Network, Arizona",
       dateRange: "Dec 2018 – May 2020",
       bullets: [
-        "Developed an ML-assisted visualization and simulation platform (Python, JavaScript) for 50+ research projects, reducing analysis cycles by ~45% and enabling faster insight generation.",
+        "Developed an ML-assisted visualization and simulation platform (Python, JavaScript) for over 50 research projects, reducing analysis cycles by ~45% and enabling faster insight generation.",
       ],
     },
   ],
@@ -276,7 +284,7 @@ export const siteConfig: SiteConfig = {
       school: "Arizona State University, Tempe, AZ",
       dateRange: "Aug 2018 – May 2020",
       achievements: [
-        "Coursework: Statistical Machine Learning, Artificial Intelligence, Multi-Robot Systems, Semantic Web Mining, Cloud Computing.",
+        "Coursework: Statistical Machine Learning, Artificial Intelligence, Multi-Robot Systems, Semantic Web Mining, and Cloud Computing.",
       ],
     },
     {
@@ -284,7 +292,7 @@ export const siteConfig: SiteConfig = {
       school: "Mumbai University, India",
       dateRange: "Aug 2014 – May 2018",
       achievements: [
-        "Coursework: Machine Learning, Neural Networks, Fuzzy Logic, AI, Data Mining, Computer Simulation Modelling.",
+        "Coursework: Machine Learning, Neural Networks, Fuzzy Logic, AI, Data Mining, and Computer Simulation Modeling.",
       ],
     },
   ],

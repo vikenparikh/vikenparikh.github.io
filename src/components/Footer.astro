@@ -7,66 +7,16 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 ---
 
-<footer class="relative bg-gray-50 border-t border-gray-200">
-  <div class="mx-auto max-w-6xl px-6 py-12 lg:px-8">
-    <div
-      class="flex flex-col md:flex-row md:items-center md:justify-between gap-8"
-    >
-      <div class="flex flex-col gap-4">
-        <h3 class="text-2xl font-bold text-gray-800">
-          {siteConfig.name}
-        </h3>
-        <p class="text-base text-gray-600">
-          {siteConfig.title}
-        </p>
-        {
-          siteConfig.phone && (
-            <a
-              href={`tel:${siteConfig.phone}`}
-              class="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-            >
-              Phone: {siteConfig.phone}
-            </a>
-          )
-        }
-        {
-          siteConfig.resumeUrl && (
-            <div>
-              <a
-                href={siteConfig.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:bg-gray-100"
-              >
-                Resume
-              </a>
-            </div>
-          )
-        }
-        <div class="flex gap-x-6">
-          {
-            siteConfig.social.email && (
-              <a
-                href={`mailto:${siteConfig.social.email}`}
-                aria-label="Email"
-                class="text-gray-600 transition-colors duration-300 hover:text-[var(--accent-color)]"
-                style={`--accent-color: ${siteConfig.accentColor}`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="h-6 w-6"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path
-                    d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
+<footer class="bg-gray-50 border-t border-gray-200 text-center py-6 text-sm text-gray-500">
+  <div>
+    &copy; 2026 Viken Parikh. Built with <span style="color: #e25555;">❤️</span> <!-- CHANGED: Footer text -->
+    <span class="mx-2">|</span>
+    <a href="https://github.com/vikenparikh" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">GitHub</a>
+    <span class="mx-2">|</span>
+    <a href="https://linkedin.com/in/vikenparikh96/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">LinkedIn</a>
+    <span class="mx-2">|</span>
+    <a href="mailto:vsparikh1996@gmail.com" class="text-blue-600 hover:underline">Email</a>
+  </div>
                   ></path>
                   <path d="M3 7l9 6l9 -6"></path>
                 </svg>

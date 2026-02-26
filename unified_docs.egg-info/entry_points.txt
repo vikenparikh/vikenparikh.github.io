@@ -1,0 +1,2 @@
+[console_scripts]
+unified-docs = unified_docs.cli:main
