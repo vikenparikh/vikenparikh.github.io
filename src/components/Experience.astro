@@ -40,12 +40,21 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                         <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
                           {exp.title}
                         </h3>
-                        <p
-                          class="text-base sm:text-lg"
-                          style={`color: ${siteConfig.accentColor}`}
-                        >
-                          {exp.company}
-                        </p>
+                          <div class="flex items-center gap-3">
+                            {exp.company === "PayPal, San Jose" && (
+                              <img src="/images/paypal-logo.png" alt="PayPal Logo" class="h-10 w-10" style="vertical-align:middle;" />
+                            )}
+                            {exp.company === "Microsoft, Seattle & Vancouver" && (
+                              <img src="/images/microsoft-logo.png" alt="Microsoft Logo" class="h-10 w-10" style="vertical-align:middle;" />
+                            )}
+                            {exp.company === "Decision Theater Network, Arizona" && (
+                              <img src="/images/asu-dtn-logo.png" alt="ASU Decision Theater Network Logo" class="h-12 w-12" style="vertical-align:middle;" />
+                            )}
+                            {exp.company === "Self-Directed Projects & Research" && (
+                              <img src="/images/ai-logo.png" alt="AI Logo" class="h-8 w-8" style="vertical-align:middle; margin-right: 0.5rem;" />
+                            )}
+                            <span class="text-base sm:text-lg" style={`color: ${siteConfig.accentColor}`}>{exp.company}</span>
+                          </div>
                       </div>
                       <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
                         {exp.dateRange}
