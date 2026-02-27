@@ -131,23 +131,9 @@ import { siteConfig } from "../config";
   </svg>
   <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 md:gap-10">
     <div class="max-w-4xl">
-      <h2
-        class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
-      >
-        Hello! 👋
-      </h2>
-      <h1
-        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200"
-      >
-        I'm <span style={{ color: siteConfig.accentColor }}
-          >{siteConfig.name}</span
-        >
-      </h1>
-      <p
-        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-gray-600 animate-fade-in animation-delay-400"
-      >
-        {siteConfig.title}
-      </p>
+      <h2 class="text-pretty text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in mb-2">Hello! 👋</h2>
+      <h1 class="mt-4 text-pretty text-5xl md:text-7xl font-bold tracking-tight text-blue-700 animate-fade-in animation-delay-200">I'm {siteConfig.name}</h1>
+      <p class="mt-6 text-lg md:text-2xl font-medium text-gray-600 animate-fade-in animation-delay-400">Software Engineer specializing in Distributed Systems, AI/ML, Cloud, and Product Building</p>
       {
         siteConfig.location && (
           <p class="mt-3 text-sm sm:text-base text-gray-500 animate-fade-in animation-delay-400">
@@ -173,21 +159,27 @@ import { siteConfig } from "../config";
             >
               View Projects
             </a>
+            <a
+              href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ11iO6ErSPNVBusO_sdP8QJxDcBjVV1rH76-1itr9PBZ1XGFKpntj3f_yYbzwMcxU85ae6uzPl3?gv=true"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center rounded-full border border-blue-600 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors duration-300 hover:bg-blue-50 hover:border-blue-800"
+            >
+              Book 15 min chat
+            </a>
           </div>
         )
       }
     </div>
-    {
-      siteConfig.profileImage && (
+      {siteConfig.profileImage && (
         <div class="animate-fade-in animation-delay-400 w-full lg:w-auto flex justify-center lg:justify-end">
           <img
             src={siteConfig.profileImage}
             alt={siteConfig.name}
-            class="h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64 rounded-3xl border border-gray-200 object-cover shadow-2xl"
+            class="h-44 w-44 sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-72 lg:w-72 rounded-3xl border border-gray-200 object-cover shadow-2xl"
           />
         </div>
-      )
-    }
+      )}
   </div>
   <div
     class="relative md:absolute bottom-0 left-0 right-0 px-8 sm:px-12 md:px-24 pb-8 sm:pb-12 md:pb-24 pt-2 md:pt-0 flex flex-wrap items-center gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-3 text-gray-700 animate-fade-in animation-delay-600"

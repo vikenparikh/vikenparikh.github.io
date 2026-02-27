@@ -7,131 +7,48 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 ---
 
-<header
-  id="header"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
->
-  <nav class="md:hidden px-4 py-2 border-b border-gray-200/60 bg-white/90 backdrop-blur-sm">
-    <ul class="flex items-center gap-2 overflow-x-auto whitespace-nowrap">
-      <li>
-        <a
-          href="#about"
-          class="inline-flex items-center px-2 py-1.5 text-sm text-gray-700 hover:text-black transition-colors font-medium rounded-md"
-        >
-          About
-        </a>
-      </li>
-      {
-        hasSkills && (
-          <li>
-            <a
-              href="#skills"
-              class="inline-flex items-center px-2 py-1.5 text-sm text-gray-700 hover:text-black transition-colors font-medium rounded-md"
-            >
-              Skills
-            </a>
-          </li>
-        )
-      }
-      {
-        hasExperience && (
-          <li>
-            <a
-              href="#experience"
-              class="inline-flex items-center px-2 py-1.5 text-sm text-gray-700 hover:text-black transition-colors font-medium rounded-md"
-            >
-              Experience
-            </a>
-          </li>
-        )
-      }
-      {
-        hasEducation && (
-          <li>
-            <a
-              href="#education"
-              class="inline-flex items-center px-2 py-1.5 text-sm text-gray-700 hover:text-black transition-colors font-medium rounded-md"
-            >
-              Education
-            </a>
-          </li>
-        )
-      }
-      {
-        hasProjects && (
-          <li>
-            <a
-              href="#projects"
-              class="inline-flex items-center px-2 py-1.5 text-sm text-gray-700 hover:text-black transition-colors font-medium rounded-md"
-            >
-              Projects
-            </a>
-          </li>
-        )
-      }
-    </ul>
-  </nav>
 
-  <nav class="hidden md:block max-w-7xl mx-auto px-8 py-4">
-    <ul class="flex items-center gap-8 justify-center">
-      <li>
-        <a
-          href="#about"
-          class="text-gray-700 hover:text-black transition-colors font-medium"
-        >
-          About
-        </a>
-      </li>
-      {
-        hasSkills && (
-          <li>
-            <a
-              href="#skills"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Skills
-            </a>
-          </li>
-        )
-      }
-      {
-        hasExperience && (
-          <li>
-            <a
-              href="#experience"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Experience
-            </a>
-          </li>
-        )
-      }
-      {
-        hasEducation && (
-          <li>
-            <a
-              href="#education"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Education
-            </a>
-          </li>
-        )
-      }
-      {
-        hasProjects && (
-          <li>
-            <a
-              href="#projects"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Projects
-            </a>
-          </li>
-        )
-      }
+
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm flex items-center justify-between px-8 py-4">
+  <div class="flex items-center gap-4">
+    {siteConfig.profileImage && (
+      <img
+        src={siteConfig.profileImage}
+        alt={siteConfig.name}
+        class="h-12 w-12 rounded-full border border-gray-300 object-cover"
+      />
+    )}
+    <h1 class="text-xl font-bold text-gray-900">{siteConfig.name}</h1>
+  </div>
+  <nav class="flex-1">
+    <ul class="flex items-center gap-6">
+      <li><a href="#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
+      {hasSkills && (<li><a href="#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
+      {hasExperience && (<li><a href="#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
+      {hasEducation && (<li><a href="#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
+      {hasProjects && (<li><a href="#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
     </ul>
   </nav>
+  <div class="flex items-center gap-3">
+    {siteConfig.resumeUrl && (
+      <a
+        href={siteConfig.resumeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center rounded-full bg-gray-900 px-4 py-1.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-gray-700"
+      >
+        View Resume
+      </a>
+    )}
+    <a
+      href="https://calendar.google.com/calendar/u/0/r/eventedit?text=15+min+chat+with+Viken+Parikh&details=Book+a+quick+15+min+chat+with+Viken+Parikh&location=Vancouver,+BC,+Canada"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center rounded-full border border-blue-600 bg-white px-4 py-1.5 text-sm font-semibold text-blue-700 transition-colors duration-300 hover:bg-blue-50 hover:border-blue-800"
+    >
+      Book 15 min chat
+    </a>
+  </div>
 </header>
 
 <script>

@@ -105,12 +105,11 @@ const projectList: Project[] =
 
 export const siteConfig: SiteConfig = {
   name: "Viken Parikh",
-  title: "Software Engineer | Distributed Systems, Security, AI/ML, and Payments",
+  title: "Software Engineer | Distributed Systems, AI/ML, Cloud, and Product Prototyping",
   description:
     "Software Engineer with 5+ years at Microsoft and PayPal designing and operating high-scale distributed systems, intelligent security tools, and data-driven payment infrastructure with strong ML/AI expertise.",
-  location: "Vancouver, BC",
-  // phone: "480-842-9465", // CHANGED: Removed phone number for privacy
-  profileImage: "/images/IMG_7042.jpeg",
+  location: "Vancouver, BC, Canada",
+  profileImage: "/images/viken-profile-photo.jpeg",
   resumeUrl: "/resume/resume.pdf",
   accentColor: "#2563eb",
   social: {
@@ -241,7 +240,7 @@ export const siteConfig: SiteConfig = {
   otherProjects: projectList.slice(6),
   experience: [
     {
-      title: "Independent AI/ML Developer & Founder", // CHANGED: Updated title per requirements
+      title: "Independent AI/ML Developer", // CHANGED: Updated title per requirements
       company: "Self-Directed Projects & Research",
       dateRange: "Oct 2025 – Present",
       bullets: [
