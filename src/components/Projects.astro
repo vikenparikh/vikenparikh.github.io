@@ -61,32 +61,6 @@ const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
                   ))}
                 </>
               )}
-
-              {/* Academic Projects Collapsible */}
-              {academicProjects.length > 0 && (
-                <>
-                  <button
-                    type="button"
-                    class="mt-6 mb-2 px-4 py-2 rounded bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 focus:outline-none"
-                    onClick={() => {
-                      const el = document.getElementById('academic-projects');
-                      if (el) el.classList.toggle('hidden');
-                    }}
-                  >
-                    Show Academic Projects
-                  </button>
-                  <div id="academic-projects" class="hidden">
-                    <h3 class="text-sm font-semibold tracking-wide uppercase text-gray-500 pt-4">Academic Work</h3>
-                    {academicProjects.map((project, index) => (
-                      <ProjectCard
-                        project={project}
-                        index={index + featuredProjects.length + regularProjects.length}
-                        accentColor={siteConfig.accentColor}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
             </div>
           </div>
         </div>

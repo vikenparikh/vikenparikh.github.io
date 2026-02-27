@@ -9,18 +9,20 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 
 
 
-<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm flex items-center justify-between px-8 py-4">
-  <div class="flex items-center gap-4">
-    {siteConfig.profileImage && (
-      <img
-        src={siteConfig.profileImage}
-        alt={siteConfig.name}
-        class="h-12 w-12 rounded-full border border-gray-300 object-cover"
-      />
-    )}
-    <h1 class="text-xl font-bold text-gray-900">{siteConfig.name}</h1>
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm px-4 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+      <a href="https://www.linkedin.com/in/vikenparikh96" target="_blank" rel="noopener noreferrer" class="header-profile flex items-center gap-3">
+        {siteConfig.profileImage && (
+          <img
+            src={siteConfig.profileImage}
+            alt={siteConfig.name}
+            class="h-10 w-10 rounded-full border border-gray-300 object-cover"
+          />
+        )}
+        <span class="text-lg font-bold text-gray-900">{siteConfig.name}</span>
+      </a>
   </div>
-  <nav class="flex-1">
+  <nav class="hidden md:flex flex-1 justify-center">
     <ul class="flex items-center gap-6">
       <li><a href="#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
       {hasSkills && (<li><a href="#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
@@ -29,7 +31,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       {hasProjects && (<li><a href="#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
     </ul>
   </nav>
-  <div class="flex items-center gap-3">
+  <div class="flex items-center gap-2">
     {siteConfig.resumeUrl && (
       <a
         href={siteConfig.resumeUrl}
@@ -41,15 +43,46 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       </a>
     )}
     <a
-      href="https://calendar.google.com/calendar/u/0/r/eventedit?text=15+min+chat+with+Viken+Parikh&details=Book+a+quick+15+min+chat+with+Viken+Parikh&location=Vancouver,+BC,+Canada"
+      href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ11iO6ErSPNVBusO_sdP8QJxDcBjVV1rH76-1itr9PBZ1XGFKpntj3f_yYbzwMcxU85ae6uzPl3?gv=true"
       target="_blank"
       rel="noopener noreferrer"
       class="inline-flex items-center rounded-full border border-blue-600 bg-white px-4 py-1.5 text-sm font-semibold text-blue-700 transition-colors duration-300 hover:bg-blue-50 hover:border-blue-800"
     >
       Book 15 min chat
     </a>
+    <button class="md:hidden ml-2 p-2 rounded bg-gray-100 hover:bg-gray-200 focus:outline-none" aria-label="Open navigation" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
   </div>
-</header>
+  <nav id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full bg-white border-t border-gray-200 shadow-lg hidden z-50">
+    <ul class="flex flex-col items-center gap-4 py-4">
+      <li><a href="#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
+      {hasSkills && (<li><a href="#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
+      {hasExperience && (<li><a href="#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
+      {hasEducation && (<li><a href="#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
+      {hasProjects && (<li><a href="#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
+    </ul>
+  </nav>
+  <style>
+    @media (max-width: 768px) {
+      #header {
+        flex-direction: row;
+        padding: 0.75rem 0.5rem;
+      }
+      #header nav ul {
+        gap: 1rem;
+      }
+      #header img {
+        height: 2rem;
+        width: 2rem;
+      }
+      #header span {
+        font-size: 1rem;
+      }
+    }
+  </style>
 
 <script>
   window.addEventListener("scroll", () => {
