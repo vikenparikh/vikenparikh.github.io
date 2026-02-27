@@ -26,33 +26,12 @@ import { siteConfig } from "../config";
 
         <div class="flex flex-col items-center mt-4">
           <img
-            src="/images/profile-smile.jpg"
-            alt="Viken Parikh smiling, friendly"
+            src="/images/viken-profile-photo.jpeg"
+            alt="Viken Parikh"
             class="w-36 h-36 object-cover rounded-full shadow-md border border-gray-200 mb-2"
           />
         </div>
-      {/* Gallery at the end of About section */}
-      <div class="mt-16">
-        <h3 class="text-base font-semibold uppercase tracking-wide text-gray-500 mb-4 text-center">Gallery</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
-          <div class="flex flex-col items-center">
-            <img
-              src="/images/profile-headshot.jpg"
-              alt="Viken Parikh professional headshot"
-              class="w-36 h-36 object-cover rounded-full shadow-md border border-gray-200 mb-2"
-            />
-            <span class="text-xs text-gray-600">Professional</span>
-          </div>
-          <div class="flex flex-col items-center">
-            <img
-              src="/images/profile-work.jpg"
-              alt="Viken Parikh working at laptop"
-              class="w-36 h-36 object-cover rounded-2xl shadow-md border border-gray-200 mb-2"
-            />
-            <span class="text-xs text-gray-600">In Action</span>
-          </div>
-        </div>
-      </div>
+      {/* Gallery removed for single photo usage */}
 
         {siteConfig.highlights && siteConfig.highlights.length > 0 && (
           <div>
