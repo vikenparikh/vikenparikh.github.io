@@ -240,11 +240,12 @@ export const siteConfig: SiteConfig = {
   otherProjects: projectList.slice(6),
   experience: [
     {
-      title: "Independent AI/ML Developer", // CHANGED: Updated title per requirements
+      title: "Independent AI/ML Developer",
       company: "Self-Directed Projects & Research",
       dateRange: "Oct 2025 – Present",
       bullets: [
-        "Building and shipping personal AI products — edumind-ai, neuralverse-ai, and medmind-ai — exploring LLM agents, RAG pipelines, retrieval-augmented generation, and agentic systems. Focused on full-stack AI product development from research to deployment." // CHANGED: Updated description per requirements
+        "Building and shipping AI products — edumind-ai, neuralverse-ai, medmind-ai — focused on LLM agents, RAG pipelines, and agentic systems from prototype to deployment.",
+        "Exploring full-stack AI product development: problem discovery, UX, evaluation, and operating these systems in realistic settings."
       ],
     },
     {

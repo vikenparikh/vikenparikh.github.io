@@ -1,57 +1,6 @@
-export const generatedAt = "2026-02-27T05:27:32.477678+00:00";
+export const generatedAt = "2026-02-27T06:18:07.447795+00:00";
 
 export const generatedProjects = [
-  {
-    "name": "AWS-AutoScaling-Object-Detection",
-    "description": "The aim of the Project was about developing a cloud platform using Amazon web services that can take requests from url of a video from the user and return the list of objects detected in the video along with the name of ",
-    "link": "https://github.com/vikenparikh/AWS-AutoScaling-Object-Detection",
-    "skills": [
-      "AWS",
-      "Java"
-    ]
-  },
-  {
-    "name": "investiq-ai",
-    "description": "AI-driven financial intelligence platform with portfolio optimization and risk analysis",
-    "link": "https://github.com/vikenparikh/investiq-ai",
-    "skills": [
-      "AI",
-      "Python"
-    ]
-  },
-  {
-    "name": "edumind-ai",
-    "description": "AI-powered educational intelligence platform with adaptive learning and analytics",
-    "link": "https://github.com/vikenparikh/edumind-ai",
-    "skills": [
-      "AI",
-      "Python"
-    ]
-  },
-  {
-    "name": "Machine-Learning-Implementation",
-    "description": "Machine Learning Algortihms Implemenations",
-    "link": "https://github.com/vikenparikh/Machine-Learning-Implementation",
-    "skills": [
-      "Machine Learning"
-    ]
-  },
-  {
-    "name": "Mutext",
-    "description": "Music and text generation",
-    "link": "https://github.com/vikenparikh/Mutext",
-    "skills": [
-      "Python"
-    ]
-  },
-  {
-    "name": "PhoCaptionator",
-    "description": "Photo Captioning Application",
-    "link": "https://github.com/vikenparikh/PhoCaptionator",
-    "skills": [
-      "Python"
-    ]
-  },
   {
     "name": "Study Guides",
     "description": "A complete, production-ready learning system with 73 comprehensive master guides covering Computer Science, AI/ML, System Design, Finance, and more - organized like a professional textbook with beautiful HTML navigation.",
@@ -115,6 +64,19 @@ export const generatedProjects = [
       "DevOps",
       "AI",
       "Python"
+    ]
+  },
+  {
+    "name": "Perplexica",
+    "description": "Perplexica is a privacy-focused AI answering engine that runs entirely on your own hardware.",
+    "link": "https://github.com/vikenparikh/Perplexica",
+    "skills": [
+      "Full Stack",
+      "Backend",
+      "Frontend",
+      "DevOps",
+      "AI",
+      "LLMs"
     ]
   },
   {
@@ -202,6 +164,53 @@ export const generatedProjects = [
       "DevOps",
       "Python",
       "Machine Learning"
+    ]
+  },
+  {
+    "name": "dyad",
+    "description": "Dyad is a local, open-source AI app builder.",
+    "link": "https://github.com/vikenparikh/dyad",
+    "skills": [
+      "Backend",
+      "AI",
+      "Computer Vision"
+    ]
+  },
+  {
+    "name": "testProject",
+    "description": "This is a simple RAG (Retrieval Augmented Generation) system with intentional issues for testing the BackgroundAI Developer system.",
+    "link": "https://github.com/vikenparikh/testProject",
+    "skills": [
+      "RAG",
+      "Python",
+      "Machine Learning"
+    ]
+  },
+  {
+    "name": "Playground",
+    "description": "Project repository with implementation details and documentation.",
+    "link": "https://github.com/vikenparikh/Playground",
+    "skills": [
+      "Backend",
+      "AI"
+    ]
+  },
+  {
+    "name": "SampleProjects",
+    "description": "This workspace contains minimal starter projects for several languages/frameworks: TypeScript + Knockout (static) Open a project's README for usage.",
+    "link": "https://github.com/vikenparikh/SampleProjects",
+    "skills": [
+      "Frontend",
+      "Python",
+      "Java"
+    ]
+  },
+  {
+    "name": "blackjackPredictor",
+    "description": "Guaranteed Positive ROI: +13.78% Average | 80% Win Rate A complete, production-ready blackjack system integrating Hi-Lo counting, Perfect Basic Strategy, Zero-to-Maximum betting, and optimal bankroll management to\u2026",
+    "link": "https://github.com/vikenparikh/blackjackPredictor",
+    "skills": [
+      "Python"
     ]
   }
 ] as const;
