@@ -20,51 +20,163 @@ const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 ---
 
 {
-  hasProjects && (
-    <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24">
-      <div>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div class="lg:col-span-4">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
-              Projects
-            </h2>
-            <div
-              class="w-[75px] h-[5px] mt-2 rounded-full"
-              style={`background-color: ${siteConfig.accentColor}`}
-            />
-          </div>
-
-          <div class="lg:col-span-8">
-            <div class="space-y-8">
-              {/* Featured Projects */}
-              {featuredProjects.length > 0 && (
-                <>
-                  <h3 class="text-base font-semibold tracking-wide uppercase text-blue-700">Featured AI Projects</h3>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {featuredProjects.map((project, index) => (
-                      <ProjectCard project={project} index={index} accentColor={siteConfig.accentColor} />
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {/* Regular Projects */}
-              {regularProjects.length > 0 && (
-                <>
-                  <h3 class="text-sm font-semibold tracking-wide uppercase text-gray-500 pt-4">Other Projects</h3>
-                  {regularProjects.map((project, index) => (
-                    <ProjectCard
-                      project={project}
-                      index={index + featuredProjects.length}
-                      accentColor={siteConfig.accentColor}
-                    />
-                  ))}
-                </>
-              )}
+  <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24">
+    <div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-4">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">Projects</h2>
+          <div class="w-[75px] h-[5px] mt-2 rounded-full" style={`background-color: ${siteConfig.accentColor}`} />
+        </div>
+        <div class="lg:col-span-8">
+          <div class="space-y-8">
+            <h3 class="text-xl font-semibold text-blue-700 mb-6">Featured AI Projects</h3>
+            <div class="space-y-6">
+              {/* Featured Projects Block */}
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/edumind-ai" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">edumind-ai</a>
+                  <a href="https://github.com/vikenparikh/edumind-ai" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                  <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">AI-powered educational intelligence platform with adaptive learning and analytics.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/neuralverse-ai" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">neuralverse-ai</a>
+                  <a href="https://github.com/vikenparikh/neuralverse-ai" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                  <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">Unified AI development platform with multi-agent systems and knowledge graphs.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/medmind-ai" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">medmind-ai</a>
+                  <a href="https://github.com/vikenparikh/medmind-ai" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                  <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">AI-powered medical intelligence platform with clinical decision support.</div>
+              </div>
             </div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-6 mt-12">Other Projects</h3>
+            <div class="space-y-6">
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/AWS-AutoScaling-Object-Detection" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">AWS-AutoScaling-Object-Detection</a>
+                  <a href="https://github.com/vikenparikh/AWS-AutoScaling-Object-Detection" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700">AWS</span>
+                  <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Java</span>
+                </div>
+                <div class="text-gray-700">Cloud platform for scalable object detection using YOLO and AWS services.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/investiq-ai" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">investiq-ai</a>
+                  <a href="https://github.com/vikenparikh/investiq-ai" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                  <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">AI-driven financial intelligence platform with portfolio optimization and risk analysis.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/Mutext" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">Mutext</a>
+                  <a href="https://github.com/vikenparikh/Mutext" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">Music and text generation using deep learning models.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/PhoCaptionator" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">PhoCaptionator</a>
+                  <a href="https://github.com/vikenparikh/PhoCaptionator" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">Photo captioning application powered by neural networks.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/LeVoyage" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">LeVoyage</a>
+                  <a href="https://github.com/vikenparikh/LeVoyage" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Backend</span>
+                  <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                </div>
+                <div class="text-gray-700">Website about various travel places in India with backend AI features.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/Vetflix" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">Vetflix</a>
+                  <a href="https://github.com/vikenparikh/Vetflix" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Backend</span>
+                  <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                </div>
+                <div class="text-gray-700">Movies and TV shows recommendation engine with backend AI.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/Travigate-Front-End" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">Travigate-Front-End</a>
+                  <a href="https://github.com/vikenparikh/Travigate-Front-End" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Backend</span>
+                  <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">AI</span>
+                </div>
+                <div class="text-gray-700">Personal travel app with ML-powered recommendations and sentiment analysis.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/Food-Donation-System" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">Food-Donation-System</a>
+                  <a href="https://github.com/vikenparikh/Food-Donation-System" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-green-100 text-green-700">Frontend</span>
+                </div>
+                <div class="text-gray-700">Portal connecting donors with NGOs to reduce food waste.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/Computer-Simulation-and-Modelling-Codes" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">Computer-Simulation-and-Modelling-Codes</a>
+                  <a href="https://github.com/vikenparikh/Computer-Simulation-and-Modelling-Codes" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Java</span>
+                </div>
+                <div class="text-gray-700">Implementation of simulation algorithms from computer simulation and modelling course.</div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-6 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <a href="https://github.com/vikenparikh/House-Prices-Prediction" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-gray-900 hover:text-blue-700">House-Prices-Prediction</a>
+                  <a href="https://github.com/vikenparikh/House-Prices-Prediction" target="_blank" rel="noopener noreferrer" class="ml-1">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-5 h-5 inline" />
+                  </a>
+                  <span class="ml-2 px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">Python</span>
+                </div>
+                <div class="text-gray-700">Prediction of house prices based on various attributes.</div>
+              </div>
+            </div>
+            <p class="mt-8 text-center text-lg">View all projects and source code on <a href="https://github.com/vikenparikh" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline">github.com/vikenparikh</a></p>
           </div>
         </div>
       </div>
-    </section>
-  )
-}
+    </div>
+  </section>

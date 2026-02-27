@@ -20,37 +20,50 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 
           <div class="lg:col-span-8">
             <div class="space-y-8">
-              {siteConfig.education.map((edu) => (
-                <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
-                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
-                        {edu.degree}
-                      </h3>
-                      <p
-                        class="text-base sm:text-lg"
-                        style={`color: ${siteConfig.accentColor}`}
-                      >
-                        {edu.school}
-                      </p>
+              {siteConfig.education.map((edu) => {
+                let logo = "";
+                if (edu.school.includes("Arizona State University")) {
+                  logo = "/images/asu-logo.png";
+                } else if (edu.school.includes("Mumbai University")) {
+                  logo = "/images/mumbai-university-logo.png";
+                }
+                return (
+                  <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
+                      <div class="flex items-center gap-3">
+                        {logo && (
+                          <img src={logo} alt="{edu.school} logo" class="w-10 h-10 rounded-full border border-gray-200" />
+                        )}
+                        <div>
+                          <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+                            {edu.degree}
+                          </h3>
+                          <p
+                            class="text-base sm:text-lg"
+                            style={`color: ${siteConfig.accentColor}`}
+                          >
+                            {edu.school}
+                          </p>
+                        </div>
+                      </div>
+                      <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
+                        {edu.dateRange}
+                      </span>
                     </div>
-                    <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
-                      {edu.dateRange}
-                    </span>
-                  </div>
 
-                  <ul class="space-y-2">
-                    {edu.achievements.map((achievement) => (
-                      <li class="flex items-start">
-                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0" />
-                        <span class="text-sm sm:text-base text-gray-600">
-                          {achievement}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                    <ul class="space-y-2">
+                      {edu.achievements.map((achievement) => (
+                        <li class="flex items-start">
+                          <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0" />
+                          <span class="text-sm sm:text-base text-gray-600">
+                            {achievement}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

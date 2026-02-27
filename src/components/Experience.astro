@@ -37,24 +37,23 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                   <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
                       <div>
-                        <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
-                          {exp.title}
-                        </h3>
-                          <div class="flex items-center gap-3">
-                            {exp.company === "PayPal, San Jose" && (
-                              <img src="/images/paypal-logo.png" alt="PayPal Logo" class="h-10 w-10" style="vertical-align:middle;" />
-                            )}
-                            {exp.company === "Microsoft, Seattle & Vancouver" && (
-                              <img src="/images/microsoft-logo.png" alt="Microsoft Logo" class="h-10 w-10" style="vertical-align:middle;" />
-                            )}
-                            {exp.company === "Decision Theater Network, Arizona" && (
-                              <img src="/images/asu-dtn-logo.png" alt="ASU Decision Theater Network Logo" class="h-12 w-12" style="vertical-align:middle;" />
-                            )}
-                            {exp.company === "Self-Directed Projects & Research" && (
-                              <img src="/images/ai-logo.png" alt="AI Logo" class="h-8 w-8" style="vertical-align:middle; margin-right: 0.5rem;" />
-                            )}
+                        <div class="flex items-center gap-3">
+                          {/* Single logo usage, determined by company */}
+                          {(() => {
+                            let logo = "";
+                            if (exp.company === "PayPal, San Jose") logo = "/images/paypal-logo.png";
+                            else if (exp.company === "Microsoft, Seattle & Vancouver") logo = "/images/microsoft-logo.png";
+                            else if (exp.company === "Decision Theater Network, Arizona") logo = "/images/asu-dtn-logo.png";
+                            else if (exp.company === "Self-Directed Projects & Research") logo = "/images/ai-logo.png";
+                            return logo ? <img src={logo} alt={`${exp.company} Logo`} class="w-10 h-10 rounded-full border border-gray-200" /> : null;
+                          })()}
+                          <div>
+                            <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+                              {exp.title}
+                            </h3>
                             <span class="text-base sm:text-lg" style={`color: ${siteConfig.accentColor}`}>{exp.company}</span>
                           </div>
+                        </div>
                       </div>
                       <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
                         {exp.dateRange}
