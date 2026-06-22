@@ -25,19 +25,10 @@ const transporter = SMTP_USER && SMTP_PASS
 // back to remoteAddress. In-memory — fine for personal scale; resets on restart.
 const RATE_WINDOW_MS = 60 * 60 * 1000;
 const RATE_MAX = 5;
-const hits = new Map();
-function rateLimit(ip) {
-  const now = Date.now();
-  const arr = (hits.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
-  if (arr.length >= RATE_MAX) return false;
-  arr.push(now);
-  hits.set(ip, arr);
-  return true;
-}
 
-function cors(req, res) {
+function cors(req, res, allowedOrigins) {
   const origin = req.headers.origin || "";
-  if (ALLOWED_ORIGINS.includes(origin)) {
+  if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
   }
@@ -60,57 +51,82 @@ function clientIp(req) {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-createServer(async (req, res) => {
-  cors(req, res);
-  if (req.method === "OPTIONS") return send(res, 204, {});
-  if (req.method === "GET" && req.url === "/healthz") return send(res, 200, { status: "ok" });
-  if (!(req.method === "POST" && (req.url === "/contact" || req.url?.startsWith("/contact?")))) {
-    return send(res, 404, { detail: "not found" });
+// Factory for the request handler. Accepts injectable deps so it can be driven
+// in tests with a fake transporter and isolated per-instance rate-limit state.
+export function createApp({
+  transporter: tx = transporter,
+  contactTo = CONTACT_TO,
+  allowedOrigins = ALLOWED_ORIGINS,
+  from = SMTP_USER,
+} = {}) {
+  // Per-app-instance rate-limit state so each server gets fresh hits.
+  const hits = new Map();
+  function rateLimit(ip) {
+    const now = Date.now();
+    const arr = (hits.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
+    if (arr.length >= RATE_MAX) return false;
+    arr.push(now);
+    hits.set(ip, arr);
+    return true;
   }
 
-  let raw = "";
-  req.on("data", (c) => {
-    raw += c;
-    if (raw.length > 16_000) {
-      req.destroy();
+  return async (req, res) => {
+    cors(req, res, allowedOrigins);
+    if (req.method === "OPTIONS") return send(res, 204, {});
+    if (req.method === "GET" && req.url === "/healthz") return send(res, 200, { status: "ok" });
+    if (!(req.method === "POST" && (req.url === "/contact" || req.url?.startsWith("/contact?")))) {
+      return send(res, 404, { detail: "not found" });
     }
-  });
-  req.on("end", async () => {
-    let body;
-    try {
-      body = JSON.parse(raw || "{}");
-    } catch {
-      return send(res, 400, { detail: "invalid json" });
-    }
-    const name = String(body.name || "").trim();
-    const email = String(body.email || "").trim();
-    const message = String(body.message || "").trim();
-    const hp = String(body._hp || "");
-    if (hp) {
-      // Honeypot tripped — 202 without sending; do not signal the trap.
-      return send(res, 202, { status: "ok" });
-    }
-    if (!name || name.length > 120) return send(res, 400, { detail: "name required" });
-    if (!email || !EMAIL_RE.test(email) || email.length > 254) return send(res, 400, { detail: "valid email required" });
-    if (!message || message.length > 4000) return send(res, 400, { detail: "message required" });
-    if (!rateLimit(clientIp(req))) return send(res, 429, { detail: "too many submissions, try later" });
-    if (!transporter || !CONTACT_TO) {
-      console.error("contact: SMTP not configured");
-      return send(res, 503, { detail: "contact endpoint not configured" });
-    }
-    try {
-      await transporter.sendMail({
-        from: SMTP_USER,
-        to: CONTACT_TO,
-        replyTo: email,
-        subject: `Portfolio contact from ${name}`,
-        text: `From: ${name} <${email}>\n\n${message}\n`,
-      });
-      console.log(JSON.stringify({ event: "contact.sent", name }));
-      return send(res, 202, { status: "ok" });
-    } catch (e) {
-      console.error("contact.send_failed", e?.message || e);
-      return send(res, 502, { detail: "failed to deliver" });
-    }
-  });
-}).listen(PORT, () => console.log(`contact backend listening on :${PORT}`));
+
+    let raw = "";
+    req.on("data", (c) => {
+      raw += c;
+      if (raw.length > 16_000) {
+        req.destroy();
+      }
+    });
+    req.on("end", async () => {
+      let body;
+      try {
+        body = JSON.parse(raw || "{}");
+      } catch {
+        return send(res, 400, { detail: "invalid json" });
+      }
+      const name = String(body.name || "").trim();
+      const email = String(body.email || "").trim();
+      const message = String(body.message || "").trim();
+      const hp = String(body._hp || "");
+      if (hp) {
+        // Honeypot tripped — 202 without sending; do not signal the trap.
+        return send(res, 202, { status: "ok" });
+      }
+      if (!name || name.length > 120) return send(res, 400, { detail: "name required" });
+      if (!email || !EMAIL_RE.test(email) || email.length > 254) return send(res, 400, { detail: "valid email required" });
+      if (!message || message.length > 4000) return send(res, 400, { detail: "message required" });
+      if (!rateLimit(clientIp(req))) return send(res, 429, { detail: "too many submissions, try later" });
+      if (!tx || !contactTo) {
+        console.error("contact: SMTP not configured");
+        return send(res, 503, { detail: "contact endpoint not configured" });
+      }
+      try {
+        await tx.sendMail({
+          from,
+          to: contactTo,
+          replyTo: email,
+          subject: `Portfolio contact from ${name}`,
+          text: `From: ${name} <${email}>\n\n${message}\n`,
+        });
+        console.log(JSON.stringify({ event: "contact.sent", name }));
+        return send(res, 202, { status: "ok" });
+      } catch (e) {
+        console.error("contact.send_failed", e?.message || e);
+        return send(res, 502, { detail: "failed to deliver" });
+      }
+    });
+  };
+}
+
+const isMain = import.meta.url === `file://${process.argv[1]}`;
+if (isMain) {
+  createServer(createApp()).listen(PORT, () => console.log(`contact backend listening on :${PORT}`));
+}
