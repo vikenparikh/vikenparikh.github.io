@@ -287,12 +287,15 @@ export const siteConfig: SiteConfig = {
       ],
     },
     {
-      title: "Independent AI/ML Developer",
+      title: "Independent AI/ML Engineer — Focused Sabbatical",
       company: "Self-Directed Projects & Research",
-      dateRange: "Oct 2025 – Present",
+      dateRange: "Oct 2025 – Mar 2026",
       bullets: [
-        "Building and shipping AI products — edumind-ai, neuralverse-ai, medmind-ai — focused on LLM agents, RAG pipelines, and agentic systems from prototype to deployment.",
-        "Exploring full-stack AI product development: problem discovery, UX, evaluation, and operating these systems in realistic settings."
+        "Took a deliberate 6-month focused sabbatical between Microsoft and EA to deepen frontier AI/ML skills — LLM agents, RAG, fine-tuning, evals, and agentic systems — by building real products end-to-end instead of consuming tutorials.",
+        "Shipped three production-grade AI products: edumind-ai (adaptive learning + analytics), neuralverse-ai (multi-agent platform + knowledge graphs), medmind-ai (clinical-decision support) — from problem framing through deployment, ops, and user feedback.",
+        "Architected and ran a self-hosted AI platform of my own — Postgres + pgvector, FastAPI + Next.js services, Docker/Caddy/Cloudflare edge, on-VPS CI/CD, observability — to learn the full MLOps + platform-engineering stack hands-on.",
+        "Built agentic workflows over Claude/GPT/Llama with LangGraph + MCP, including a 15-session fleet with deterministic guardrails, retrieval-grounded reasoning, and full evaluation harnesses — the same shape of work I do at EA today.",
+        "Outcome: returned to industry stronger on AI platform engineering, agent orchestration, and end-to-end ML system design — directly applicable to the AI/ML SWE 2 role at Electronic Arts."
       ],
     },
     {
