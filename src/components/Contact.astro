@@ -5,7 +5,7 @@ import { siteConfig } from "../config";
 <section id="contact" class="p-8 sm:p-12 md:p-16 lg:p-24">
   <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-8">
     <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-center">Contact Me</h2>
-    <form id="contact-form" name="contact" class="space-y-6" data-email={siteConfig.social.email}>
+    <form id="contact-form" name="contact" class="space-y-6">
       <div>
         <label htmlFor="name" class="block text-sm font-medium text-gray-700">Name</label>
         <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
@@ -18,27 +18,61 @@ import { siteConfig } from "../config";
         <label htmlFor="message" class="block text-sm font-medium text-gray-700">Message</label>
         <textarea id="message" name="message" rows="5" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
       </div>
-      <div>
-        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Send</button>
+      <!-- honeypot — hidden from humans; bots fill every input -->
+      <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden">
+        <label>Leave this empty</label>
+        <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
       </div>
+      <div>
+        <button type="submit" id="contact-submit" class="w-full inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60">Send</button>
+      </div>
+      <p id="contact-status" class="text-sm text-center" role="status" aria-live="polite"></p>
     </form>
     <p class="mt-6 text-center text-gray-500 text-sm">Or email me directly at <a href={`mailto:${siteConfig.social.email}`} class="text-blue-600 hover:underline">{siteConfig.social.email}</a></p>
   </div>
 </section>
 
 <script>
+  const API_BASE = "https://assistant-api.vikenparikh.com";
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
-  if (form) {
-    const to = form.dataset.email || "";
-    form.addEventListener("submit", (e) => {
+  const btn = document.getElementById("contact-submit") as HTMLButtonElement | null;
+  const status = document.getElementById("contact-status") as HTMLParagraphElement | null;
+  if (form && btn && status) {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      btn.disabled = true;
+      status.textContent = "Sending…";
+      status.className = "text-sm text-center text-gray-500";
       const data = new FormData(form);
-      const name = String(data.get("name") || "").trim();
-      const email = String(data.get("email") || "").trim();
-      const message = String(data.get("message") || "").trim();
-      const subject = `Portfolio contact from ${name || "anonymous"}`;
-      const body = `From: ${name} <${email}>\n\n${message}`;
-      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const body = {
+        name: String(data.get("name") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+        message: String(data.get("message") || "").trim(),
+        _hp: String(data.get("_hp") || ""),
+      };
+      try {
+        const r = await fetch(`${API_BASE}/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (r.ok) {
+          status.textContent = "Sent. I'll get back to you soon.";
+          status.className = "text-sm text-center text-green-600";
+          form.reset();
+        } else if (r.status === 429) {
+          status.textContent = "Too many messages right now — please try again later.";
+          status.className = "text-sm text-center text-red-600";
+        } else {
+          status.textContent = "Could not deliver. Email me directly instead.";
+          status.className = "text-sm text-center text-red-600";
+        }
+      } catch {
+        status.textContent = "Network error. Email me directly instead.";
+        status.className = "text-sm text-center text-red-600";
+      } finally {
+        btn.disabled = false;
+      }
     });
   }
 </script>
