@@ -21,8 +21,8 @@ import "../styles/global.css";
     <meta name="description" content={siteConfig.description} />
     <link rel="canonical" href="https://vikenparikh.dev" /> <!-- CHANGED: Custom domain -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Viken Parikh | Software Engineer" /> <!-- CHANGED: LinkedIn preview title -->
-    <meta property="og:description" content="Software Engineer specializing in Distributed Systems, AI/ML, Security, and Payments." /> <!-- CHANGED: LinkedIn preview description -->
+    <meta property="og:title" content={`${siteConfig.name} | ${siteConfig.title}`} />
+    <meta property="og:description" content={siteConfig.description} />
     <meta property="og:url" content="https://vikenparikh.github.io" /> <!-- CHANGED: LinkedIn preview URL -->
     <meta property="og:image" content="/images/website-screenshot_full.png" />
     <meta name="twitter:card" content="summary_large_image" />
