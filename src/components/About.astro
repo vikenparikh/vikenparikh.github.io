@@ -35,36 +35,6 @@ import { siteConfig } from "../config";
             </div>
           </div>
         )}
-        {siteConfig.workAreas && siteConfig.workAreas.length > 0 && (
-          <div class="flex flex-wrap gap-2.5">
-            {siteConfig.workAreas.map((area) => (
-              <span class="px-3 py-1.5 bg-gray-900 text-white rounded-full text-xs sm:text-sm font-semibold">
-                {area}
-              </span>
-            ))}
-          </div>
-        )}
-        {siteConfig.aiSpecialties && siteConfig.aiSpecialties.length > 0 && (
-          <div class="flex flex-wrap gap-2.5">
-            {siteConfig.aiSpecialties.map((area) => (
-              <span class="px-3 py-1.5 bg-blue-50 text-blue-800 border border-blue-200 rounded-full text-xs sm:text-sm font-semibold">
-                {area}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div class="pt-4">
-          <div class="flex flex-wrap gap-3">
-            {
-              siteConfig.skills.map((skill) => (
-                <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium hover:bg-gray-200 transition-colors duration-200">
-                  {skill}
-                </span>
-              ))
-            }
-          </div>
-        </div>
       </div>
     </div>
   </div>
