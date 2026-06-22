@@ -21,10 +21,11 @@ const transporter = SMTP_USER && SMTP_PASS
     })
   : null;
 
-// Per-IP token bucket: 5 sends / hour. Keyed by X-Forwarded-For first hop, falls
-// back to remoteAddress. In-memory — fine for personal scale; resets on restart.
-const RATE_WINDOW_MS = 60 * 60 * 1000;
-const RATE_MAX = 5;
+// Per-IP token bucket. Keyed by X-Forwarded-For first hop, falls back to
+// remoteAddress. In-memory — fine for personal scale; resets on container restart.
+// Defaults: 20 sends / hour. Override via RATE_MAX_PER_HOUR + RATE_WINDOW_MINUTES.
+const RATE_WINDOW_MS = parseInt(process.env.RATE_WINDOW_MINUTES || "60", 10) * 60 * 1000;
+const RATE_MAX = parseInt(process.env.RATE_MAX_PER_HOUR || "20", 10);
 const hits = new Map();
 function rateLimit(ip) {
   const now = Date.now();
