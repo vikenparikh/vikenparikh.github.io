@@ -147,6 +147,24 @@ import { siteConfig } from "../config";
           </p>
         )
       }
+      {/* Experience logos strip — visible, explicit credibility at first scroll */}
+      <div class="mt-6 animate-fade-in animation-delay-500">
+        <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">Experience</p>
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+          <div class="flex items-center gap-2">
+            <img src="/images/ea-logo.svg" alt="Electronic Arts" class="h-8 w-8 object-contain" />
+            <span class="text-sm sm:text-base font-semibold text-gray-700">Electronic Arts</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="/images/microsoft-logo.png" alt="Microsoft" class="h-8 w-8 object-contain" />
+            <span class="text-sm sm:text-base font-semibold text-gray-700">Microsoft</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="/images/paypal-logo.png" alt="PayPal" class="h-8 w-8 object-contain" />
+            <span class="text-sm sm:text-base font-semibold text-gray-700">PayPal</span>
+          </div>
+        </div>
+      </div>
       {/* CHANGED: Removed phone number for privacy */}
       {
         siteConfig.resumeUrl && (
