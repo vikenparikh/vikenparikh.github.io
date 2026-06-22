@@ -186,7 +186,7 @@ export const siteConfig: SiteConfig = {
     {
       title: "LLM Agents & RAG",
       items: [
-        "Agent frameworks — LangGraph, LangChain, CrewAI, AutoGen, Anthropic MCP, OpenAI Assistants",
+        "Agent frameworks — LangGraph, LangChain, CrewAI, AutoGen, Anthropic MCP, OpenAI Assistants, Google Agent Builder / Vertex AI Agents, Smol Agents",
         "Tool use + ReAct + plan-and-execute + tree-of-thought + reflection patterns",
         "Multi-agent orchestration — supervisor + worker, debate, swarm, hierarchical",
         "Retrieval-augmented generation — hybrid (BM25 + dense), rerankers (Cohere, bge-reranker), query rewriting, HyDE",
@@ -199,8 +199,10 @@ export const siteConfig: SiteConfig = {
       ],
     },
     {
-      title: "Model Training & Fine-Tuning",
+      title: "Machine Learning & Deep Learning",
       items: [
+        "Core ML — supervised, unsupervised, semi-supervised, self-supervised, contrastive learning",
+        "Deep learning architectures — Transformers, CNNs, RNN/LSTM/GRU, GNNs, Diffusion, VAEs, GANs, Mixture-of-Experts",
         "PyTorch, TensorFlow, JAX, Hugging Face Transformers + TRL + PEFT + Accelerate",
         "Supervised fine-tuning (SFT), instruction tuning",
         "Parameter-efficient — LoRA, QLoRA, DoRA, prefix tuning, adapters",
@@ -217,7 +219,8 @@ export const siteConfig: SiteConfig = {
       title: "MLOps & ML Platform",
       items: [
         "Experiment tracking + model registry — MLflow, Weights & Biases, Comet, Neptune",
-        "Training orchestration — Ray + Ray Train, Kubeflow, Airflow, Prefect, Dagster, SageMaker Pipelines",
+        "Training orchestration — Ray + Ray Train, Kubeflow, Airflow, Prefect, Dagster, SageMaker Pipelines, dstack",
+        "Workflow automation — n8n, Zapier (low-code), Temporal (durable workflows)",
         "Feature stores — Feast, Tecton, SageMaker Feature Store",
         "Inference serving — vLLM, TGI, Triton, BentoML, TorchServe, Ray Serve, SageMaker, Bedrock",
         "AI observability + tracing — LangSmith, Langfuse, OpenTelemetry, Arize, Helicone, WhyLabs",
@@ -322,12 +325,12 @@ export const siteConfig: SiteConfig = {
       company: "Electronic Arts (EA)",
       dateRange: "Apr 2026 – Present",
       bullets: [
-        "Building EA's central AI platform: shipping reusable machine-learning and generative-AI services, agent frameworks, and a composable skills/tools layer that game studios and live-service teams plug into for personalization, content generation, NPC behavior, and player-experience features.",
+        "Building EA's central AI platform: shipping reusable machine-learning, deep-learning, and generative-AI services, agent frameworks, and a composable skills / tools layer that game studios and live-service teams (EA Sports FC, Madden, Apex Legends, The Sims, Battlefield, F1) plug into for personalization, content generation, NPC behavior, and player-experience features.",
         "Owning ML lifecycle infrastructure end-to-end — Python (PyTorch + Hugging Face) training stacks, distributed fine-tuning (LoRA/QLoRA/SFT/DPO), feature pipelines, experiment tracking (MLflow / W&B), model registry, low-latency inference serving (vLLM / TGI / Triton / SageMaker), drift + cost + quality observability — with hard SLOs on latency, reliability, and per-request economics.",
         "Designing agentic systems on top of LLMs (GPT-class, Claude, Llama, Mistral, in-house fine-tunes): retrieval-augmented generation over EA knowledge corpora, structured tool use, multi-agent orchestration (LangGraph / MCP), eval harnesses (LLM-as-judge + golden-set regressions), and guardrails (prompt-injection defense, PII handling, content safety) so AI features ship measurably and safely at game-scale traffic.",
         "Architecting platform services on AWS (SageMaker, Bedrock, ECS/EKS, Lambda, S3, DynamoDB, Step Functions) + IaC (Terraform) — multi-tenant inference gateways, prompt + model routing, caching, rate limits, audit logging — that other EA teams consume via golden-path SDKs and APIs.",
-        "Driving AI adoption across EA: partner with studios on use-case discovery (player matchmaking, recommendations, generative content, anti-cheat, live-ops personalization, NPC behavior, in-game support), publish reference patterns + internal docs, run enablement and design reviews, and measure adoption + impact (active integrations, eval-gated launches, incident rate, dollar value of compute saved).",
-        "Stack: Python, PyTorch, Hugging Face, LangChain, LangGraph, MCP, FastAPI, Ray, Kubernetes, Docker, Terraform, AWS, Postgres + pgvector, Redis, Kafka."
+        "Driving AI adoption across EA: partner with studios — including EA Sports FC — on use-case discovery (player matchmaking, recommendations, generative content, anti-cheat, live-ops personalization, NPC behavior, in-game support, dynamic difficulty), publish reference patterns + internal docs, run enablement and design reviews, and measure adoption + impact (active integrations, eval-gated launches, incident rate, dollar value of compute saved).",
+        "Stack: Python, PyTorch / TensorFlow (deep learning + classic ML), Hugging Face, LangChain, LangGraph, MCP, Google Agent Builder / Vertex AI, n8n + Airflow + dstack for orchestration, FastAPI, Ray, Kubernetes, Docker, Terraform, AWS (SageMaker / Bedrock), Postgres + pgvector, Redis, Kafka."
       ],
     },
     {
