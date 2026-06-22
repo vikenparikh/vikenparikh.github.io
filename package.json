@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "sync:projects": "python3 scripts/portfolio_builder.py --root .",
+    "test:py": "python3 -m unittest discover -s tests",
     "dev": "astro dev",
     "build": "npm run sync:projects && astro build",
     "check": "astro check",
