@@ -1,22 +1,5 @@
 ---
 import { siteConfig } from "../config";
-import ProjectCard from "./ProjectCard.astro";
-// Identify featured AI projects by name
-const featuredProjectNames = ["edumind-ai", "neuralverse-ai", "medmind-ai"];
-const academicProjectNames = [
-  "Analysis-of-Algorithms-Codes",
-  "Data-Structures-Codes",
-  "Artificial-Intelligence-Codes",
-  "Machine-Learning-Implementation",
-  "Shampoo-Sales-forecasting"
-];
-
-const featuredProjects = siteConfig.projects.filter(p => featuredProjectNames.includes(p.name));
-const academicProjects = siteConfig.projects.filter(p => academicProjectNames.includes(p.name));
-const regularProjects = siteConfig.projects.filter(
-  p => !featuredProjectNames.includes(p.name) && !academicProjectNames.includes(p.name)
-);
-const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 ---
 
 {
