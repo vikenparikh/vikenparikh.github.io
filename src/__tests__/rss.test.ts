@@ -12,9 +12,15 @@ describe("rss.xml route", () => {
     expect(res.headers.get("Content-Type")).toContain("xml");
     const xml = await res.text();
     expect(xml).toContain('<?xml version="1.0"');
-    expect(xml).toContain("<rss version=\"2.0\">");
+    expect(xml).toContain("<rss version=\"2.0\"");
     expect(xml).toContain("<channel>");
     expect(xml).toContain(`${siteConfig.name} — Writing`);
     expect(xml).toContain("<link>https://vikenparikh.com/writing/</link>");
+    // Self-referential atom:link (W3C Feed Validator recommendation) with its
+    // namespace declared on <rss>.
+    expect(xml).toContain('xmlns:atom="http://www.w3.org/2005/Atom"');
+    expect(xml).toContain(
+      '<atom:link href="https://vikenparikh.com/rss.xml" rel="self" type="application/rss+xml" />'
+    );
   });
 });
