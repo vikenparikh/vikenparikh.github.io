@@ -64,6 +64,11 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(h).toContain(siteConfig.profileImage);
   });
 
+  it("advertises the writing RSS feed for autodiscovery", async () => {
+    const h = await getHtml();
+    expect(h).toMatch(/<link[^>]*rel="alternate"[^>]*type="application\/rss\+xml"[^>]*href="\/rss.xml"/);
+  });
+
   it("renders the page shell (html lang, body, skip-target main)", async () => {
     const h = await getHtml();
     expect(h).toContain('lang="en"');
