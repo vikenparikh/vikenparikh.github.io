@@ -27,6 +27,10 @@ async function auditPage(Component: unknown) {
   const dom = new JSDOM(html, { runScripts: "outside-only" });
   dom.window.eval(axeSource);
   const results = await dom.window.axe.run(dom.window.document, {
+    // WCAG 2.0/2.1 A + AA (axe's default) plus the stricter best-practice set
+    // (landmark uniqueness, region coverage, heading-order, etc.) for ~2x the
+    // rule coverage. All pages pass both today; this locks that in.
+    runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"] },
     rules: { "color-contrast": { enabled: false } },
   });
   return results.violations;
