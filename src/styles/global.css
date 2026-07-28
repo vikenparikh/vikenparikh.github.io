@@ -33,3 +33,47 @@ button:focus-visible,
     transform: none !important;
   }
 }
+
+/* Print / save-as-PDF: strip interactive chrome and ink-heavy decoration so a
+   recruiter gets a clean, readable document. Screen view is unaffected. */
+@media print {
+  /* Interactive/non-functional-on-paper chrome */
+  #header,
+  #mobile-nav,
+  #contact-submit,
+  #contact-spinner {
+    display: none !important;
+  }
+
+  /* The fixed header is hidden — reclaim the space it reserved */
+  main {
+    padding-top: 0 !important;
+  }
+
+  /* Ink-friendly base */
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Drop the hero gradient overlay + decorative pattern */
+  #hero {
+    background: #fff !important;
+  }
+  #hero .absolute.inset-0,
+  #hero svg[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  /* Keep individual entries/cards from splitting across pages */
+  section,
+  article,
+  li,
+  .group {
+    break-inside: avoid;
+  }
+
+  a {
+    color: #000 !important;
+  }
+}
