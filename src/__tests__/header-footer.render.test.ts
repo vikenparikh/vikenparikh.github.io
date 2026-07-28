@@ -41,6 +41,15 @@ describe("Header.astro render-E2E", () => {
     }
   });
 
+  it("drives external links from siteConfig (no divergent hardcoded URLs)", async () => {
+    const html = await render(Header);
+    // Header profile link + booking CTA come from config so they can't drift
+    // from the rest of the site (the profile link previously hardcoded a
+    // different LinkedIn URL form than config).
+    expect(html).toContain(`href="${siteConfig.social.linkedin}"`);
+    expect(html).toContain(`href="${siteConfig.calendarUrl}"`);
+  });
+
   it("wires the mobile menu button for a11y (label + expanded state + control)", async () => {
     const html = await render(Header);
     expect(html).toContain('aria-label="Open navigation"');

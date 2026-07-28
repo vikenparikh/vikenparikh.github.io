@@ -34,6 +34,7 @@ type SiteConfig = {
   // phone?: string; // CHANGED: Removed phone number for privacy
   profileImage: string;
   resumeUrl: string;
+  calendarUrl: string;
   accentColor: string;
   social: {
     email: string;
@@ -111,6 +112,8 @@ export const siteConfig: SiteConfig = {
   location: "Vancouver, BC, Canada",
   profileImage: "/images/viken-profile-photo.jpeg",
   resumeUrl: "/resume/resume.pdf",
+  calendarUrl:
+    "https://calendar.google.com/calendar/appointments/schedules/AcZssZ11iO6ErSPNVBusO_sdP8QJxDcBjVV1rH76-1itr9PBZ1XGFKpntj3f_yYbzwMcxU85ae6uzPl3?gv=true",
   accentColor: "#2563eb",
   social: {
     email: "vsparikh1996@gmail.com",
