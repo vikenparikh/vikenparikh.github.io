@@ -6,10 +6,11 @@ import Footer from "../../components/Footer.astro";
 import BaseHead from "../../components/BaseHead.astro";
 import "../../styles/global.css";
 
-// Build a page for every post (drafts included, so they're previewable by direct
-// URL) — the index, nav, and RSS still exclude drafts.
+// Build every post in dev (so drafts are previewable via `astro dev`), but only
+// published posts in production — so a draft never ships as a noindex page or
+// lands in the sitemap. The index, nav, and RSS already exclude drafts.
 export async function getStaticPaths() {
-  const posts = await getCollection("writing");
+  const posts = await getCollection("writing", ({ data }) => import.meta.env.DEV || !data.draft);
   return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
