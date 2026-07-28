@@ -20,8 +20,8 @@ export async function GET() {
     .map(
       (p) => `    <item>
       <title>${esc(p.data.title)}</title>
-      <link>${SITE}/writing/${p.id}</link>
-      <guid>${SITE}/writing/${p.id}</guid>
+      <link>${SITE}/writing/${p.id}/</link>
+      <guid>${SITE}/writing/${p.id}/</guid>
       <description>${esc(p.data.description)}</description>
       <pubDate>${p.data.pubDate.toUTCString()}</pubDate>
     </item>`
@@ -32,7 +32,7 @@ export async function GET() {
 <rss version="2.0">
   <channel>
     <title>${esc(siteConfig.name)} — Writing</title>
-    <link>${SITE}/writing</link>
+    <link>${SITE}/writing/</link>
     <description>Notes on AI/ML, LLM agents, MLOps, and distributed systems.</description>
     <language>en-us</language>
 ${items}
