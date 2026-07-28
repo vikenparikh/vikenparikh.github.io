@@ -1,0 +1,33 @@
+name: Contact backend monitor
+
+# Synthetic uptime check for the contact form's backend. The form is how
+# opportunities reach the site owner, so a silent outage is costly. Runs on a
+# schedule (and on demand); a failed scheduled run surfaces in the Actions tab
+# and GitHub emails the repo owner. Probes are mail-safe (see the script).
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Backend base URL to probe"
+        required: false
+        default: "https://wealth.vikenparikh.com"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contact-monitor
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    name: probe /contact
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run synthetic probes
+        env:
+          CONTACT_API_BASE: ${{ github.event.inputs.base_url || 'https://wealth.vikenparikh.com' }}
+        run: bash scripts/contact-monitor.sh
