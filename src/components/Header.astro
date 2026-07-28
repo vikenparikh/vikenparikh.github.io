@@ -1,10 +1,14 @@
 ---
 import { siteConfig } from "../config";
+import { getCollection } from "astro:content";
 
 const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const hasSkills = siteConfig.skills && siteConfig.skills.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
+// Show the Writing link only once a real (non-draft) post exists, so the section
+// stays hidden until there's something to read.
+const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).length > 0;
 ---
 
 
@@ -24,11 +28,12 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
   </div>
   <nav class="hidden md:flex flex-1 justify-center">
     <ul class="flex items-center gap-6">
-      <li><a href="#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
-      {hasSkills && (<li><a href="#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
-      {hasExperience && (<li><a href="#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
-      {hasEducation && (<li><a href="#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
-      {hasProjects && (<li><a href="#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
+      <li><a href="/#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
+      {hasSkills && (<li><a href="/#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
+      {hasExperience && (<li><a href="/#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
+      {hasEducation && (<li><a href="/#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
+      {hasProjects && (<li><a href="/#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
+      {hasWriting && (<li><a href="/writing" class="text-gray-700 hover:text-black font-medium transition-colors">Writing</a></li>)}
     </ul>
   </nav>
   <div class="flex items-center gap-2">
@@ -58,11 +63,12 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
   </div>
   <nav id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full bg-white border-t border-gray-200 shadow-lg hidden z-50">
     <ul class="flex flex-col items-center gap-4 py-4">
-      <li><a href="#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
-      {hasSkills && (<li><a href="#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
-      {hasExperience && (<li><a href="#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
-      {hasEducation && (<li><a href="#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
-      {hasProjects && (<li><a href="#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
+      <li><a href="/#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
+      {hasSkills && (<li><a href="/#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
+      {hasExperience && (<li><a href="/#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
+      {hasEducation && (<li><a href="/#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
+      {hasProjects && (<li><a href="/#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
+      {hasWriting && (<li><a href="/writing" class="text-gray-700 hover:text-black font-medium transition-colors">Writing</a></li>)}
     </ul>
   </nav>
 </header>

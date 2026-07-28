@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import { siteConfig } from "../../config";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/global.css";
+
+// Only published posts, newest first.
+const posts = (await getCollection("writing", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const dateFmt = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric" });
+const title = `Writing | ${siteConfig.name}`;
+const description = `Notes and long-form writing by ${siteConfig.name} on AI/ML, LLM agents, MLOps, and distributed systems.`;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content={siteConfig.accentColor} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href="https://vikenparikh.com/writing" />
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} — Writing`} href="/rss.xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <main id="main-content" class="pt-24 md:pt-28">
+      <section class="p-8 sm:p-12 md:p-16 lg:p-24">
+        <div class="max-w-3xl mx-auto">
+          <div class="flex items-end justify-between gap-4">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900">Writing</h1>
+            <a href="/rss.xml" class="text-sm text-blue-700 hover:underline shrink-0">RSS</a>
+          </div>
+          <div class="w-[75px] h-[5px] mt-2 rounded-full" style={`background-color: ${siteConfig.accentColor}`}></div>
+
+          {
+            posts.length === 0 ? (
+              <p class="mt-10 text-gray-500">Notes are coming soon.</p>
+            ) : (
+              <ul class="mt-10 space-y-8">
+                {posts.map((post) => (
+                  <li class="group">
+                    <a href={`/writing/${post.id}`} class="block">
+                      <time datetime={post.data.pubDate.toISOString()} class="text-sm text-gray-400">
+                        {dateFmt.format(post.data.pubDate)}
+                      </time>
+                      <h2 class="mt-1 text-xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
+                        {post.data.title}
+                      </h2>
+                      <p class="mt-1 text-gray-600">{post.data.description}</p>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
