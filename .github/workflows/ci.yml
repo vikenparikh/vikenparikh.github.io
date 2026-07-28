@@ -1,0 +1,64 @@
+name: CI
+
+# Quality gate for every PR and every master push. Deploy is handled separately
+# by deploy.yml; this workflow runs all three test suites (frontend, contact
+# backend, portfolio-builder script) so nothing merges without them passing.
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: frontend (check + test + build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npx astro check
+      - name: Unit tests (vitest)
+        run: npm test
+      # Build from the committed generated/projects.ts (no network sync) so the
+      # check is deterministic; deploy.yml runs the full `npm run build` with sync.
+      - name: Build
+        run: npx astro build
+
+  backend:
+    name: contact backend (node --test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - name: Backend tests
+        run: npm test
+
+  scripts:
+    name: portfolio builder (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Script tests
+        run: python -m unittest discover -s tests
