@@ -17,11 +17,6 @@
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-if (!existsSync("dist")) {
-  console.error("audit-html: dist/ not found — run `npx astro build` first.");
-  process.exit(1);
-}
-
 function walk(dir) {
   const out = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -33,7 +28,9 @@ function walk(dir) {
 }
 
 // Each rule returns an array of human-readable problem strings for one page.
-const rules = {
+// Exported so the gate's own correctness is unit-tested — a regex rule that
+// silently regressed to always-passing would kill the protection unnoticed.
+export const rules = {
   "html-lang": (h) => (/<html\b[^>]*\slang=/.test(h) ? [] : ["<html> is missing a lang attribute"]),
 
   title: (h) => {
@@ -93,21 +90,34 @@ const rules = {
   },
 };
 
-let failed = 0;
-for (const file of walk("dist")) {
-  const html = readFileSync(file, "utf8");
-  const issues = Object.values(rules).flatMap((rule) => rule(html));
-  if (issues.length) {
-    failed += issues.length;
-    console.log(`⚠ ${file}`);
-    for (const i of issues) console.log(`    - ${i}`);
-  } else {
-    console.log(`✓ ${file}`);
-  }
+// Run every rule against one page's HTML; returns the flat list of issues.
+export function auditHtml(html) {
+  return Object.values(rules).flatMap((rule) => rule(html));
 }
 
-if (failed) {
-  console.error(`\naudit-html: FAILED — ${failed} issue(s) across the built site.`);
-  process.exit(1);
+function main() {
+  if (!existsSync("dist")) {
+    console.error("audit-html: dist/ not found — run `npx astro build` first.");
+    process.exit(1);
+  }
+  let failed = 0;
+  for (const file of walk("dist")) {
+    const issues = auditHtml(readFileSync(file, "utf8"));
+    if (issues.length) {
+      failed += issues.length;
+      console.log(`⚠ ${file}`);
+      for (const i of issues) console.log(`    - ${i}`);
+    } else {
+      console.log(`✓ ${file}`);
+    }
+  }
+  if (failed) {
+    console.error(`\naudit-html: FAILED — ${failed} issue(s) across the built site.`);
+    process.exit(1);
+  }
+  console.log("\naudit-html: OK — every built page passed the HTML-quality gate.");
 }
-console.log("\naudit-html: OK — every built page passed the HTML-quality gate.");
+
+// Only run the CLI when invoked directly, so importing this module for tests is
+// side-effect-free (no dist read, no process.exit).
+if (import.meta.url === `file://${process.argv[1]}`) main();
