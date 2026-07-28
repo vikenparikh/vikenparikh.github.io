@@ -44,7 +44,7 @@ const description = `Notes and long-form writing by ${siteConfig.name} on AI/ML,
                 {posts.map((post) => (
                   <li class="group">
                     <a href={`/writing/${post.id}`} class="block">
-                      <time datetime={post.data.pubDate.toISOString()} class="text-sm text-gray-400">
+                      <time datetime={post.data.pubDate.toISOString()} class="text-sm text-gray-500">
                         {dateFmt.format(post.data.pubDate)}
                       </time>
                       <h2 class="mt-1 text-xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">

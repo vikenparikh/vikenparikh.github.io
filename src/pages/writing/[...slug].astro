@@ -37,7 +37,7 @@ const title = `${post.data.title} | ${siteConfig.name}`;
       <article class="p-8 sm:p-12 md:p-16 lg:p-24">
         <div class="max-w-2xl mx-auto">
           <a href="/writing" class="text-sm text-blue-700 hover:underline">← All writing</a>
-          <time datetime={post.data.pubDate.toISOString()} class="mt-6 block text-sm text-gray-400">
+          <time datetime={post.data.pubDate.toISOString()} class="mt-6 block text-sm text-gray-500">
             {dateFmt.format(post.data.pubDate)}
           </time>
           <h1 class="mt-1 text-3xl sm:text-4xl font-bold text-gray-900">{post.data.title}</h1>
