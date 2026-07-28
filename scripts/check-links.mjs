@@ -18,6 +18,8 @@ import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const SKIP_HOSTS = ["vikenparikh.com", "www.vikenparikh.com", "linkedin.com", "www.linkedin.com"];
+const SELF_HOSTS = ["vikenparikh.com", "www.vikenparikh.com"];
+const ASSET_EXT = /\.(png|jpe?g|svg|webp|gif|ico|pdf|xml|txt|woff2?)$/i;
 
 if (!existsSync("dist")) {
   console.error("link-check: dist/ not found — run `npx astro build` first.");
@@ -47,6 +49,37 @@ function collectUrls(files) {
     }
   }
   return [...urls];
+}
+
+// Collect same-origin asset paths (root-relative, or absolute on the site's own
+// host) that point at a file. These 404 silently if the file is missing —
+// Astro doesn't validate href/src targets — which is exactly how the original
+// broken og:image shipped. Verify each exists in dist/.
+function collectLocalAssets(files) {
+  const paths = new Set();
+  const re = /(?:href|src)=["']([^"']+)["']/g;
+  for (const f of files) {
+    const text = readFileSync(f, "utf8");
+    let m;
+    while ((m = re.exec(text))) {
+      let v = m[1];
+      if (v.includes("${")) continue;
+      if (/^https?:\/\//.test(v)) {
+        let u;
+        try {
+          u = new URL(v);
+        } catch {
+          continue;
+        }
+        if (!SELF_HOSTS.includes(u.hostname)) continue; // external — handled by the 404 check
+        v = u.pathname;
+      }
+      if (!v.startsWith("/")) continue; // only root-relative site paths
+      if (!ASSET_EXT.test(v)) continue; // only files, not page routes/anchors
+      paths.add(v);
+    }
+  }
+  return [...paths];
 }
 
 async function check(url) {
@@ -91,10 +124,24 @@ for (const url of urls.sort()) {
 for (const u of skipped) console.log(`SKIP       ${u}  (self or bot-hostile host)`);
 for (const u of unknown) console.log(`WARN  ???  ${u}  (no response; transient?)`);
 
-if (dead.length) {
-  console.error(`\nDEAD LINKS (${dead.length}):`);
-  for (const d of dead) console.error(`  ${d}`);
-  console.error("\nlink-check: FAIL — fix or remove the dead links above.");
+// Same-origin assets: must exist on disk (silent 404s otherwise).
+const assets = collectLocalAssets(files);
+const missing = assets.filter((p) => !existsSync(join("dist", p)));
+for (const p of assets) if (!missing.includes(p)) console.log(`ASSET OK   ${p}`);
+
+if (dead.length || missing.length) {
+  if (dead.length) {
+    console.error(`\nDEAD LINKS (${dead.length}):`);
+    for (const d of dead) console.error(`  ${d}`);
+  }
+  if (missing.length) {
+    console.error(`\nMISSING ASSETS (${missing.length}) — referenced but not in dist/:`);
+    for (const p of missing) console.error(`  ${p}`);
+  }
+  console.error("\nlink-check: FAIL — fix or remove the broken references above.");
   process.exit(1);
 }
-console.log(`\nlink-check: OK — ${urls.length - skipped.length} external links checked, 0 dead.`);
+console.log(
+  `\nlink-check: OK — ${urls.length - skipped.length} external links checked (0 dead), ` +
+    `${assets.length} local assets verified (0 missing).`
+);
