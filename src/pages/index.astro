@@ -49,6 +49,9 @@ const personLd = {
       ogImage={`${SITE_URL}/images/og-card.png`}
       preloadImage={siteConfig.profileImage}
     />
+    {/* Pre-resolve the contact-backend origin so the first form submission is faster.
+        dns-prefetch (not preconnect) since submission is user-triggered. */}
+    <link rel="dns-prefetch" href="https://wealth.vikenparikh.com" />
     <!-- Cloudflare Web Analytics -->
     <script is:inline defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0ac7b0409b0d45cbb4f721749f9de47c"}'></script>
     <!-- End Cloudflare Web Analytics -->
