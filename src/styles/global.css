@@ -59,16 +59,18 @@ button:focus-visible,
     padding-top: 0 !important;
   }
 
-  /* Ink-friendly base */
-  body {
-    background: #fff !important;
+  /* Force a light, ink-friendly document even when dark mode is active — the
+     dark card/text/gradient surfaces would otherwise print dark on white. */
+  html,
+  body,
+  * {
+    background-color: #fff !important;
+    background-image: none !important;
     color: #000 !important;
+    box-shadow: none !important;
   }
 
-  /* Drop the hero gradient overlay + decorative pattern */
-  #hero {
-    background: #fff !important;
-  }
+  /* Drop the (now-flattened) hero gradient overlay + decorative pattern */
   #hero .absolute.inset-0,
   #hero svg[aria-hidden="true"] {
     display: none !important;
@@ -80,9 +82,5 @@ button:focus-visible,
   li,
   .group {
     break-inside: avoid;
-  }
-
-  a {
-    color: #000 !important;
   }
 }
