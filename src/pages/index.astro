@@ -52,7 +52,7 @@ const personLd = {
     <meta name="twitter:image" content={`${SITE_URL}/images/og-card.png`} />
     <title>{siteConfig.name} - {siteConfig.title}</title>
     <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0ac7b0409b0d45cbb4f721749f9de47c"}'></script>
+    <script is:inline defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0ac7b0409b0d45cbb4f721749f9de47c"}'></script>
     <!-- End Cloudflare Web Analytics -->
     <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
   </head>
