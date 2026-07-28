@@ -168,6 +168,11 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(h).toContain('name="twitter:image" content="https://vikenparikh.com/images/og-card.png"');
     expect(h).toContain('property="og:image:width" content="1200"');
     expect(h).toContain('property="og:image:height" content="630"');
+    // Social-share metadata completeness: brand name, locale, and Twitter-side
+    // image alt (Twitter reads twitter:image:alt, not og:image:alt).
+    expect(h).toContain('property="og:site_name"');
+    expect(h).toContain('property="og:locale" content="en_US"');
+    expect(h).toContain('name="twitter:image:alt"');
     expect(h).toContain('rel="apple-touch-icon"');
     // The referenced image must actually be committed to public/.
     const { existsSync } = await import("node:fs");
