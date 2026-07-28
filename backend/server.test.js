@@ -320,6 +320,43 @@ test("CORS allowed origin echoes ACAO and Vary", async () => {
   });
 });
 
+// A2. CORS negative (covers the false branch of server.js 67): a rogue Origin
+// that is NOT on the allow-list must NOT receive Access-Control-Allow-Origin, so
+// the browser blocks the cross-origin read. A regression that always echoed the
+// origin would be a wide-open CORS policy — this is the test that catches it.
+test("CORS disallowed origin is refused the ACAO header", async () => {
+  const t = fakeTransporter();
+  assert.ok(!BASE.allowedOrigins.includes("https://evil.example"));
+  await withServer(createHandler({ transporter: t, ...BASE }), async (port) => {
+    const res = await request(port, {
+      method: "POST",
+      path: "/contact",
+      headers: { ...JSON_HEADERS, Origin: "https://evil.example" },
+      body: validBody(),
+    });
+    // The request itself still processes (CORS is a browser-enforced read
+    // barrier, not a server-side reject), but the ACAO header must be absent.
+    assert.equal(res.headers["access-control-allow-origin"], undefined);
+  });
+});
+
+// A3. Route match tolerates a query string (covers server.js 80's
+// url.startsWith("/contact?") branch): a form POST to /contact?utm=... is still
+// routed to the handler, not 404'd.
+test("POST /contact with a query string is accepted", async () => {
+  const t = fakeTransporter();
+  await withServer(createHandler({ transporter: t, ...BASE }), async (port) => {
+    const res = await request(port, {
+      method: "POST",
+      path: "/contact?utm_source=newsletter",
+      headers: JSON_HEADERS,
+      body: validBody(),
+    });
+    assert.equal(res.status, 202);
+    assert.equal(t.calls.length, 1);
+  });
+});
+
 // B. 16KB body cap (covers server.js 88-89): a >16KB body trips req.destroy(),
 // so the client never gets a clean response — the socket errors out. The test
 // passing (without hanging) is the evidence the cap branch executed. A short
