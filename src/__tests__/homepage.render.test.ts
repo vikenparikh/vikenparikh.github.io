@@ -64,6 +64,19 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(h).toContain(siteConfig.profileImage);
   });
 
+  it("links a valid web app manifest whose icons exist", async () => {
+    const h = await getHtml();
+    expect(h).toContain('rel="manifest"');
+    expect(h).toContain('href="/site.webmanifest"');
+    const { readFileSync, existsSync } = await import("node:fs");
+    const manifest = JSON.parse(readFileSync("public/site.webmanifest", "utf8"));
+    expect(manifest.name).toBeTruthy();
+    expect(manifest.icons.length).toBeGreaterThan(0);
+    for (const icon of manifest.icons) {
+      expect(existsSync(`public${icon.src}`), `${icon.src} must exist in public/`).toBe(true);
+    }
+  });
+
   it("advertises the writing RSS feed for autodiscovery", async () => {
     const h = await getHtml();
     expect(h).toMatch(/<link[^>]*rel="alternate"[^>]*type="application\/rss\+xml"[^>]*href="\/rss.xml"/);

@@ -81,14 +81,32 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
   <text x="80" y="596" font-family="${FONT}" font-size="27" fill="#9ca3af">${FOOTNOTE}</text>
 </svg>`;
 
-const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180">
-  <rect width="180" height="180" rx="36" fill="${ACCENT}"/>
-  <g transform="translate(40,40) scale(2)">${glyph("#ffffff")}</g>
+// The </> mark on the accent tile, proportional for any square size (rounded
+// corners, glyph ~56% of the tile, centered). apple-touch-icon (iOS) and the
+// web-manifest PWA icons (Android/Chrome, 192 + 512) all share this artwork.
+function iconSvg(size) {
+  const rx = Math.round(size * 0.2);
+  const scale = (size * 0.56) / 50; // glyph viewBox is 50
+  const m = (size - size * 0.56) / 2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
+  <rect width="${size}" height="${size}" rx="${rx}" fill="${ACCENT}"/>
+  <g transform="translate(${m},${m}) scale(${scale})">${glyph("#ffffff")}</g>
 </svg>`;
+}
 
 const og = await sharp(Buffer.from(ogSvg)).png({ compressionLevel: 9 }).toBuffer();
 writeFileSync(join(repo, "public", "images", "og-card.png"), og);
-const icon = await sharp(Buffer.from(iconSvg)).png({ compressionLevel: 9 }).toBuffer();
+
+const icon = await sharp(Buffer.from(iconSvg(180))).png({ compressionLevel: 9 }).toBuffer();
 writeFileSync(join(repo, "public", "apple-touch-icon.png"), icon);
 
-console.log(`og-card.png ${(og.length / 1024).toFixed(1)}KB · apple-touch-icon.png ${(icon.length / 1024).toFixed(1)}KB`);
+const sizes = [];
+for (const size of [192, 512]) {
+  const buf = await sharp(Buffer.from(iconSvg(size))).png({ compressionLevel: 9 }).toBuffer();
+  writeFileSync(join(repo, "public", `icon-${size}.png`), buf);
+  sizes.push(`icon-${size}.png ${(buf.length / 1024).toFixed(1)}KB`);
+}
+
+console.log(
+  `og-card.png ${(og.length / 1024).toFixed(1)}KB · apple-touch-icon.png ${(icon.length / 1024).toFixed(1)}KB · ${sizes.join(" · ")}`
+);
