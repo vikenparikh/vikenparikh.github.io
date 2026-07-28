@@ -15,11 +15,14 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
 
 <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm px-4 py-3 flex items-center justify-between">
   <div class="flex items-center gap-3">
+      {/* Decorative avatar — the adjacent name span already labels this link, so
+          empty alt avoids a screen reader announcing the name twice (axe
+          image-redundant-alt). */}
       <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="header-profile flex items-center gap-3">
         {siteConfig.profileImage && (
           <img
             src={siteConfig.profileImage}
-            alt={siteConfig.name}
+            alt=""
             width="40"
             height="40"
             decoding="async"
