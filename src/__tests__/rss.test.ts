@@ -15,6 +15,6 @@ describe("rss.xml route", () => {
     expect(xml).toContain("<rss version=\"2.0\">");
     expect(xml).toContain("<channel>");
     expect(xml).toContain(`${siteConfig.name} — Writing`);
-    expect(xml).toContain("<link>https://vikenparikh.com/writing</link>");
+    expect(xml).toContain("<link>https://vikenparikh.com/writing/</link>");
   });
 });
