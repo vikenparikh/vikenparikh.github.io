@@ -64,4 +64,21 @@ describe("Contact.astro render-E2E (frontend<->backend form contract)", () => {
     expect(html).toContain(siteConfig.social.email);
     expect(html).toContain(`mailto:${siteConfig.social.email}`);
   });
+
+  it("exposes the inline-validation UX contract (error slots wired + submit affordances)", async () => {
+    const html = await render(Contact);
+    // Each user-facing field has an aria-describedby error slot the client script targets.
+    for (const field of ["name", "email", "message"]) {
+      expect(html, `${field} should reference its error slot`).toMatch(
+        new RegExp(`aria-describedby="${field}-error"`)
+      );
+      expect(html, `${field}-error slot node should exist`).toMatch(
+        new RegExp(`id="${field}-error"`)
+      );
+    }
+    // novalidate so our JS owns validation messaging; spinner + live counter present.
+    expect(html).toMatch(/novalidate/);
+    expect(html).toContain('id="contact-spinner"');
+    expect(html).toContain('id="message-count"');
+  });
 });

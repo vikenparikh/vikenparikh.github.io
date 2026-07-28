@@ -4,19 +4,26 @@ import { siteConfig } from "../config";
 
 <section id="contact" class="p-8 sm:p-12 md:p-16 lg:p-24">
   <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-8">
-    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-center">Contact Me</h2>
-    <form id="contact-form" name="contact" class="space-y-6">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 text-center">Contact Me</h2>
+    <p class="text-center text-gray-500 mb-6">Have a role, project, or idea in mind? Send a note — I usually reply within a day.</p>
+    <form id="contact-form" name="contact" novalidate class="space-y-5">
       <div>
-        <label htmlFor="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" aria-describedby="name-error" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500" />
+        <p id="name-error" class="mt-1 text-sm text-red-600 hidden"></p>
       </div>
       <div>
-        <label htmlFor="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" aria-describedby="email-error" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500" />
+        <p id="email-error" class="mt-1 text-sm text-red-600 hidden"></p>
       </div>
       <div>
-        <label htmlFor="message" class="block text-sm font-medium text-gray-700">Message</label>
-        <textarea id="message" name="message" rows="5" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+        <div class="flex items-baseline justify-between">
+          <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+          <span id="message-count" class="text-xs text-gray-400">0 / 1000</span>
+        </div>
+        <textarea id="message" name="message" rows="5" required maxlength="1000" aria-describedby="message-error" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500"></textarea>
+        <p id="message-error" class="mt-1 text-sm text-red-600 hidden"></p>
       </div>
       <!-- honeypot — hidden from humans; bots fill every input -->
       <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden">
@@ -24,7 +31,13 @@ import { siteConfig } from "../config";
         <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
       </div>
       <div>
-        <button type="submit" id="contact-submit" class="w-full inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60">Send</button>
+        <button type="submit" id="contact-submit" class="w-full inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-600 py-2.5 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
+          <svg id="contact-spinner" class="hidden h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z"></path>
+          </svg>
+          <span id="contact-submit-label">Send</span>
+        </button>
       </div>
       <p id="contact-status" class="text-sm text-center" role="status" aria-live="polite"></p>
     </form>
@@ -36,11 +49,92 @@ import { siteConfig } from "../config";
   const API_BASE = "https://wealth.vikenparikh.com";
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
   const btn = document.getElementById("contact-submit") as HTMLButtonElement | null;
+  const btnLabel = document.getElementById("contact-submit-label") as HTMLSpanElement | null;
+  const spinner = document.getElementById("contact-spinner") as SVGElement | null;
   const status = document.getElementById("contact-status") as HTMLParagraphElement | null;
+  const nameEl = document.getElementById("name") as HTMLInputElement | null;
+  const emailEl = document.getElementById("email") as HTMLInputElement | null;
+  const messageEl = document.getElementById("message") as HTMLTextAreaElement | null;
+  const messageCount = document.getElementById("message-count") as HTMLSpanElement | null;
+
+  // Basic, permissive email shape — real deliverability is checked server-side.
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setError(el: HTMLInputElement | HTMLTextAreaElement | null, msg: string) {
+    if (!el) return;
+    const errEl = document.getElementById(`${el.id}-error`);
+    el.setAttribute("aria-invalid", "true");
+    if (errEl) {
+      errEl.textContent = msg;
+      errEl.classList.remove("hidden");
+    }
+  }
+
+  function clearError(el: HTMLInputElement | HTMLTextAreaElement | null) {
+    if (!el) return;
+    const errEl = document.getElementById(`${el.id}-error`);
+    el.removeAttribute("aria-invalid");
+    if (errEl) {
+      errEl.textContent = "";
+      errEl.classList.add("hidden");
+    }
+  }
+
+  // Returns the first invalid field (for focus), or null when everything is valid.
+  function validate(): HTMLInputElement | HTMLTextAreaElement | null {
+    let firstInvalid: HTMLInputElement | HTMLTextAreaElement | null = null;
+    const fail = (el: HTMLInputElement | HTMLTextAreaElement | null, msg: string) => {
+      setError(el, msg);
+      if (!firstInvalid) firstInvalid = el;
+    };
+
+    if (!nameEl?.value.trim()) fail(nameEl, "Please enter your name.");
+    else clearError(nameEl);
+
+    const email = emailEl?.value.trim() ?? "";
+    if (!email) fail(emailEl, "Please enter your email.");
+    else if (!EMAIL_RE.test(email)) fail(emailEl, "Please enter a valid email address.");
+    else clearError(emailEl);
+
+    const message = messageEl?.value.trim() ?? "";
+    if (!message) fail(messageEl, "Please enter a message.");
+    else if (message.length < 10) fail(messageEl, "A little more detail helps — at least 10 characters.");
+    else clearError(messageEl);
+
+    return firstInvalid;
+  }
+
+  function setLoading(loading: boolean) {
+    if (btn) btn.disabled = loading;
+    if (spinner) spinner.classList.toggle("hidden", !loading);
+    if (btnLabel) btnLabel.textContent = loading ? "Sending…" : "Send";
+  }
+
+  // Live character count + clear a field's error as the user fixes it.
+  messageEl?.addEventListener("input", () => {
+    if (messageCount) messageCount.textContent = `${messageEl.value.length} / 1000`;
+    if (messageEl.getAttribute("aria-invalid") === "true" && messageEl.value.trim().length >= 10) clearError(messageEl);
+  });
+  nameEl?.addEventListener("input", () => {
+    if (nameEl.getAttribute("aria-invalid") === "true" && nameEl.value.trim()) clearError(nameEl);
+  });
+  emailEl?.addEventListener("input", () => {
+    if (emailEl.getAttribute("aria-invalid") === "true" && EMAIL_RE.test(emailEl.value.trim())) clearError(emailEl);
+  });
+
   if (form && btn && status) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      btn.disabled = true;
+
+      const firstInvalid = validate();
+      if (firstInvalid) {
+        status.textContent = "Please fix the highlighted fields.";
+        status.className = "text-sm text-center text-red-600";
+        (firstInvalid as HTMLElement).focus();
+        return;
+      }
+
+      setLoading(true);
       status.textContent = "Sending…";
       status.className = "text-sm text-center text-gray-500";
       const data = new FormData(form);
@@ -57,9 +151,10 @@ import { siteConfig } from "../config";
           body: JSON.stringify(body),
         });
         if (r.ok) {
-          status.textContent = "Sent. I'll get back to you soon.";
+          status.textContent = "Thanks — your message is on its way. I'll get back to you soon.";
           status.className = "text-sm text-center text-green-600";
           form.reset();
+          if (messageCount) messageCount.textContent = "0 / 1000";
         } else if (r.status === 429) {
           status.textContent = "Too many messages right now — please try again later.";
           status.className = "text-sm text-center text-red-600";
@@ -71,7 +166,7 @@ import { siteConfig } from "../config";
         status.textContent = "Network error. Email me directly instead.";
         status.className = "text-sm text-center text-red-600";
       } finally {
-        btn.disabled = false;
+        setLoading(false);
       }
     });
   }
