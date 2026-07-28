@@ -1,17 +1,16 @@
 ---
 import { siteConfig } from "../config";
+import BaseHead from "../components/BaseHead.astro";
 import "../styles/global.css";
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="theme-color" content={siteConfig.accentColor} />
-    <meta name="robots" content="noindex" />
-    <title>404 — Page not found | {siteConfig.name}</title>
+    <BaseHead
+      title={`404 — Page not found | ${siteConfig.name}`}
+      description="The page you're looking for doesn't exist or has moved."
+      noindex
+    />
   </head>
   <body>
     <main
