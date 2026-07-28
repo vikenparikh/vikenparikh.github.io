@@ -1,6 +1,10 @@
-/// <reference types="vitest/config" />
 import { getViteConfig } from "astro/config";
 
+// getViteConfig gives the tests Astro's Vite plugin so `.astro` files transform
+// during render tests. Vitest's `test` field exists on Vite's UserConfig only via
+// module augmentation, which Astro 7's bundled tsc doesn't apply to this
+// parameter — so assert the argument type to keep `astro check` clean. The `test`
+// config is read by Vitest at runtime regardless.
 export default getViteConfig({
   test: {
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
@@ -24,4 +28,4 @@ export default getViteConfig({
       reporter: ["text", "text-summary"],
     },
   },
-});
+} as Parameters<typeof getViteConfig>[0]);

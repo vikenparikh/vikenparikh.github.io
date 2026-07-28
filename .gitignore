@@ -6,3 +6,7 @@ dist/
 __pycache__/
 *.pyc
 .pytest_cache/
+.coverage
+
+# Coverage output
+/coverage/
