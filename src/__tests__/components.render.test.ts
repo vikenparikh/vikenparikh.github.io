@@ -63,6 +63,20 @@ describe("Education.astro render-E2E", () => {
       expect(html, `school "${edu.school}" should render`).toContain(edu.school);
     }
   });
+
+  it("interpolates the logo alt text (regression: was a literal '{edu.school} logo')", async () => {
+    const html = await render(Education);
+    // The un-interpolated template string must never ship.
+    expect(html).not.toContain("{edu.school}");
+    // Schools that have a logo should get a real, interpolated alt.
+    const withLogo = siteConfig.education.filter(
+      (e) => e.school.includes("Arizona State University") || e.school.includes("Mumbai University")
+    );
+    expect(withLogo.length).toBeGreaterThan(0);
+    for (const edu of withLogo) {
+      expect(html, `alt for "${edu.school}" should be interpolated`).toContain(`alt="${edu.school} logo"`);
+    }
+  });
 });
 
 describe("Skills.astro render-E2E", () => {

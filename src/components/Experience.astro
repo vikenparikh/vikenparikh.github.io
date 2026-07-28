@@ -46,7 +46,7 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                             else if (exp.company === "Decision Theater Network, Arizona") logo = "/images/asu-dtn-logo.png";
                             else if (exp.company === "Self-Directed Projects & Research") logo = "/images/ai-logo.png";
                             else if (exp.company === "Electronic Arts (EA)") logo = "/images/ea-logo.svg";
-                            return logo ? <img src={logo} alt={`${exp.company} Logo`} class="w-10 h-10 rounded-full border border-gray-200" /> : null;
+                            return logo ? <img src={logo} alt={`${exp.company} Logo`} loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border border-gray-200" /> : null;
                           })()}
                           <div>
                             <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
