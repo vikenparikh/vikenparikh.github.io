@@ -122,6 +122,12 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(ld.name).toBe(siteConfig.name);
     expect(ld.sameAs).toContain(siteConfig.social.linkedin);
     expect(ld.sameAs).toContain(siteConfig.social.github);
+    // Enriched, config-derived facets: current employer, schools, expertise.
+    expect(ld.worksFor?.name).toBe(siteConfig.experience[0].company);
+    expect(ld.alumniOf.map((a: { name: string }) => a.name)).toEqual(
+      siteConfig.education.map((e) => e.school)
+    );
+    expect(ld.knowsAbout).toEqual(siteConfig.skills);
   });
 
   it("references an absolute, existing OG image + apple-touch-icon", async () => {
