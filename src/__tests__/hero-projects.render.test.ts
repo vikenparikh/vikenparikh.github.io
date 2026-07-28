@@ -79,4 +79,12 @@ describe("Projects.astro render-E2E", () => {
       );
     }
   });
+
+  it("uses a self-hosted GitHub mark, not a fragile external asset URL", async () => {
+    const html = await render(Projects);
+    // Regression: the cards used to load github.githubassets.com/.../GitHub-Mark.png
+    // — an undocumented external URL GitHub can change. Self-host it instead.
+    expect(html).not.toContain("github.githubassets.com");
+    expect(html).toContain('src="/images/github-mark.svg"');
+  });
 });
