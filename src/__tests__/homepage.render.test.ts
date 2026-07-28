@@ -82,6 +82,13 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     }
   });
 
+  it("sets the theme before paint (no-flash script honoring stored choice + OS preference)", async () => {
+    const h = await getHtml();
+    expect(h).toContain('localStorage.getItem("theme")');
+    expect(h).toContain('classList.add("dark")');
+    expect(h).toContain("prefers-color-scheme: dark");
+  });
+
   it("advertises the writing RSS feed for autodiscovery", async () => {
     const h = await getHtml();
     expect(h).toMatch(/<link[^>]*rel="alternate"[^>]*type="application\/rss\+xml"[^>]*href="\/rss.xml"/);

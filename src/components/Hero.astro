@@ -4,18 +4,18 @@ import { siteConfig } from "../config";
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white py-12 sm:py-16 md:h-screen"
+  class="relative isolate overflow-hidden bg-white dark:bg-gray-900 py-12 sm:py-16 md:h-screen"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Gradient overlay -->
   <div
-    class="absolute inset-0 -z-10"
+    class="hero-bg-gradient absolute inset-0 -z-10"
     style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, white 100%)`}
   >
   </div>
   <svg
     aria-hidden="true"
-    class="absolute inset-0 -z-10 size-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    class="absolute inset-0 -z-10 size-full stroke-gray-200 dark:stroke-gray-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
   >
     <defs>
       <pattern
@@ -131,12 +131,12 @@ import { siteConfig } from "../config";
   </svg>
   <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 md:gap-10">
     <div class="max-w-4xl">
-      <h2 class="text-pretty text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in mb-2">Hello! 👋</h2>
-      <h1 class="mt-4 text-pretty text-5xl md:text-7xl font-bold tracking-tight text-blue-700 animate-fade-in animation-delay-200">I'm {siteConfig.name}</h1>
-      <p class="mt-6 text-lg md:text-2xl font-medium text-gray-600 animate-fade-in animation-delay-400">
-        AI/ML Software Engineer at <span class="text-blue-700 font-semibold">Electronic Arts</span>, building LLM agents, MLOps, and generative-AI platform services for game and live-service teams.
+      <h2 class="text-pretty text-2xl md:text-5xl font-bold tracking-tight text-gray-700 dark:text-gray-300 animate-fade-in mb-2">Hello! 👋</h2>
+      <h1 class="mt-4 text-pretty text-5xl md:text-7xl font-bold tracking-tight text-blue-700 dark:text-blue-400 animate-fade-in animation-delay-200">I'm {siteConfig.name}</h1>
+      <p class="mt-6 text-lg md:text-2xl font-medium text-gray-600 dark:text-gray-300 animate-fade-in animation-delay-400">
+        AI/ML Software Engineer at <span class="text-blue-700 dark:text-blue-400 font-semibold">Electronic Arts</span>, building LLM agents, MLOps, and generative-AI platform services for game and live-service teams.
       </p>
-      <p class="mt-2 text-base md:text-lg text-gray-500 animate-fade-in animation-delay-400">
+      <p class="mt-2 text-base md:text-lg text-gray-500 dark:text-gray-400 animate-fade-in animation-delay-400">
         6+ years across EA, Microsoft, and PayPal shipping production systems at scale.
       </p>
       {/* Scannable scale metrics — the numbers that matter, pulled out of prose */}
@@ -149,34 +149,34 @@ import { siteConfig } from "../config";
             { value: "25K+", label: "developers served" },
           ].map((stat) => (
             <div class="flex flex-col">
-              <dt class="text-2xl md:text-4xl font-bold tracking-tight text-blue-700">{stat.value}</dt>
-              <dd class="mt-1 text-xs sm:text-sm text-gray-500 leading-tight">{stat.label}</dd>
+              <dt class="text-2xl md:text-4xl font-bold tracking-tight text-blue-700 dark:text-blue-400">{stat.value}</dt>
+              <dd class="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-tight">{stat.label}</dd>
             </div>
           ))
         }
       </dl>
       {
         siteConfig.location && (
-          <p class="mt-3 text-sm sm:text-base text-gray-500 animate-fade-in animation-delay-400">
+          <p class="mt-3 text-sm sm:text-base text-gray-500 dark:text-gray-400 animate-fade-in animation-delay-400">
             {siteConfig.location}
           </p>
         )
       }
       {/* Experience logos strip — visible, explicit credibility at first scroll */}
       <div class="mt-6 animate-fade-in animation-delay-500">
-        <p class="text-xs uppercase tracking-widest text-gray-500 mb-3">Experience</p>
+        <p class="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3">Experience</p>
         <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
           <div class="flex items-center gap-2">
             <img src="/images/ea-logo.svg" alt="Electronic Arts" class="h-8 w-8 object-contain" />
-            <span class="text-sm sm:text-base font-semibold text-gray-700">Electronic Arts</span>
+            <span class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">Electronic Arts</span>
           </div>
           <div class="flex items-center gap-2">
             <img src="/images/microsoft-logo.png" alt="Microsoft" class="h-8 w-8 object-contain" />
-            <span class="text-sm sm:text-base font-semibold text-gray-700">Microsoft</span>
+            <span class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">Microsoft</span>
           </div>
           <div class="flex items-center gap-2">
             <img src="/images/paypal-logo.png" alt="PayPal" class="h-8 w-8 object-contain" />
-            <span class="text-sm sm:text-base font-semibold text-gray-700">PayPal</span>
+            <span class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">PayPal</span>
           </div>
         </div>
       </div>
@@ -188,13 +188,13 @@ import { siteConfig } from "../config";
               href={siteConfig.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center rounded-full bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-gray-700"
+              class="inline-flex items-center rounded-full bg-gray-900 dark:bg-gray-100 px-5 py-2.5 text-sm font-semibold text-white dark:text-gray-900 transition-colors duration-300 hover:bg-gray-700 dark:hover:bg-white"
             >
               View Resume
             </a>
             <a
               href="#projects"
-              class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-colors duration-300 hover:bg-gray-100"
+              class="inline-flex items-center rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-5 py-2.5 text-sm font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300 hover:bg-gray-100"
             >
               View Projects
             </a>
@@ -202,7 +202,7 @@ import { siteConfig } from "../config";
               href={siteConfig.calendarUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center rounded-full border border-blue-600 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors duration-300 hover:bg-blue-50 hover:border-blue-800"
+              class="inline-flex items-center rounded-full border border-blue-600 bg-white dark:bg-gray-800 px-5 py-2.5 text-sm font-semibold text-blue-700 dark:text-blue-400 transition-colors duration-300 hover:bg-blue-50 hover:border-blue-800"
             >
               Book 15 min chat
             </a>
@@ -219,13 +219,13 @@ import { siteConfig } from "../config";
             height="640"
             fetchpriority="high"
             decoding="async"
-            class="h-44 w-44 sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-72 lg:w-72 rounded-3xl border border-gray-200 object-cover shadow-2xl"
+            class="h-44 w-44 sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-72 lg:w-72 rounded-3xl border border-gray-200 dark:border-gray-700 object-cover shadow-2xl"
           />
         </div>
       )}
   </div>
   <div
-    class="relative md:absolute bottom-0 left-0 right-0 px-8 sm:px-12 md:px-24 pb-8 sm:pb-12 md:pb-24 pt-2 md:pt-0 flex flex-wrap items-center gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-3 text-gray-700 animate-fade-in animation-delay-600"
+    class="relative md:absolute bottom-0 left-0 right-0 px-8 sm:px-12 md:px-24 pb-8 sm:pb-12 md:pb-24 pt-2 md:pt-0 flex flex-wrap items-center gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-3 text-gray-700 dark:text-gray-300 animate-fade-in animation-delay-600"
   >
     {
       siteConfig.social?.email && (
@@ -349,6 +349,19 @@ import { siteConfig } from "../config";
 </div>
 
 <style>
+  /* Dark-mode hero background: accent glow top-left fading into the dark body,
+     overriding the light inline-style gradient. */
+  :global(.dark) .hero-bg-gradient {
+    background: radial-gradient(
+      ellipse 800px 1200px at 0% 0%,
+      rgba(37, 99, 235, 0.3) 0%,
+      rgba(37, 99, 235, 0.14) 25%,
+      rgba(37, 99, 235, 0.06) 45%,
+      rgba(11, 17, 32, 0.5) 70%,
+      #0b1120 100%
+    ) !important;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;

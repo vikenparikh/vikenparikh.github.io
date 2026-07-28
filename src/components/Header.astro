@@ -9,11 +9,14 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 // Show the Writing link only once a real (non-draft) post exists, so the section
 // stays hidden until there's something to read.
 const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).length > 0;
+
+const navLink =
+  "text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white font-medium transition-colors";
 ---
 
 
 
-<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm px-4 py-3 flex items-center justify-between">
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm px-4 py-3 flex items-center justify-between">
   <div class="flex items-center gap-3">
       <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="header-profile flex items-center gap-3">
         {siteConfig.profileImage && (
@@ -23,20 +26,20 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
             width="40"
             height="40"
             decoding="async"
-            class="h-10 w-10 rounded-full border border-gray-300 object-cover"
+            class="h-10 w-10 rounded-full border border-gray-300 dark:border-gray-700 object-cover"
           />
         )}
-        <span class="text-lg font-bold text-gray-900">{siteConfig.name}</span>
+        <span class="text-lg font-bold text-gray-900 dark:text-gray-100">{siteConfig.name}</span>
       </a>
   </div>
   <nav aria-label="Primary" class="hidden md:flex flex-1 justify-center">
     <ul class="flex items-center gap-6">
-      <li><a href="/#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
-      {hasSkills && (<li><a href="/#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
-      {hasExperience && (<li><a href="/#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
-      {hasEducation && (<li><a href="/#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
-      {hasProjects && (<li><a href="/#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
-      {hasWriting && (<li><a href="/writing" class="text-gray-700 hover:text-black font-medium transition-colors">Writing</a></li>)}
+      <li><a href="/#about" class={navLink}>About</a></li>
+      {hasSkills && (<li><a href="/#skills" class={navLink}>Skills</a></li>)}
+      {hasExperience && (<li><a href="/#experience" class={navLink}>Experience</a></li>)}
+      {hasEducation && (<li><a href="/#education" class={navLink}>Education</a></li>)}
+      {hasProjects && (<li><a href="/#projects" class={navLink}>Projects</a></li>)}
+      {hasWriting && (<li><a href="/writing" class={navLink}>Writing</a></li>)}
     </ul>
   </nav>
   <div class="flex items-center gap-2">
@@ -45,7 +48,7 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
         href={siteConfig.resumeUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center rounded-full bg-gray-900 px-4 py-1.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-gray-700"
+        class="inline-flex items-center rounded-full bg-gray-900 dark:bg-gray-100 px-4 py-1.5 text-sm font-semibold text-white dark:text-gray-900 transition-colors duration-300 hover:bg-gray-700 dark:hover:bg-white"
       >
         View Resume
       </a>
@@ -54,24 +57,38 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
       href={siteConfig.calendarUrl}
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-flex items-center rounded-full border border-blue-600 bg-white px-4 py-1.5 text-sm font-semibold text-blue-700 transition-colors duration-300 hover:bg-blue-50 hover:border-blue-800"
+      class="inline-flex items-center rounded-full border border-blue-600 bg-white dark:bg-gray-900 px-4 py-1.5 text-sm font-semibold text-blue-700 dark:text-blue-400 transition-colors duration-300 hover:bg-blue-50 dark:hover:bg-gray-800 hover:border-blue-800"
     >
       Book 15 min chat
     </a>
-    <button class="md:hidden ml-2 p-2 rounded bg-gray-100 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false" onclick="const n=document.getElementById('mobile-nav');const open=n.classList.toggle('hidden')===false;this.setAttribute('aria-expanded', String(open));">
-      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <button
+      id="theme-toggle"
+      type="button"
+      aria-label="Toggle dark mode"
+      class="ml-1 p-2 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900"
+    >
+      {/* moon in light mode (click → dark), sun in dark mode (click → light) */}
+      <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+      </svg>
+      <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+      </svg>
+    </button>
+    <button class="md:hidden ml-2 p-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false" onclick="const n=document.getElementById('mobile-nav');const open=n.classList.toggle('hidden')===false;this.setAttribute('aria-expanded', String(open));">
+      <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </div>
-  <nav id="mobile-nav" aria-label="Mobile" class="md:hidden fixed top-16 left-0 w-full bg-white border-t border-gray-200 shadow-lg hidden z-50">
+  <nav id="mobile-nav" aria-label="Mobile" class="md:hidden fixed top-16 left-0 w-full bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg hidden z-50">
     <ul class="flex flex-col items-center gap-4 py-4">
-      <li><a href="/#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
-      {hasSkills && (<li><a href="/#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
-      {hasExperience && (<li><a href="/#experience" class="text-gray-700 hover:text-black font-medium transition-colors">Experience</a></li>)}
-      {hasEducation && (<li><a href="/#education" class="text-gray-700 hover:text-black font-medium transition-colors">Education</a></li>)}
-      {hasProjects && (<li><a href="/#projects" class="text-gray-700 hover:text-black font-medium transition-colors">Projects</a></li>)}
-      {hasWriting && (<li><a href="/writing" class="text-gray-700 hover:text-black font-medium transition-colors">Writing</a></li>)}
+      <li><a href="/#about" class={navLink}>About</a></li>
+      {hasSkills && (<li><a href="/#skills" class={navLink}>Skills</a></li>)}
+      {hasExperience && (<li><a href="/#experience" class={navLink}>Experience</a></li>)}
+      {hasEducation && (<li><a href="/#education" class={navLink}>Education</a></li>)}
+      {hasProjects && (<li><a href="/#projects" class={navLink}>Projects</a></li>)}
+      {hasWriting && (<li><a href="/writing" class={navLink}>Writing</a></li>)}
     </ul>
   </nav>
 </header>
@@ -92,16 +109,20 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
         font-size: 1rem;
       }
     }
+    /* Scrolled state — translucent, theme-aware (toggled by the scroll handler). */
+    #header.header-scrolled {
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+    }
+    :global(.dark) #header.header-scrolled {
+      background-color: rgba(17, 24, 39, 0.8);
+    }
   </style>
 
 <script>
   window.addEventListener("scroll", () => {
     const header = document.getElementById("header");
-    if (window.scrollY > 100) {
-      header?.classList.add("bg-white/80", "backdrop-blur-sm");
-    } else {
-      header?.classList.remove("bg-white/80", "backdrop-blur-sm");
-    }
+    header?.classList.toggle("header-scrolled", window.scrollY > 100);
   });
 
   // Close the mobile menu after a link is tapped (it's a full-width fixed
@@ -115,6 +136,15 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
   mobileNav?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMobileNav));
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeMobileNav();
+  });
+</script>
+
+<script is:inline>
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    try {
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    } catch (e) {}
   });
 </script>
 

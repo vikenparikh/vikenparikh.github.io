@@ -3,26 +3,26 @@ import { siteConfig } from "../config";
 ---
 
 <section id="contact" class="p-8 sm:p-12 md:p-16 lg:p-24">
-  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-8">
-    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 text-center">Contact Me</h2>
-    <p class="text-center text-gray-500 mb-6">Have a role, project, or idea in mind? Send a note — I usually reply within a day.</p>
+  <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2 text-center">Contact Me</h2>
+    <p class="text-center text-gray-500 dark:text-gray-400 mb-6">Have a role, project, or idea in mind? Send a note — I usually reply within a day.</p>
     <form id="contact-form" name="contact" novalidate class="space-y-5">
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" name="name" required autocomplete="name" maxlength="120" aria-describedby="name-error" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500" />
+        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" maxlength="120" aria-describedby="name-error" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500" />
         <p id="name-error" class="mt-1 text-sm text-red-600 hidden"></p>
       </div>
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" aria-describedby="email-error" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500" />
+        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" aria-describedby="email-error" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500" />
         <p id="email-error" class="mt-1 text-sm text-red-600 hidden"></p>
       </div>
       <div>
         <div class="flex items-baseline justify-between">
-          <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-          <span id="message-count" class="text-xs text-gray-500">0 / 1000</span>
+          <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+          <span id="message-count" class="text-xs text-gray-500 dark:text-gray-400">0 / 1000</span>
         </div>
-        <textarea id="message" name="message" rows="5" required maxlength="1000" aria-describedby="message-error" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500"></textarea>
+        <textarea id="message" name="message" rows="5" required maxlength="1000" aria-describedby="message-error" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500 shadow-sm focus:border-blue-500 focus:ring-blue-500 aria-[invalid=true]:border-red-500 aria-[invalid=true]:ring-red-500"></textarea>
         <p id="message-error" class="mt-1 text-sm text-red-600 hidden"></p>
       </div>
       <!-- honeypot — hidden from humans; bots fill every input -->
@@ -41,7 +41,7 @@ import { siteConfig } from "../config";
       </div>
       <p id="contact-status" class="text-sm text-center" role="status" aria-live="polite"></p>
     </form>
-    <p class="mt-6 text-center text-gray-500 text-sm">Or email me directly at <a href={`mailto:${siteConfig.social.email}`} class="text-blue-600 hover:underline">{siteConfig.social.email}</a></p>
+    <p class="mt-6 text-center text-gray-500 dark:text-gray-400 text-sm">Or email me directly at <a href={`mailto:${siteConfig.social.email}`} class="text-blue-600 hover:underline">{siteConfig.social.email}</a></p>
   </div>
 </section>
 

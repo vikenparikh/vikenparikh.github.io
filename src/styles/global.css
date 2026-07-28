@@ -1,11 +1,20 @@
 /* CSS styles for the project */
 @import "tailwindcss";
 
+/* Class-based dark mode: `dark:` utilities apply when <html> has the `dark`
+   class (set by the no-flash script in BaseHead + the header toggle). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #111827;
   background-color: #f9fafb;
   line-height: 1.6;
+}
+
+.dark body {
+  color: #f3f4f6; /* gray-100 — AA-verified on the dark bg */
+  background-color: #0b1120; /* near slate-950 */
 }
 
 /* Remove sidebar margin styles */
