@@ -29,7 +29,7 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
         <span class="text-lg font-bold text-gray-900">{siteConfig.name}</span>
       </a>
   </div>
-  <nav class="hidden md:flex flex-1 justify-center">
+  <nav aria-label="Primary" class="hidden md:flex flex-1 justify-center">
     <ul class="flex items-center gap-6">
       <li><a href="/#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
       {hasSkills && (<li><a href="/#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
@@ -64,7 +64,7 @@ const hasWriting = (await getCollection("writing", ({ data }) => !data.draft)).l
       </svg>
     </button>
   </div>
-  <nav id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full bg-white border-t border-gray-200 shadow-lg hidden z-50">
+  <nav id="mobile-nav" aria-label="Mobile" class="md:hidden fixed top-16 left-0 w-full bg-white border-t border-gray-200 shadow-lg hidden z-50">
     <ul class="flex flex-col items-center gap-4 py-4">
       <li><a href="/#about" class="text-gray-700 hover:text-black font-medium transition-colors">About</a></li>
       {hasSkills && (<li><a href="/#skills" class="text-gray-700 hover:text-black font-medium transition-colors">Skills</a></li>)}
