@@ -47,6 +47,15 @@ describe("Hero.astro render-E2E", () => {
     expect(html).toContain(siteConfig.social.linkedin);
     expect(html).toContain(siteConfig.social.github);
   });
+
+  it("gives the profile image (LCP candidate) explicit dimensions + high fetch priority", async () => {
+    const html = await render(Hero);
+    const img = html.match(/<img[^>]*profile-photo[^>]*>/)?.[0] ?? "";
+    expect(img, "hero should render the profile image").not.toBe("");
+    expect(img).toContain('fetchpriority="high"');
+    expect(img).toMatch(/width="640"/);
+    expect(img).toMatch(/height="640"/);
+  });
 });
 
 describe("Projects.astro render-E2E", () => {

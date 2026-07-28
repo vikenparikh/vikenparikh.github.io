@@ -1,0 +1,59 @@
+---
+import { siteConfig } from "../config";
+
+// Shared <head> boilerplate so every page gets the same favicon, icons,
+// theme-color, and social/SEO tags without re-declaring them (and drifting).
+// Page-specific extras (JSON-LD, analytics, fonts) go alongside <BaseHead/> in
+// the page's own <head>.
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogImage?: string; // absolute URL — presence enables the OG/Twitter block
+  ogType?: string;
+  noindex?: boolean;
+  preloadImage?: string; // href of an above-the-fold image to preload (LCP)
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogTitle = `${siteConfig.name} | ${siteConfig.title}`,
+  ogImage,
+  ogType = "website",
+  noindex = false,
+  preloadImage,
+} = Astro.props;
+---
+
+<meta charset="utf-8" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+{preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+<meta name="viewport" content="width=device-width" />
+<meta name="generator" content={Astro.generator} />
+<meta name="theme-color" content={siteConfig.accentColor} />
+{noindex && <meta name="robots" content="noindex" />}
+<meta name="description" content={description} />
+{canonical && <link rel="canonical" href={canonical} />}
+{
+  ogImage && (
+    <>
+      <meta property="og:type" content={ogType} />
+      <meta property="og:title" content={ogTitle} />
+      <meta property="og:description" content={description} />
+      {canonical && <meta property="og:url" content={canonical} />}
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={`${siteConfig.name} — ${siteConfig.title}`} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={ogTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
+    </>
+  )
+}
+<title>{title}</title>

@@ -1,0 +1,37 @@
+version: 2
+# Keep every ecosystem in the repo patched, not just the root npm tree that
+# GitHub's default security alerts cover. This repo has already taken real CVEs
+# (nodemailer ReDoS, sharp/libvips, esbuild), and the contact backend + CI
+# workflows were previously unmonitored. Minor/patch updates are grouped into a
+# single PR per ecosystem to cut noise; majors still arrive individually so they
+# get a proper review (as the Astro 6->7 bump did).
+updates:
+  # Frontend / site (Astro, Tailwind, Vitest, ...)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        update-types: ["minor", "patch"]
+
+  # Contact backend (nodemailer + the Node http server)
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      backend-minor-patch:
+        update-types: ["minor", "patch"]
+
+  # GitHub Actions used by ci.yml / deploy.yml / contact-monitor.yml
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]

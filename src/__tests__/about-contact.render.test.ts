@@ -81,4 +81,14 @@ describe("Contact.astro render-E2E (frontend<->backend form contract)", () => {
     expect(html).toContain('id="contact-spinner"');
     expect(html).toContain('id="message-count"');
   });
+
+  it("caps inputs at the lengths the backend enforces (name<=120, email<=254, message<=1000)", async () => {
+    const html = await render(Contact);
+    // backend/server.js rejects name>120 and email>254 with a 400; without a
+    // client maxlength a long value submits and returns a confusing error. Pin
+    // the maxlengths so the client matches the server contract.
+    expect(html).toMatch(/id="name"[^>]*maxlength="120"/);
+    expect(html).toMatch(/id="email"[^>]*maxlength="254"/);
+    expect(html).toMatch(/id="message"[^>]*maxlength="1000"/);
+  });
 });
