@@ -44,6 +44,8 @@ const personLd = {
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {/* Preload the above-the-fold profile image (LCP candidate) so it fetches early. */}
+    <link rel="preload" as="image" href={siteConfig.profileImage} fetchpriority="high" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content={siteConfig.accentColor} />

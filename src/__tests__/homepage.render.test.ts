@@ -58,6 +58,12 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(h).not.toContain("IBM+Plex+Mono");
   });
 
+  it("preloads the LCP profile image", async () => {
+    const h = await getHtml();
+    expect(h).toMatch(/<link[^>]*rel="preload"[^>]*as="image"[^>]*fetchpriority="high"/);
+    expect(h).toContain(siteConfig.profileImage);
+  });
+
   it("renders the page shell (html lang, body, skip-target main)", async () => {
     const h = await getHtml();
     expect(h).toContain('lang="en"');
