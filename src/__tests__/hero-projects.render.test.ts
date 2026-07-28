@@ -87,4 +87,32 @@ describe("Projects.astro render-E2E", () => {
     expect(html).not.toContain("github.githubassets.com");
     expect(html).toContain('src="/images/github-mark.svg"');
   });
+
+  it("does not link to project repos that 404 (dead links hurt credibility)", async () => {
+    const html = await render(Projects);
+    // These repos returned 404 (private or deleted); their cards stay as content
+    // but must not carry a broken href. The live repos stay linked.
+    const dead = [
+      "AWS-AutoScaling-Object-Detection",
+      "Mutext",
+      "PhoCaptionator",
+      "LeVoyage",
+      "Vetflix",
+      "Travigate-Front-End",
+      "Food-Donation-System",
+      "House-Prices-Prediction",
+    ];
+    for (const repo of dead) {
+      expect(html, `${repo} card should still show as content`).toContain(repo);
+      expect(html, `${repo} must not be a broken link`).not.toContain(
+        `href="https://github.com/vikenparikh/${repo}"`
+      );
+    }
+    // The verified-live repos remain linked.
+    for (const repo of ["edumind-ai", "neuralverse-ai", "medmind-ai", "investiq-ai"]) {
+      expect(html, `${repo} should remain linked`).toContain(
+        `href="https://github.com/vikenparikh/${repo}"`
+      );
+    }
+  });
 });
