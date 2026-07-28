@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { getViteConfig } from "astro/config";
 
 export default getViteConfig({
@@ -9,7 +10,7 @@ export default getViteConfig({
       // render path. The homepage E2E (homepage.render.test.ts) renders the full
       // index.astro page through all 9 components, but v8 only instruments a subset
       // of .astro files via the container pipeline; listing the non-attributed ones
-      // (index.astro, About/Header/Footer/Contact/Projects/ProjectCard) would show
+      // (index.astro, About/Header/Footer/Contact/Projects) would show
       // misleading 0%/absent rows. Hero.astro IS attributed (covered 0%->100% by the
       // page render). The page-composition guarantee is enforced by the test's
       // section-id + per-section assertions, not by a coverage number.
