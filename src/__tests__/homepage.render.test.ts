@@ -99,4 +99,18 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     const h = await getHtml();
     expect(h, "contact email should render").toContain(siteConfig.social.email);
   });
+
+  it("emits JSON-LD Person structured data + theme-color meta", async () => {
+    const h = await getHtml();
+    expect(h).toContain('name="theme-color"');
+    expect(h).toContain('type="application/ld+json"');
+    // The block should parse and describe the configured person.
+    const m = h.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    expect(m, "a JSON-LD script block should be present").toBeTruthy();
+    const ld = JSON.parse(m![1]);
+    expect(ld["@type"]).toBe("Person");
+    expect(ld.name).toBe(siteConfig.name);
+    expect(ld.sameAs).toContain(siteConfig.social.linkedin);
+    expect(ld.sameAs).toContain(siteConfig.social.github);
+  });
 });

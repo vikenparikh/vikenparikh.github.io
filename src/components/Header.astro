@@ -50,7 +50,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
     >
       Book 15 min chat
     </a>
-    <button class="md:hidden ml-2 p-2 rounded bg-gray-100 hover:bg-gray-200 focus:outline-none" aria-label="Open navigation" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+    <button class="md:hidden ml-2 p-2 rounded bg-gray-100 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false" onclick="const n=document.getElementById('mobile-nav');const open=n.classList.toggle('hidden')===false;this.setAttribute('aria-expanded', String(open));">
       <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
