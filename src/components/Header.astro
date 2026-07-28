@@ -65,6 +65,8 @@ const navLink =
       id="theme-toggle"
       type="button"
       aria-label="Toggle dark mode"
+      data-theme-light={siteConfig.accentColor}
+      data-theme-dark="#0b1120"
       class="ml-1 p-2 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900"
     >
       {/* moon in light mode (click → dark), sun in dark mode (click → light) */}
@@ -140,12 +142,25 @@ const navLink =
 </script>
 
 <script is:inline>
-  document.getElementById("theme-toggle")?.addEventListener("click", () => {
-    const isDark = document.documentElement.classList.toggle("dark");
-    try {
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    } catch (e) {}
-  });
+  (() => {
+    const btn = document.getElementById("theme-toggle");
+    // Keep the browser-chrome theme-color in sync with the active theme (the
+    // no-flash script may already have applied .dark from a stored/OS choice).
+    const syncThemeColor = () => {
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta || !btn) return;
+      const dark = document.documentElement.classList.contains("dark");
+      meta.setAttribute("content", dark ? btn.dataset.themeDark : btn.dataset.themeLight);
+    };
+    syncThemeColor();
+    btn?.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      try {
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      } catch (e) {}
+      syncThemeColor();
+    });
+  })();
 </script>
 
 <style>
