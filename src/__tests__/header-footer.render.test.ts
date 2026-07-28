@@ -50,6 +50,12 @@ describe("Header.astro render-E2E", () => {
     expect(html).toContain(`href="${siteConfig.calendarUrl}"`);
   });
 
+  it("gives both nav landmarks unique accessible names", async () => {
+    const html = await render(Header);
+    expect(html).toContain('aria-label="Primary"');
+    expect(html).toContain('aria-label="Mobile"');
+  });
+
   it("wires the mobile menu button for a11y (label + expanded state + control)", async () => {
     const html = await render(Header);
     expect(html).toContain('aria-label="Open navigation"');
