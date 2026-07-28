@@ -176,6 +176,33 @@ test("validation branches return correct 400 details", async () => {
   });
 });
 
+// 6b. validation enforces the UPPER length bounds (covers the `|| .length > N`
+// half of server.js 106-108). The empty cases are tested above; these are the
+// reject-side of the abuse caps (name>120, email>254, message>4000) that keep a
+// giant payload from being emailed. Each over-limit field is otherwise valid.
+test("validation rejects over-length name, email, and message", async () => {
+  const t = fakeTransporter();
+  await withServer(createHandler({ transporter: t, ...BASE }), async (port) => {
+    const post = (over) =>
+      request(port, { method: "POST", path: "/contact", headers: JSON_HEADERS, body: validBody(over) });
+
+    const longName = await post({ name: "a".repeat(121) });
+    assert.equal(longName.status, 400);
+    assert.deepEqual(JSON.parse(longName.raw), { detail: "name required" });
+
+    // 256 chars, still a valid email shape, so only the length cap can reject it.
+    const longEmail = await post({ email: "a".repeat(250) + "@b.co" });
+    assert.equal(longEmail.status, 400);
+    assert.deepEqual(JSON.parse(longEmail.raw), { detail: "valid email required" });
+
+    const longMsg = await post({ message: "a".repeat(4001) });
+    assert.equal(longMsg.status, 400);
+    assert.deepEqual(JSON.parse(longMsg.raw), { detail: "message required" });
+
+    assert.equal(t.calls.length, 0); // nothing over-limit was emailed
+  });
+});
+
 // 7. email regex: "bad" and "@b.co" rejected (400); "a@b.co" accepted (reaches send)
 test("email regex accepts a@b.co, rejects bad and @b.co", async () => {
   const t1 = fakeTransporter();
