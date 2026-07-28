@@ -174,4 +174,15 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(existsSync("public/images/og-card.png"), "og-card.png must exist in public/images").toBe(true);
     expect(existsSync("public/apple-touch-icon.png"), "apple-touch-icon.png must exist in public/").toBe(true);
   });
+
+  it("has a single <h1> and no lower-level heading precedes it (clean outline)", async () => {
+    const h = await getHtml();
+    const levels = [...h.matchAll(/<h([1-6])\b/g)].map((m) => Number(m[1]));
+    // Exactly one top-level heading.
+    expect(levels.filter((l) => l === 1).length, "page must have exactly one <h1>").toBe(1);
+    // Regression: the Hero greeting kicker was once an <h2>, so an h2 appeared
+    // before the <h1> and broke the document outline. The first heading in DOM
+    // order must be the <h1>.
+    expect(levels[0], "the first heading in document order must be the <h1>").toBe(1);
+  });
 });
