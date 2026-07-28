@@ -1,0 +1,117 @@
+---
+import { getCollection, render } from "astro:content";
+import { siteConfig } from "../../config";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BaseHead from "../../components/BaseHead.astro";
+import "../../styles/global.css";
+
+// Build a page for every post (drafts included, so they're previewable by direct
+// URL) — the index, nav, and RSS still exclude drafts.
+export async function getStaticPaths() {
+  const posts = await getCollection("writing");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateFmt = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric" });
+const title = `${post.data.title} | ${siteConfig.name}`;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead
+      title={title}
+      description={post.data.description}
+      canonical={`https://vikenparikh.com/writing/${post.id}`}
+      noindex={post.data.draft}
+    />
+  </head>
+  <body>
+    <Header />
+    <main id="main-content" class="pt-24 md:pt-28">
+      <article class="p-8 sm:p-12 md:p-16 lg:p-24">
+        <div class="max-w-2xl mx-auto">
+          <a href="/writing" class="text-sm text-blue-700 hover:underline">← All writing</a>
+          <time datetime={post.data.pubDate.toISOString()} class="mt-6 block text-sm text-gray-400">
+            {dateFmt.format(post.data.pubDate)}
+          </time>
+          <h1 class="mt-1 text-3xl sm:text-4xl font-bold text-gray-900">{post.data.title}</h1>
+          {
+            post.data.tags.length > 0 && (
+              <div class="mt-3 flex flex-wrap gap-2">
+                {post.data.tags.map((tag) => (
+                  <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">{tag}</span>
+                ))}
+              </div>
+            )
+          }
+          <div class="post-body mt-8 text-gray-800">
+            <Content />
+          </div>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  /* Minimal prose styling for rendered Markdown (no typography plugin). */
+  .post-body :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
+  .post-body :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
+  .post-body :global(p) {
+    margin-top: 1rem;
+    line-height: 1.75;
+  }
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+    list-style: revert;
+  }
+  .post-body :global(li) {
+    margin-top: 0.375rem;
+  }
+  .post-body :global(a) {
+    color: #1d4ed8;
+    text-decoration: underline;
+  }
+  .post-body :global(code) {
+    background: #f3f4f6;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+  .post-body :global(pre) {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+  .post-body :global(pre code) {
+    background: transparent;
+    padding: 0;
+  }
+  .post-body :global(blockquote) {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid #d1d5db;
+    color: #4b5563;
+  }
+</style>

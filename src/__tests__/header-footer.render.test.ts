@@ -34,9 +34,10 @@ describe("Header.astro render-E2E", () => {
     const html = await render(Header);
     expect(html).toContain('id="header"');
     expect(html).toContain(siteConfig.name);
-    // Nav sections that are gated on config being non-empty should be present.
-    for (const anchor of ["#about", "#skills", "#experience", "#education", "#projects"]) {
-      expect(html, `nav should link to ${anchor}`).toContain(`href="${anchor}"`);
+    // Nav links are absolute (/#section) so they work from sub-pages like
+    // /writing, not just the homepage.
+    for (const section of ["about", "skills", "experience", "education", "projects"]) {
+      expect(html, `nav should link to /#${section}`).toContain(`href="/#${section}"`);
     }
   });
 

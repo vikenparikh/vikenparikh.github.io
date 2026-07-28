@@ -1,6 +1,21 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 export const collections = {
+  // Writing/notes — Markdown files in src/content/writing/. Uses the modern
+  // Content Layer loader. Posts with `draft: true` are excluded from the index,
+  // the nav link, and the RSS feed, so the section stays invisible until a real
+  // post ships.
+  writing: defineCollection({
+    loader: glob({ pattern: "**/*.md", base: "./src/content/writing" }),
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      draft: z.boolean().default(false),
+      tags: z.array(z.string()).default([]),
+    }),
+  }),
   about: defineCollection({
     schema: z.object({
       title: z.string(),
