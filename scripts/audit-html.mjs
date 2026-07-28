@@ -44,6 +44,18 @@ const rules = {
   "meta-description": (h) =>
     /<meta\b[^>]*name="description"[^>]*content="[^"]/.test(h) ? [] : ["missing <meta name=\"description\">"],
 
+  // Lighthouse SEO audit: a mobile-friendly page needs a viewport meta.
+  viewport: (h) =>
+    /<meta\b[^>]*name="viewport"/.test(h) ? [] : ['missing <meta name="viewport">'],
+
+  // Lighthouse SEO audit ("Document does not have a valid rel=canonical"): every
+  // *indexable* page needs a canonical link. noindex pages (e.g. 404) are exempt.
+  canonical: (h) => {
+    const noindex = /<meta\b[^>]*name="robots"[^>]*content="[^"]*noindex/.test(h);
+    if (noindex) return [];
+    return /<link\b[^>]*rel="canonical"/.test(h) ? [] : ['indexable page missing <link rel="canonical">'];
+  },
+
   h1: (h) => {
     const n = [...h.matchAll(/<h1\b/g)].length;
     if (n === 0) return ["no <h1> on the page"];
