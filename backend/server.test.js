@@ -176,6 +176,33 @@ test("validation branches return correct 400 details", async () => {
   });
 });
 
+// 6b. validation enforces the UPPER length bounds (covers the `|| .length > N`
+// half of server.js 106-108). The empty cases are tested above; these are the
+// reject-side of the abuse caps (name>120, email>254, message>4000) that keep a
+// giant payload from being emailed. Each over-limit field is otherwise valid.
+test("validation rejects over-length name, email, and message", async () => {
+  const t = fakeTransporter();
+  await withServer(createHandler({ transporter: t, ...BASE }), async (port) => {
+    const post = (over) =>
+      request(port, { method: "POST", path: "/contact", headers: JSON_HEADERS, body: validBody(over) });
+
+    const longName = await post({ name: "a".repeat(121) });
+    assert.equal(longName.status, 400);
+    assert.deepEqual(JSON.parse(longName.raw), { detail: "name required" });
+
+    // 256 chars, still a valid email shape, so only the length cap can reject it.
+    const longEmail = await post({ email: "a".repeat(250) + "@b.co" });
+    assert.equal(longEmail.status, 400);
+    assert.deepEqual(JSON.parse(longEmail.raw), { detail: "valid email required" });
+
+    const longMsg = await post({ message: "a".repeat(4001) });
+    assert.equal(longMsg.status, 400);
+    assert.deepEqual(JSON.parse(longMsg.raw), { detail: "message required" });
+
+    assert.equal(t.calls.length, 0); // nothing over-limit was emailed
+  });
+});
+
 // 7. email regex: "bad" and "@b.co" rejected (400); "a@b.co" accepted (reaches send)
 test("email regex accepts a@b.co, rejects bad and @b.co", async () => {
   const t1 = fakeTransporter();
@@ -241,6 +268,43 @@ test("rate-limit second submission -> 429", async () => {
   );
 });
 
+// 8a. rate-limit window slides open: after the window elapses, the same IP can
+// send again (covers the timestamp-expiry filter in rateLimit — a broken filter
+// would lock a legitimate sender out permanently).
+test("rate-limit window expiry lets the same IP send again", async () => {
+  const t = fakeTransporter();
+  const WINDOW = 300;
+  await withServer(
+    createHandler({ transporter: t, ...BASE, rateMax: 1, rateWindowMs: WINDOW }),
+    async (port) => {
+      const ip = { "X-Forwarded-For": "203.0.113.9" };
+      const post = () =>
+        request(port, { method: "POST", path: "/contact", headers: { ...JSON_HEADERS, ...ip }, body: validBody() });
+      assert.equal((await post()).status, 202); // first: allowed
+      assert.equal((await post()).status, 429); // second: over the cap
+      await new Promise((r) => setTimeout(r, WINDOW + 100)); // let the window elapse
+      assert.equal((await post()).status, 202); // window slid open -> allowed again
+      assert.equal(t.calls.length, 2); // only the two allowed sends dispatched mail
+    }
+  );
+});
+
+// 8b. rate-limit buckets are per-IP: one IP hitting the cap must not block a
+// different IP (a shared bucket would let one spammer lock everyone out).
+test("rate-limit is isolated per client IP", async () => {
+  const t = fakeTransporter();
+  await withServer(
+    createHandler({ transporter: t, ...BASE, rateMax: 1 }),
+    async (port) => {
+      const post = (xff) =>
+        request(port, { method: "POST", path: "/contact", headers: { ...JSON_HEADERS, "X-Forwarded-For": xff }, body: validBody() });
+      assert.equal((await post("198.51.100.1")).status, 202); // IP A: allowed
+      assert.equal((await post("198.51.100.1")).status, 429); // IP A: capped
+      assert.equal((await post("198.51.100.2")).status, 202); // IP B: unaffected
+    }
+  );
+});
+
 // 9. unconfigured SMTP (transporter null) on valid POST -> 503
 test("null transporter -> 503 not configured", async () => {
   await withServer(
@@ -279,6 +343,43 @@ test("CORS allowed origin echoes ACAO and Vary", async () => {
       "https://vikenparikh.com"
     );
     assert.ok(String(res.headers["vary"] || "").includes("Origin"));
+    assert.equal(t.calls.length, 1);
+  });
+});
+
+// A2. CORS negative (covers the false branch of server.js 67): a rogue Origin
+// that is NOT on the allow-list must NOT receive Access-Control-Allow-Origin, so
+// the browser blocks the cross-origin read. A regression that always echoed the
+// origin would be a wide-open CORS policy — this is the test that catches it.
+test("CORS disallowed origin is refused the ACAO header", async () => {
+  const t = fakeTransporter();
+  assert.ok(!BASE.allowedOrigins.includes("https://evil.example"));
+  await withServer(createHandler({ transporter: t, ...BASE }), async (port) => {
+    const res = await request(port, {
+      method: "POST",
+      path: "/contact",
+      headers: { ...JSON_HEADERS, Origin: "https://evil.example" },
+      body: validBody(),
+    });
+    // The request itself still processes (CORS is a browser-enforced read
+    // barrier, not a server-side reject), but the ACAO header must be absent.
+    assert.equal(res.headers["access-control-allow-origin"], undefined);
+  });
+});
+
+// A3. Route match tolerates a query string (covers server.js 80's
+// url.startsWith("/contact?") branch): a form POST to /contact?utm=... is still
+// routed to the handler, not 404'd.
+test("POST /contact with a query string is accepted", async () => {
+  const t = fakeTransporter();
+  await withServer(createHandler({ transporter: t, ...BASE }), async (port) => {
+    const res = await request(port, {
+      method: "POST",
+      path: "/contact?utm_source=newsletter",
+      headers: JSON_HEADERS,
+      body: validBody(),
+    });
+    assert.equal(res.status, 202);
     assert.equal(t.calls.length, 1);
   });
 });

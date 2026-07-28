@@ -57,6 +57,8 @@ const {
   ogImage && (
     <>
       <meta property="og:type" content={ogType} />
+      <meta property="og:site_name" content={siteConfig.name} />
+      <meta property="og:locale" content="en_US" />
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={description} />
       {canonical && <meta property="og:url" content={canonical} />}
@@ -68,6 +70,9 @@ const {
       <meta name="twitter:title" content={ogTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      {/* Twitter clients read twitter:image:alt (not og:image:alt) for the
+          shared card's alt text — mirror it so social previews stay accessible. */}
+      <meta name="twitter:image:alt" content={`${siteConfig.name} — ${siteConfig.title}`} />
     </>
   )
 }

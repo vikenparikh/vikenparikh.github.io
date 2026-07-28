@@ -28,13 +28,21 @@ export async function GET() {
     )
     .join("\n");
 
+  // lastBuildDate from the newest post (posts are sorted newest-first) — a
+  // deterministic, meaningful value; omitted when there are no posts so the feed
+  // doesn't churn on every build. Wall-clock is deliberately avoided.
+  const lastBuild = posts.length
+    ? `\n    <lastBuildDate>${posts[0].data.pubDate.toUTCString()}</lastBuildDate>`
+    : "";
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${esc(siteConfig.name)} — Writing</title>
     <link>${SITE}/writing/</link>
+    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />
     <description>Notes on AI/ML, LLM agents, MLOps, and distributed systems.</description>
-    <language>en-us</language>
+    <language>en-us</language>${lastBuild}
 ${items}
   </channel>
 </rss>`;

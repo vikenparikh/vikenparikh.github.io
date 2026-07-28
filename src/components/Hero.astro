@@ -131,7 +131,9 @@ import { siteConfig } from "../config";
   </svg>
   <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 md:gap-10">
     <div class="max-w-4xl">
-      <h2 class="text-pretty text-2xl md:text-5xl font-bold tracking-tight text-gray-700 dark:text-gray-300 animate-fade-in mb-2">Hello! 👋</h2>
+      {/* Decorative greeting kicker — a <p>, not a heading, so the document
+          outline starts cleanly at the <h1> below (no h2 preceding the h1). */}
+      <p class="text-pretty text-2xl md:text-5xl font-bold tracking-tight text-gray-700 dark:text-gray-300 animate-fade-in mb-2">Hello! 👋</p>
       <h1 class="mt-4 text-pretty text-5xl md:text-7xl font-bold tracking-tight text-blue-700 dark:text-blue-400 animate-fade-in animation-delay-200">I'm {siteConfig.name}</h1>
       <p class="mt-6 text-lg md:text-2xl font-medium text-gray-600 dark:text-gray-300 animate-fade-in animation-delay-400">
         AI/ML Software Engineer at <span class="text-blue-700 dark:text-blue-400 font-semibold">Electronic Arts</span>, building LLM agents, MLOps, and generative-AI platform services for game and live-service teams.
@@ -167,15 +169,15 @@ import { siteConfig } from "../config";
         <p class="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3">Experience</p>
         <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
           <div class="flex items-center gap-2">
-            <img src="/images/ea-logo.svg" alt="Electronic Arts" class="h-8 w-8 object-contain" />
+            <img src="/images/ea-logo.svg" alt="Electronic Arts" width="32" height="32" class="h-8 w-8 object-contain" />
             <span class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">Electronic Arts</span>
           </div>
           <div class="flex items-center gap-2">
-            <img src="/images/microsoft-logo.png" alt="Microsoft" class="h-8 w-8 object-contain" />
+            <img src="/images/microsoft-logo.png" alt="Microsoft" width="32" height="32" class="h-8 w-8 object-contain" />
             <span class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">Microsoft</span>
           </div>
           <div class="flex items-center gap-2">
-            <img src="/images/paypal-logo.png" alt="PayPal" class="h-8 w-8 object-contain" />
+            <img src="/images/paypal-logo.png" alt="PayPal" width="32" height="32" class="h-8 w-8 object-contain" />
             <span class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">PayPal</span>
           </div>
         </div>

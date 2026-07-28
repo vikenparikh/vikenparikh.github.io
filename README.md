@@ -6,7 +6,7 @@ My portfolio at **[vikenparikh.com](https://vikenparikh.com)** — built with As
 
 ## Tech stack
 
-- **Astro 6** (static output) — **requires Node ≥ 22.12**
+- **Astro 7** (static output) — **requires Node ≥ 22.12**
 - **Tailwind CSS v4**
 - TypeScript-driven site config (`src/config.ts`)
 - Vitest (component render tests) + a small Node contact backend + a Python project-builder script
@@ -50,7 +50,7 @@ cd backend && npm test   # Node --test — contact server (validation, rate-limi
 
 - **CI** (`.github/workflows/ci.yml`) runs on every PR and on `master`: three parallel jobs — frontend (`astro check` + Vitest + build), contact backend (`node --test`), and the Python script tests.
 - **Deploy** (`.github/workflows/deploy.yml`) builds and publishes `dist/` to GitHub Pages on push to `master`.
-- Both workflows run on **Node 22** (Astro 6's minimum; Node 20 fails the build).
+- Both workflows run on **Node 22** (Astro requires Node ≥ 22.12; Node 20 fails the build).
 
 ## Production build
 
