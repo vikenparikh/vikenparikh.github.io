@@ -48,6 +48,16 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(h, "meta description should be the config description").toContain(siteConfig.description);
   });
 
+  it("does not load a render-blocking web font (IBM Plex Mono was unused)", async () => {
+    const h = await getHtml();
+    // The head used to pull IBM Plex Mono (14 variants) from Google Fonts even
+    // though nothing on the page uses it — a render-blocking request for zero
+    // visual benefit. Keep the head font-free (system stack in global.css).
+    expect(h).not.toContain("fonts.googleapis.com");
+    expect(h).not.toContain("fonts.gstatic.com");
+    expect(h).not.toContain("IBM+Plex+Mono");
+  });
+
   it("renders the page shell (html lang, body, skip-target main)", async () => {
     const h = await getHtml();
     expect(h).toContain('lang="en"');
