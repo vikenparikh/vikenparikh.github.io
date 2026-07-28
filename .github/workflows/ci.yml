@@ -39,6 +39,11 @@ jobs:
       # weekly in link-check.yml.
       - name: Verify self-hosted assets
         run: node scripts/check-links.mjs --assets-only
+      # Structural HTML-quality gate (heading outline, alt text, lang, in-page
+      # anchors, target=_blank safety) — catches defects that only surface in
+      # the final composed document. Caught the #89 h2-before-h1 regression.
+      - name: Audit built HTML
+        run: node scripts/audit-html.mjs
 
   backend:
     name: contact backend (node --test)
