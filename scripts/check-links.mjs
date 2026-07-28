@@ -99,8 +99,13 @@ async function check(url) {
   return 0;
 }
 
+// --assets-only skips the network (external-link) checks and only verifies that
+// self-hosted assets exist. It's fast + deterministic, so the PR CI gate runs it
+// after every build; the scheduled workflow runs the full check (external + assets).
+const ASSETS_ONLY = process.argv.includes("--assets-only");
+
 const files = walk("dist");
-const urls = collectUrls(files);
+const urls = ASSETS_ONLY ? [] : collectUrls(files);
 const dead = [];
 const skipped = [];
 const unknown = [];
@@ -141,7 +146,7 @@ if (dead.length || missing.length) {
   console.error("\nlink-check: FAIL — fix or remove the broken references above.");
   process.exit(1);
 }
-console.log(
-  `\nlink-check: OK — ${urls.length - skipped.length} external links checked (0 dead), ` +
-    `${assets.length} local assets verified (0 missing).`
-);
+const externalSummary = ASSETS_ONLY
+  ? "external links skipped (--assets-only)"
+  : `${urls.length - skipped.length} external links checked (0 dead)`;
+console.log(`\nlink-check: OK — ${externalSummary}, ${assets.length} local assets verified (0 missing).`);

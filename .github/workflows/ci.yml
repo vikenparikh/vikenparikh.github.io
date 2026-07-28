@@ -34,6 +34,11 @@ jobs:
       # check is deterministic; deploy.yml runs the full `npm run build` with sync.
       - name: Build
         run: npx astro build
+      # Fast, network-free check that no self-hosted asset reference is missing
+      # (the original broken og:image class). Full external-link sweep runs
+      # weekly in link-check.yml.
+      - name: Verify self-hosted assets
+        run: node scripts/check-links.mjs --assets-only
 
   backend:
     name: contact backend (node --test)
