@@ -1,0 +1,58 @@
+import { describe, it, expect } from "vitest";
+import { experimental_AstroContainer as AstroContainer } from "astro/container";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { siteConfig } from "../config";
+
+function decode(input: string): string {
+  let s = input;
+  let prev: string;
+  do {
+    prev = s;
+    s = s
+      .replace(/&amp;/g, "&")
+      .replace(/&#38;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&#60;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#62;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#34;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'");
+  } while (s !== prev);
+  return s;
+}
+
+async function render(Component: Parameters<AstroContainer["renderToString"]>[0]) {
+  const container = await AstroContainer.create();
+  return decode(await container.renderToString(Component));
+}
+
+describe("Header.astro render-E2E", () => {
+  it("renders the header with the name and in-page nav anchors", async () => {
+    const html = await render(Header);
+    expect(html).toContain('id="header"');
+    expect(html).toContain(siteConfig.name);
+    // Nav sections that are gated on config being non-empty should be present.
+    for (const anchor of ["#about", "#skills", "#experience", "#education", "#projects"]) {
+      expect(html, `nav should link to ${anchor}`).toContain(`href="${anchor}"`);
+    }
+  });
+
+  it("wires the mobile menu button for a11y (label + expanded state + control)", async () => {
+    const html = await render(Header);
+    expect(html).toContain('aria-label="Open navigation"');
+    expect(html).toContain('aria-controls="mobile-nav"');
+    expect(html).toContain('aria-expanded="false"');
+    expect(html).toContain('id="mobile-nav"');
+  });
+});
+
+describe("Footer.astro render-E2E", () => {
+  it("renders a footer with the owner name", async () => {
+    const html = await render(Footer);
+    expect(html).toContain("<footer");
+    expect(html).toContain("Viken Parikh");
+  });
+});

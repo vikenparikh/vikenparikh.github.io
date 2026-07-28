@@ -113,4 +113,20 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(ld.sameAs).toContain(siteConfig.social.linkedin);
     expect(ld.sameAs).toContain(siteConfig.social.github);
   });
+
+  it("references an absolute, existing OG image + apple-touch-icon", async () => {
+    const h = await getHtml();
+    // Regression: og/twitter image previously pointed at a file that did not
+    // exist (website-screenshot_full.png) — broken social previews. Pin the
+    // real, absolute card URL and its dimensions.
+    expect(h).toContain('property="og:image" content="https://vikenparikh.com/images/og-card.png"');
+    expect(h).toContain('name="twitter:image" content="https://vikenparikh.com/images/og-card.png"');
+    expect(h).toContain('property="og:image:width" content="1200"');
+    expect(h).toContain('property="og:image:height" content="630"');
+    expect(h).toContain('rel="apple-touch-icon"');
+    // The referenced image must actually be committed to public/.
+    const { existsSync } = await import("node:fs");
+    expect(existsSync("public/images/og-card.png"), "og-card.png must exist in public/images").toBe(true);
+    expect(existsSync("public/apple-touch-icon.png"), "apple-touch-icon.png must exist in public/").toBe(true);
+  });
 });
