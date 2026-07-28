@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import { siteConfig } from "../../config";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import BaseHead from "../../components/BaseHead.astro";
 import "../../styles/global.css";
 
 // Build a page for every post (drafts included, so they're previewable by direct
@@ -20,15 +21,12 @@ const title = `${post.data.title} | ${siteConfig.name}`;
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="theme-color" content={siteConfig.accentColor} />
-    <meta name="description" content={post.data.description} />
-    <link rel="canonical" href={`https://vikenparikh.com/writing/${post.id}`} />
-    {post.data.draft && <meta name="robots" content="noindex" />}
-    <title>{title}</title>
+    <BaseHead
+      title={title}
+      description={post.data.description}
+      canonical={`https://vikenparikh.com/writing/${post.id}`}
+      noindex={post.data.draft}
+    />
   </head>
   <body>
     <Header />
