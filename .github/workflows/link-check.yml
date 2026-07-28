@@ -1,0 +1,33 @@
+name: Link check
+
+# Weekly (and on-demand) sweep of the site's outbound links. 8 project cards
+# once linked to repos that 404'd — this makes that class of bug loud instead of
+# silent. Fails only on definitive 404/410; a failed scheduled run surfaces in
+# Actions and emails the repo owner.
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-check
+  cancel-in-progress: true
+
+jobs:
+  links:
+    name: check outbound links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build site
+        run: npx astro build
+      - name: Check links
+        run: node scripts/check-links.mjs
