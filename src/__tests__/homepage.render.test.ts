@@ -64,6 +64,11 @@ describe("index.astro homepage render-E2E (full deployed page)", () => {
     expect(h).toContain(siteConfig.profileImage);
   });
 
+  it("sets a complete viewport meta (initial-scale=1 — prevents the iOS landscape-zoom bug)", async () => {
+    const h = await getHtml();
+    expect(h).toMatch(/<meta name="viewport" content="width=device-width, initial-scale=1"/);
+  });
+
   it("links a valid web app manifest whose icons exist", async () => {
     const h = await getHtml();
     expect(h).toContain('rel="manifest"');
