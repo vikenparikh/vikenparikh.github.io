@@ -5,6 +5,15 @@
    class (set by the no-flash script in BaseHead + the header toggle). */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Tell the UA which scheme is active so native chrome (scrollbars, form
+   controls, caret, selection) matches the theme instead of staying light. */
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+
 body {
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #111827;
