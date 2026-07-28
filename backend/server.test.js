@@ -241,6 +241,43 @@ test("rate-limit second submission -> 429", async () => {
   );
 });
 
+// 8a. rate-limit window slides open: after the window elapses, the same IP can
+// send again (covers the timestamp-expiry filter in rateLimit — a broken filter
+// would lock a legitimate sender out permanently).
+test("rate-limit window expiry lets the same IP send again", async () => {
+  const t = fakeTransporter();
+  const WINDOW = 300;
+  await withServer(
+    createHandler({ transporter: t, ...BASE, rateMax: 1, rateWindowMs: WINDOW }),
+    async (port) => {
+      const ip = { "X-Forwarded-For": "203.0.113.9" };
+      const post = () =>
+        request(port, { method: "POST", path: "/contact", headers: { ...JSON_HEADERS, ...ip }, body: validBody() });
+      assert.equal((await post()).status, 202); // first: allowed
+      assert.equal((await post()).status, 429); // second: over the cap
+      await new Promise((r) => setTimeout(r, WINDOW + 100)); // let the window elapse
+      assert.equal((await post()).status, 202); // window slid open -> allowed again
+      assert.equal(t.calls.length, 2); // only the two allowed sends dispatched mail
+    }
+  );
+});
+
+// 8b. rate-limit buckets are per-IP: one IP hitting the cap must not block a
+// different IP (a shared bucket would let one spammer lock everyone out).
+test("rate-limit is isolated per client IP", async () => {
+  const t = fakeTransporter();
+  await withServer(
+    createHandler({ transporter: t, ...BASE, rateMax: 1 }),
+    async (port) => {
+      const post = (xff) =>
+        request(port, { method: "POST", path: "/contact", headers: { ...JSON_HEADERS, "X-Forwarded-For": xff }, body: validBody() });
+      assert.equal((await post("198.51.100.1")).status, 202); // IP A: allowed
+      assert.equal((await post("198.51.100.1")).status, 429); // IP A: capped
+      assert.equal((await post("198.51.100.2")).status, 202); // IP B: unaffected
+    }
+  );
+});
+
 // 9. unconfigured SMTP (transporter null) on valid POST -> 503
 test("null transporter -> 503 not configured", async () => {
   await withServer(
