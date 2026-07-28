@@ -24,9 +24,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
+        # Astro 6 requires Node >=22.12; node 20 fails the build (was silently
+        # breaking every Pages deploy).
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Setup Python
