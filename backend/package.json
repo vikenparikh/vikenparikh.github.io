@@ -9,6 +9,6 @@
     "test": "node --test"
   },
   "dependencies": {
-    "nodemailer": "^6.9.16"
+    "nodemailer": "^9.0.3"
   }
 }
