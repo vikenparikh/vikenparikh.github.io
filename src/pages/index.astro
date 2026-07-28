@@ -12,8 +12,11 @@ import { siteConfig } from "../config";
 import "../styles/global.css";
 
 // JSON-LD Person/ProfilePage structured data — lets search engines and AI
-// crawlers resolve the site to a real person + role + social profiles.
+// crawlers resolve the site to a real person + role + employer + schools +
+// expertise + social profiles. All fields are derived from siteConfig so the
+// schema can't drift from the visible content.
 const SITE_URL = "https://vikenparikh.com";
+const currentRole = siteConfig.experience[0];
 const personLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -24,6 +27,14 @@ const personLd = {
   description: siteConfig.description,
   email: `mailto:${siteConfig.social.email}`,
   address: { "@type": "PostalAddress", addressLocality: siteConfig.location },
+  ...(currentRole && {
+    worksFor: { "@type": "Organization", name: currentRole.company },
+  }),
+  alumniOf: siteConfig.education.map((e) => ({
+    "@type": "CollegeOrUniversity",
+    name: e.school,
+  })),
+  knowsAbout: siteConfig.skills,
   sameAs: [siteConfig.social.linkedin, siteConfig.social.github, siteConfig.social.twitter].filter(Boolean),
 };
 ---
