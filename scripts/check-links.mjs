@@ -83,6 +83,37 @@ export function isSkippedHost(host) {
   return SKIP_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
 }
 
+// Root-relative navigation targets (page routes + any non-standard asset linked
+// via href — css, js, webmanifest, etc.). Fragment/query are stripped; standard
+// assets are excluded (the asset check above already verifies those). This is
+// what catches a typo'd or removed *internal page link* — the same silent-404
+// class as the dead external links (#69), but for on-site navigation, which
+// nothing validated before.
+export function extractInternalRoutes(html) {
+  const routes = new Set();
+  const re = /href=["']([^"']+)["']/g;
+  let m;
+  while ((m = re.exec(html))) {
+    let v = m[1];
+    if (v.includes("${")) continue;
+    if (!v.startsWith("/")) continue; // only same-origin root-relative
+    v = v.split("#")[0].split("?")[0]; // drop fragment + query
+    if (!v) continue;
+    if (ASSET_EXT.test(v)) continue; // standard assets handled by the asset check
+    routes.add(v);
+  }
+  return [...routes];
+}
+
+// A route resolves if its target exists as a file, a "<path>.html", or a
+// "<path>/index.html" (directory route). `exists` is injected (a file-existence
+// predicate) so this stays pure and testable.
+export function routeResolves(route, exists) {
+  if (route === "/") return exists("index.html");
+  const clean = route.replace(/\/$/, "");
+  return exists(clean) || exists(`${clean}.html`) || exists(`${clean}/index.html`);
+}
+
 // Thin fs wrappers over the pure extractors, deduped across all files.
 function collectUrls(files) {
   return [...new Set(files.flatMap((f) => extractUrls(readFileSync(f, "utf8"))))];
@@ -147,7 +178,19 @@ async function main() {
   const missing = assets.filter((p) => !existsSync(join("dist", p)));
   for (const p of assets) if (!missing.includes(p)) console.log(`ASSET OK   ${p}`);
 
-  if (dead.length || missing.length) {
+  // Internal page routes: every on-site href must resolve to a built page/file.
+  const isFile = (p) => {
+    try {
+      return statSync(join("dist", p)).isFile();
+    } catch {
+      return false;
+    }
+  };
+  const routes = [...new Set(files.flatMap((f) => extractInternalRoutes(readFileSync(f, "utf8"))))];
+  const brokenRoutes = routes.filter((r) => !routeResolves(r, isFile));
+  for (const r of routes) if (!brokenRoutes.includes(r)) console.log(`ROUTE OK   ${r}`);
+
+  if (dead.length || missing.length || brokenRoutes.length) {
     if (dead.length) {
       console.error(`\nDEAD LINKS (${dead.length}):`);
       for (const d of dead) console.error(`  ${d}`);
@@ -156,13 +199,19 @@ async function main() {
       console.error(`\nMISSING ASSETS (${missing.length}) — referenced but not in dist/:`);
       for (const p of missing) console.error(`  ${p}`);
     }
+    if (brokenRoutes.length) {
+      console.error(`\nBROKEN INTERNAL ROUTES (${brokenRoutes.length}) — href target not built:`);
+      for (const r of brokenRoutes) console.error(`  ${r}`);
+    }
     console.error("\nlink-check: FAIL — fix or remove the broken references above.");
     process.exit(1);
   }
   const externalSummary = ASSETS_ONLY
     ? "external links skipped (--assets-only)"
     : `${urls.length - skipped.length} external links checked (0 dead)`;
-  console.log(`\nlink-check: OK — ${externalSummary}, ${assets.length} local assets verified (0 missing).`);
+  console.log(
+    `\nlink-check: OK — ${externalSummary}, ${assets.length} local assets + ${routes.length} internal routes verified (0 broken).`
+  );
 }
 
 // Only run the CLI when invoked directly, so importing this module for tests is

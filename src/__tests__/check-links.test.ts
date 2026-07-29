@@ -3,7 +3,13 @@ import { describe, it, expect } from "vitest";
 // weekly, and guards the dead-link / missing-asset class that shipped 8 dead
 // recruiter links once (#69). Its classification helpers are pure — test them
 // directly so a silent regression can't quietly let broken references through.
-import { extractUrls, extractLocalAssets, isSkippedHost } from "../../scripts/check-links.mjs";
+import {
+  extractUrls,
+  extractLocalAssets,
+  isSkippedHost,
+  extractInternalRoutes,
+  routeResolves,
+} from "../../scripts/check-links.mjs";
 
 describe("extractUrls", () => {
   it("collects absolute http(s) URLs from href/src, deduped", () => {
@@ -51,5 +57,41 @@ describe("isSkippedHost", () => {
     // in endsWith(`.${h}`) must prevent it.
     expect(isSkippedHost("notlinkedin.com")).toBe(false);
     expect(isSkippedHost("vikenparikh.com.evil.com")).toBe(false);
+  });
+});
+
+describe("extractInternalRoutes", () => {
+  it("collects root-relative page routes, stripping fragment and query", () => {
+    const html = `<a href="/">home</a><a href="/#projects">p</a><a href="/writing?ref=nav">w</a>`;
+    expect(extractInternalRoutes(html).sort()).toEqual(["/", "/writing"]);
+  });
+  it("excludes external links, bare fragments, and standard assets", () => {
+    const html = `<a href="https://x.com/y">x</a><a href="#top">t</a><img src="/a.png"><link href="/favicon.svg">`;
+    expect(extractInternalRoutes(html)).toEqual([]);
+  });
+  it("includes non-standard assets linked via href (css/js/webmanifest) — the extension list misses these", () => {
+    const html = `<link href="/site.webmanifest"><link href="/_astro/x.css"><script src="/app.js"></script>`;
+    // src is not scanned here (assets check handles src); href-linked non-standard assets are.
+    expect(extractInternalRoutes(html).sort()).toEqual(["/_astro/x.css", "/site.webmanifest"]);
+  });
+});
+
+describe("routeResolves", () => {
+  const built = new Set(["index.html", "/writing/index.html", "/about.html", "/site.webmanifest"]);
+  const exists = (p: string) => built.has(p);
+  it("resolves '/' to index.html", () => {
+    expect(routeResolves("/", exists)).toBe(true);
+  });
+  it("resolves a directory route via <path>/index.html (trailing slash optional)", () => {
+    expect(routeResolves("/writing", exists)).toBe(true);
+    expect(routeResolves("/writing/", exists)).toBe(true);
+  });
+  it("resolves a flat <path>.html route and a direct file", () => {
+    expect(routeResolves("/about", exists)).toBe(true);
+    expect(routeResolves("/site.webmanifest", exists)).toBe(true);
+  });
+  it("reports a missing route as unresolved (the silent-404 guard)", () => {
+    expect(routeResolves("/nonexistent", exists)).toBe(false);
+    expect(routeResolves("/writting", exists)).toBe(false); // typo
   });
 });
