@@ -1,13 +1,20 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Read-only E2E config for the DEPLOYED portfolio.
+ * Read-only E2E config for the portfolio. Two modes:
  *
- * Targets the live public site (no local server, no build step, no secrets).
- * Override the target with E2E_BASE_URL if you ever need to point at a preview
- * deploy, e.g. `E2E_BASE_URL=https://vikenparikh.github.io npx playwright test`.
+ *  - PREVIEW (E2E_PREVIEW=1): serve the freshly-BUILT site from ./_site and test
+ *    THIS revision. Used on PRs/pushes so the smoke + contrast suites actually
+ *    gate the change — otherwise they'd pass against the already-deployed site
+ *    and give false pre-merge confidence.
+ *  - LIVE (default): target https://vikenparikh.com — the deployed-site monitor
+ *    run on a schedule / manual dispatch.
+ *
+ * E2E_BASE_URL overrides the target explicitly if ever needed.
  */
-const baseURL = process.env.E2E_BASE_URL ?? "https://vikenparikh.com";
+const preview = !!process.env.E2E_PREVIEW;
+const PREVIEW_URL = "http://127.0.0.1:4321";
+const baseURL = process.env.E2E_BASE_URL ?? (preview ? PREVIEW_URL : "https://vikenparikh.com");
 
 export default defineConfig({
   testDir: ".",
@@ -29,4 +36,15 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
+  // Preview mode only: serve the built artifact (downloaded to ./_site in CI)
+  // on a local static server that Playwright starts and tears down. Live mode
+  // needs no server. `-s` = silent, bound to loopback only.
+  webServer: preview
+    ? {
+        command: "npx http-server _site -p 4321 -a 127.0.0.1 -s -c-1",
+        url: PREVIEW_URL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 60_000,
+      }
+    : undefined,
 });

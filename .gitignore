@@ -12,6 +12,7 @@ __pycache__/
 /coverage/
 
 # Playwright E2E artifacts
+tests/e2e/_site/
 tests/e2e/test-results/
 tests/e2e/playwright-report/
 tests/e2e/blob-report/

@@ -1,10 +1,16 @@
-name: Playwright E2E (deployed portfolio)
+name: Playwright E2E (portfolio)
 
-# Read-only, NON-money browser E2E against the live public site.
-# It only GETs https://vikenparikh.com — no secrets, no writes, no deploy.
+# Read-only, NON-money browser E2E. Two modes:
+#   - PR / push:            builds THIS revision and tests the built artifact,
+#                           so the smoke + contrast suites actually gate the
+#                           change (not the already-deployed site).
+#   - schedule / dispatch:  tests the live public site (deployed-site monitor).
+# Either way it only GETs pages — no secrets, no writes, no deploy.
 
 on:
   pull_request:
+  push:
+    branches: [master, main]
   schedule:
     # Daily at 07:00 UTC — catches drift / outages on the deployed site.
     - cron: "0 7 * * *"
@@ -18,8 +24,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Preview mode only: build the site under test on Node 22 (Astro 7 needs
+  # >=22.12, which the pinned Playwright image doesn't ship) and hand the built
+  # dist/ to the browser job as an artifact.
+  build-site:
+    name: Build site (preview)
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Deterministic build from the committed generated/projects.ts (no network
+      # sync), matching the CI frontend job's `npx astro build`.
+      - run: npx astro build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: site-dist
+          path: dist/
+          retention-days: 1
+
   e2e:
     name: Browser E2E
+    needs: [build-site]
+    # Run when the build succeeded (preview) OR was skipped (schedule/dispatch
+    # live mode). Only skip if the build actually failed/was cancelled.
+    if: ${{ always() && needs.build-site.result != 'failure' && needs.build-site.result != 'cancelled' }}
     runs-on: ubuntu-latest
     # Pinned base image provides Node + all system browser dependencies. The
     # browser binary itself is installed at run time (below) so it always matches
@@ -29,12 +62,22 @@ jobs:
     # exist"). Installing per-package keeps them in lockstep across every bump.
     container:
       image: mcr.microsoft.com/playwright:v1.48.0-jammy
+    env:
+      # Preview when the build ran (success); empty (live) when it was skipped.
+      E2E_PREVIEW: ${{ needs.build-site.result == 'success' && '1' || '' }}
     defaults:
       run:
         working-directory: tests/e2e
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Download built site (preview)
+        if: ${{ env.E2E_PREVIEW == '1' }}
+        uses: actions/download-artifact@v7
+        with:
+          name: site-dist
+          path: tests/e2e/_site
 
       - name: Install E2E dependencies
         run: npm install --no-audit --no-fund
@@ -49,9 +92,8 @@ jobs:
         run: npx playwright test --list
 
       - name: Run Playwright tests
-        env:
-          # Default target; override here if a preview URL is ever needed.
-          E2E_BASE_URL: https://vikenparikh.com
+        # baseURL is derived from E2E_PREVIEW in playwright.config.ts (preview →
+        # the local static server; live → https://vikenparikh.com).
         run: npx playwright test
 
       - name: Upload report
