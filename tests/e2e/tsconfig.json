@@ -1,0 +1,18 @@
+{
+  // Self-contained TS config for the Playwright E2E suite. Deliberately does NOT
+  // extend the site's root tsconfig (which `extends "astro/tsconfigs/strict"`):
+  // this dir installs its own isolated deps (Playwright only, no Astro), so the
+  // root's astro-extends can't resolve inside the official Playwright CI image.
+  // Having a local tsconfig also stops Playwright walking up to that root config.
+  // The site's own `astro check` excludes this dir (see ../../tsconfig.json).
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "types": ["@playwright/test"],
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["**/*.ts"]
+}
