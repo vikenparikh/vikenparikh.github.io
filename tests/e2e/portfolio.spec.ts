@@ -1,4 +1,5 @@
-import { test, expect, type ConsoleMessage } from "@playwright/test";
+import { type ConsoleMessage } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 /**
  * Read-only browser E2E for the deployed portfolio.
