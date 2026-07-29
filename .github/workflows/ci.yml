@@ -53,6 +53,11 @@ jobs:
       # channel/atom elements, balanced items, valid pubDates, no unescaped "&").
       - name: Validate RSS feed
         run: node scripts/check-rss.mjs
+      # Performance weight budget — fail if a page, the CSS/JS bundle, or an image
+      # regresses past its byte budget (recruiter-facing load weight). Deterministic,
+      # browserless; bump a budget deliberately in check-weight.mjs if growth is real.
+      - name: Check performance weight budget
+        run: node scripts/check-weight.mjs
 
   backend:
     name: contact backend (node --test)
