@@ -49,6 +49,10 @@ jobs:
       # other test — a broken set:html interpolation would otherwise ship silently.
       - name: Validate structured data (JSON-LD)
         run: node scripts/check-jsonld.mjs
+      # Validate the hand-templated RSS feed (well-formed XML contract: required
+      # channel/atom elements, balanced items, valid pubDates, no unescaped "&").
+      - name: Validate RSS feed
+        run: node scripts/check-rss.mjs
 
   backend:
     name: contact backend (node --test)
