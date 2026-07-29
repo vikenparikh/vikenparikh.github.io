@@ -21,7 +21,12 @@ jobs:
   e2e:
     name: Browser E2E
     runs-on: ubuntu-latest
-    # Official image ships all browsers + system deps for Playwright v1.48.0.
+    # Pinned base image provides Node + all system browser dependencies. The
+    # browser binary itself is installed at run time (below) so it always matches
+    # the @playwright/test version in package.json — the image's baked-in browsers
+    # break the moment the package is bumped ahead of the image tag (e.g. a
+    # dependabot bump: v1.62 package vs v1.48 baked browser → "Executable doesn't
+    # exist"). Installing per-package keeps them in lockstep across every bump.
     container:
       image: mcr.microsoft.com/playwright:v1.48.0-jammy
     defaults:
@@ -33,6 +38,12 @@ jobs:
 
       - name: Install E2E dependencies
         run: npm install --no-audit --no-fund
+
+      - name: Install the browser matching the installed Playwright
+        # Fetches the Chromium revision for the *installed* @playwright/test, so a
+        # package bump can't drift ahead of the base image's baked-in browser.
+        # --with-deps backfills any newer system libs the fresh browser needs.
+        run: npx playwright install --with-deps chromium
 
       - name: Show config (sanity / dry list)
         run: npx playwright test --list
