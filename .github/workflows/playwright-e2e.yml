@@ -1,0 +1,53 @@
+name: Playwright E2E (deployed portfolio)
+
+# Read-only, NON-money browser E2E against the live public site.
+# It only GETs https://vikenparikh.com — no secrets, no writes, no deploy.
+
+on:
+  pull_request:
+  schedule:
+    # Daily at 07:00 UTC — catches drift / outages on the deployed site.
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: playwright-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: Browser E2E
+    runs-on: ubuntu-latest
+    # Official image ships all browsers + system deps for Playwright v1.48.0.
+    container:
+      image: mcr.microsoft.com/playwright:v1.48.0-jammy
+    defaults:
+      run:
+        working-directory: tests/e2e
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install E2E dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Show config (sanity / dry list)
+        run: npx playwright test --list
+
+      - name: Run Playwright tests
+        env:
+          # Default target; override here if a preview URL is ever needed.
+          E2E_BASE_URL: https://vikenparikh.com
+        run: npx playwright test
+
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: tests/e2e/playwright-report/
+          retention-days: 14
+          if-no-files-found: ignore
