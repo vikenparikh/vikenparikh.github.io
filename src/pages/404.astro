@@ -14,7 +14,7 @@ import "../styles/global.css";
   </head>
   <body>
     <main
-      class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-16 bg-white"
+      class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-16 bg-white dark:bg-gray-800"
       style={`--accent-color: ${siteConfig.accentColor}`}
     >
       <div
@@ -23,20 +23,20 @@ import "../styles/global.css";
       >
       </div>
       <p class="text-7xl sm:text-9xl font-bold tracking-tight" style={`color: ${siteConfig.accentColor}`}>404</p>
-      <h1 class="mt-4 text-2xl sm:text-3xl font-bold text-gray-900">This page took a wrong turn</h1>
-      <p class="mt-3 max-w-md text-gray-500">
+      <h1 class="mt-4 text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">This page took a wrong turn</h1>
+      <p class="mt-3 max-w-md text-gray-500 dark:text-gray-400">
         The page you're looking for doesn't exist or has moved. Let's get you back on track.
       </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <a
           href="/"
-          class="inline-flex items-center rounded-full bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-gray-700"
+          class="inline-flex items-center rounded-full bg-gray-900 dark:bg-gray-100 px-5 py-2.5 text-sm font-semibold text-white dark:text-gray-900 transition-colors duration-300 hover:bg-gray-700 dark:hover:bg-white"
         >
           Back to home
         </a>
         <a
           href="/#projects"
-          class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-colors duration-300 hover:bg-gray-100"
+          class="inline-flex items-center rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-5 py-2.5 text-sm font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300 hover:bg-gray-100"
         >
           View projects
         </a>
