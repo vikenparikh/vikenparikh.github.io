@@ -1,0 +1,14 @@
+{
+  "name": "vikenparikh-portfolio-e2e",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Read-only Playwright browser E2E against the deployed portfolio (https://vikenparikh.com).",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:list": "playwright test --list"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.48.0"
+  }
+}
