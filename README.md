@@ -9,7 +9,7 @@ My portfolio at **[vikenparikh.com](https://vikenparikh.com)** — built with As
 - **Astro 7** (static output) — **requires Node ≥ 22.12**
 - **Tailwind CSS v4**
 - TypeScript-driven site config (`src/config.ts`)
-- Vitest (component render tests) + a small Node contact backend + a Python project-builder script
+- Vitest (component/render + a11y + CI-gate tests) & Playwright (browser E2E) + a small Node contact backend + a Python project-builder script
 
 ## Local development
 
@@ -41,16 +41,31 @@ npm run gen:og     # regenerate after changing headline copy/stats
 ## Testing
 
 ```bash
-npm test           # Vitest — component + full-page render tests
+npm test           # Vitest — component/render tests, axe a11y audit, and the CI-gate unit tests
 npm run test:py    # Python — portfolio_builder unit tests
 cd backend && npm test   # Node --test — contact server (validation, rate-limit, honeypot, CORS)
+
+# Browser E2E (Playwright/Chromium) — defaults to the live site
+cd tests/e2e && npm install && npx playwright install chromium && npx playwright test
 ```
 
 ## CI & deployment
 
-- **CI** (`.github/workflows/ci.yml`) runs on every PR and on `master`: three parallel jobs — frontend (`astro check` + Vitest + build), contact backend (`node --test`), and the Python script tests.
-- **Deploy** (`.github/workflows/deploy.yml`) builds and publishes `dist/` to GitHub Pages on push to `master`.
-- Both workflows run on **Node 22** (Astro requires Node ≥ 22.12; Node 20 fails the build).
+Every PR and push to `master` runs the full quality suite before anything merges or deploys.
+
+- **CI** (`.github/workflows/ci.yml`) — three parallel jobs:
+  - **frontend** — `astro check`, Vitest, `astro build`, then browser-free gates on the built `dist/`:
+    - `check-links --assets-only` — every self-hosted asset/route reference resolves
+    - `audit-html` — structural HTML/a11y/SEO rules (heading outline, alt text, canonical, in-page anchors, `target=_blank` safety, …)
+    - `check-jsonld` — JSON-LD structured data is valid + carries its schema.org rich-result fields
+    - `check-rss` — the hand-templated RSS feed is well-formed (required elements, valid dates, no unescaped `&`)
+    - `check-weight` — performance byte budget per page / bundle / image
+  - **contact backend** — `node --test`
+  - **portfolio builder** — Python unit tests
+- **Browser E2E** (`.github/workflows/playwright-e2e.yml`) — Playwright/Chromium smoke tests + an axe **color-contrast** audit (the layout-dependent rule the jsdom suite can't run). On PRs/pushes it builds the revision and tests it via a local preview server; on a daily schedule it monitors the live site.
+- **Deploy** (`.github/workflows/deploy.yml`) — builds and publishes `dist/` to GitHub Pages on push to `master`.
+- **Weekly link check** (`.github/workflows/link-check.yml`) — full external-link sweep (Mondays).
+- All Node workflows run on **Node 22** (Astro requires Node ≥ 22.12; Node 20 fails the build).
 
 ## Production build
 
