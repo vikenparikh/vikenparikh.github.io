@@ -44,6 +44,11 @@ jobs:
       # the final composed document. Caught the #89 h2-before-h1 regression.
       - name: Audit built HTML
         run: node scripts/audit-html.mjs
+      # Validate emitted JSON-LD structured data (valid JSON + the schema.org
+      # fields rich results need). Covers the inline Person LD, which had no
+      # other test — a broken set:html interpolation would otherwise ship silently.
+      - name: Validate structured data (JSON-LD)
+        run: node scripts/check-jsonld.mjs
 
   backend:
     name: contact backend (node --test)
