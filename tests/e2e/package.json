@@ -9,6 +9,8 @@
     "test:list": "playwright test --list"
   },
   "devDependencies": {
-    "@playwright/test": "1.62.0"
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "1.62.0",
+    "axe-core": "^4.12.1"
   }
 }
