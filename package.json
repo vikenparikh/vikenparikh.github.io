@@ -17,14 +17,14 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.1.4",
+    "astro": "^7.1.6",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@vitest/coverage-v8": "^4.1.10",
     "axe-core": "^4.12.1",
-    "jsdom": "^30.0.0",
+    "jsdom": "^30.0.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.9"
   }
