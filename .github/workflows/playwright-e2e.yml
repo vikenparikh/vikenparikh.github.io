@@ -74,7 +74,7 @@ jobs:
 
       - name: Download built site (preview)
         if: ${{ env.E2E_PREVIEW == '1' }}
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: site-dist
           path: tests/e2e/_site
