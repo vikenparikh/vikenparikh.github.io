@@ -1,11 +1,29 @@
 /* CSS styles for the project */
 @import "tailwindcss";
 
+/* Class-based dark mode: `dark:` utilities apply when <html> has the `dark`
+   class (set by the no-flash script in BaseHead + the header toggle). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tell the UA which scheme is active so native chrome (scrollbars, form
+   controls, caret, selection) matches the theme instead of staying light. */
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+
 body {
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #111827;
   background-color: #f9fafb;
   line-height: 1.6;
+}
+
+.dark body {
+  color: #f3f4f6; /* gray-100 — AA-verified on the dark bg */
+  background-color: #0b1120; /* near slate-950 */
 }
 
 /* Remove sidebar margin styles */
@@ -50,16 +68,18 @@ button:focus-visible,
     padding-top: 0 !important;
   }
 
-  /* Ink-friendly base */
-  body {
-    background: #fff !important;
+  /* Force a light, ink-friendly document even when dark mode is active — the
+     dark card/text/gradient surfaces would otherwise print dark on white. */
+  html,
+  body,
+  * {
+    background-color: #fff !important;
+    background-image: none !important;
     color: #000 !important;
+    box-shadow: none !important;
   }
 
-  /* Drop the hero gradient overlay + decorative pattern */
-  #hero {
-    background: #fff !important;
-  }
+  /* Drop the (now-flattened) hero gradient overlay + decorative pattern */
   #hero .absolute.inset-0,
   #hero svg[aria-hidden="true"] {
     display: none !important;
@@ -71,9 +91,5 @@ button:focus-visible,
   li,
   .group {
     break-inside: avoid;
-  }
-
-  a {
-    color: #000 !important;
   }
 }

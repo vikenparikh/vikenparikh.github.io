@@ -56,6 +56,12 @@ describe("Header.astro render-E2E", () => {
     expect(html).toContain('aria-label="Mobile"');
   });
 
+  it("renders a dark-mode toggle", async () => {
+    const html = await render(Header);
+    expect(html).toContain('id="theme-toggle"');
+    expect(html).toContain('aria-label="Toggle dark mode"');
+  });
+
   it("wires the mobile menu button for a11y (label + expanded state + control)", async () => {
     const html = await render(Header);
     expect(html).toContain('aria-label="Open navigation"');

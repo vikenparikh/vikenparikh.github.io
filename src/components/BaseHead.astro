@@ -29,6 +29,18 @@ const {
 ---
 
 <meta charset="utf-8" />
+{/* Set the theme before first paint to avoid a flash. Stored choice wins;
+    otherwise follow the OS preference. */}
+<script is:inline>
+  (() => {
+    try {
+      const t = localStorage.getItem("theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+      }
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
